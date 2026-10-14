@@ -1,0 +1,575 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Airport Run"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#13213a">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<title>Airport Run</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: phone-width column under a navy departures-board band; tabs Trips / Add / History / Setup; trip cards lead with a big "Leave by" time */
+:root{
+  --bg:#edf0f5; --surface:#ffffff; --sunk:#e2e7ef; --line:#cdd5e1;
+  --fg:#111a2c; --muted:#5b6780; --band:#13213a; --band-fg:#f4f6fa;
+  --board:#f2a900; --accent:#13213a; --accent-fg:#ffffff;
+  --ok:#137a46; --ok-bg:#dff3e8; --warn:#9a5600; --warn-bg:#fdeed8; --bad:#b42318; --bad-bg:#fde4e1;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0a1120; --surface:#121c2f; --sunk:#0e1727; --line:#24324a;
+  --fg:#e7ecf4; --muted:#95a2b8; --band:#0c1628; --band-fg:#f4f6fa;
+  --board:#ffbf2e; --accent:#ffbf2e; --accent-fg:#1a1200;
+  --ok:#5fd394; --ok-bg:#12321f; --warn:#f2b45a; --warn-bg:#3a2a10; --bad:#ff8a7e; --bad-bg:#3b1612;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0a1120; --surface:#121c2f; --sunk:#0e1727; --line:#24324a;
+  --fg:#e7ecf4; --muted:#95a2b8; --band:#0c1628; --band-fg:#f4f6fa;
+  --board:#ffbf2e; --accent:#ffbf2e; --accent-fg:#1a1200;
+  --ok:#5fd394; --ok-bg:#12321f; --warn:#f2b45a; --warn-bg:#3a2a10; --bad:#ff8a7e; --bad-bg:#3b1612;
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--band)}
+body{margin:0}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--board);outline-offset:2px}
+
+.band{background:var(--band);color:var(--band-fg);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 0}
+.wrap{max-width:560px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:44px;height:44px;border-radius:8px;background:var(--board);color:#13213a;display:grid;place-items:center;flex:none}
+.mark svg{width:26px;height:26px}
+.brand h1{margin:0;font-family:var(--display);font-weight:700;font-size:30px;letter-spacing:.03em;text-transform:uppercase;line-height:1}
+.brand p{margin:2px 0 0;font-size:13px;opacity:.75}
+.clock{margin-left:auto;text-align:right;font-family:var(--mono);font-weight:700;font-size:22px;color:var(--board);font-variant-numeric:tabular-nums;line-height:1}
+.clock small{display:block;font-family:var(--body);font-weight:500;font-size:11px;color:var(--band-fg);opacity:.7;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+.tabs{display:flex;gap:2px;margin-top:16px}
+.tab{flex:1;border:0;background:transparent;color:var(--band-fg);opacity:.7;padding:10px 0 12px;font-family:var(--display);font-weight:600;font-size:17px;letter-spacing:.06em;text-transform:uppercase;border-bottom:3px solid transparent}
+.tab[aria-selected="true"]{opacity:1;border-bottom-color:var(--board)}
+.tab .count{font-family:var(--body);font-size:12px;font-weight:700;background:var(--board);color:#13213a;border-radius:99px;padding:1px 7px;margin-left:4px;letter-spacing:0}
+
+main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 56px}
+.panel{display:flex;flex-direction:column;gap:16px}
+.label{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.hint{font-size:14px;color:var(--muted);margin:6px 0 0}
+.store{margin:0;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.store::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
+.store[data-s="cloud"]::before,.store[data-s="device"]::before{background:var(--ok)}
+.store[data-s="error"]::before{background:var(--bad)}
+
+/* trip card */
+.trip{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.trip-top{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.kind{font-family:var(--display);font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;border-radius:6px;padding:3px 8px;background:var(--sunk)}
+.kind.pickup{background:var(--board);color:#13213a}
+.fno{font-family:var(--mono);font-weight:700;font-size:22px;letter-spacing:.04em}
+.day{margin-left:auto;font-size:14px;color:var(--muted);font-weight:600}
+.leave{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:14px;align-items:end}
+.leave .lbl{font-family:var(--display);font-weight:600;font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.leave .big{font-family:var(--mono);font-weight:700;font-size:46px;line-height:1;font-variant-numeric:tabular-nums}
+.leave .cd{text-align:right;font-weight:600;font-size:16px}
+.leave .cd span{display:block;font-size:13px;font-weight:500;color:var(--muted)}
+.state{grid-column:1/-1;margin-top:8px;border-radius:10px;padding:8px 12px;font-weight:600;font-size:15px;background:var(--ok-bg);color:var(--ok)}
+.state.soon{background:var(--warn-bg);color:var(--warn)}
+.state.now{background:var(--bad-bg);color:var(--bad)}
+.state.past{background:var(--sunk);color:var(--muted)}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.fact{padding:10px 14px;border-bottom:1px solid var(--line);min-width:0}
+.fact:nth-child(odd){border-right:1px solid var(--line)}
+.fact span{display:block;font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.fact b{font-weight:600;font-size:16px;overflow-wrap:anywhere}
+.fact b.t{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.fact .was{font-family:var(--mono);font-size:13px;color:var(--muted);text-decoration:line-through;margin-left:6px}
+.live{padding:10px 14px;font-size:14px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;border-bottom:1px solid var(--line)}
+.live .dot{width:9px;height:9px;border-radius:50%;background:var(--muted);flex:none;margin-top:6px}
+.live.on .dot{background:var(--ok)}
+.live b{color:var(--fg)}
+.note{padding:10px 14px;font-size:15px;border-bottom:1px solid var(--line)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;font-weight:600;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;color:var(--fg);min-height:44px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.btn.wide{flex:1 1 100%}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}
+.btn.danger{color:var(--bad)}
+.btn.danger.armed{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn svg{width:16px;height:16px;flex:none}
+.editbox{display:flex;flex-direction:column;gap:8px;padding:12px 14px;background:var(--sunk);border-bottom:1px solid var(--line)}
+.editbox .row{display:flex;gap:8px;flex-wrap:wrap}
+
+.empty{border:1.5px dashed var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.empty h2{margin:0;font-family:var(--display);font-size:24px}
+.empty p{margin:0;color:var(--muted)}
+
+/* form */
+.form{display:flex;flex-direction:column;gap:18px}
+.seg{display:grid;gap:6px}
+.seg.c2{grid-template-columns:1fr 1fr}
+.seg.c4{grid-template-columns:repeat(4,1fr)}
+.seg.c3{grid-template-columns:repeat(3,1fr)}
+.seg button{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;min-height:48px}
+.seg b{font-family:var(--display);font-size:19px;font-weight:700;letter-spacing:.03em}
+.seg small{font-size:12px;color:var(--muted);text-align:center}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.seg button[aria-pressed="true"] small{color:inherit;opacity:.85}
+.field{display:flex;flex-direction:column;gap:6px}
+.field>label{font-size:15px;font-weight:600}
+.input{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:12px;width:100%;min-width:0;min-height:48px}
+.input.code{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:20px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid2>*{min-width:0}
+.err{color:var(--bad);font-size:14px;font-weight:600;margin:0}
+.preview{background:var(--band);color:var(--band-fg);border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.preview span{font-size:14px;opacity:.8}
+.preview b{font-family:var(--mono);font-size:32px;color:var(--board);font-variant-numeric:tabular-nums}
+
+/* history */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stat b{display:block;font-family:var(--display);font-size:28px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.stat span{font-size:12px;color:var(--muted)}
+.hlist{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.hitem{display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;padding:12px;border-top:1px solid var(--line);align-items:center}
+.hitem:first-child{border-top:0}
+.hitem .when{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:62px}
+.hitem .what{min-width:0}
+.hitem .what b{font-family:var(--mono);font-weight:700}
+.hitem .what span{display:block;font-size:13px;color:var(--muted)}
+
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.card h2{margin:0;font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:.02em}
+.card p{margin:0;font-size:15px;color:var(--muted)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:12px 16px;border-radius:10px;font-weight:600;font-size:15px;max-width:calc(100% - 32px);z-index:9}
+@media (max-width:380px){.seg.c4{grid-template-columns:1fr 1fr}.leave .big{font-size:40px}}
+@media (prefers-reduced-motion:no-preference){.trip{animation:in .25s ease-out}@keyframes in{from{transform:translateY(4px);opacity:.6}to{transform:none;opacity:1}}}
+</style>
+
+</head><body>
+<header class="band">
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg></div>
+      <div><h1>Airport Run</h1><p>Pickups &amp; drops · DXB · SHJ · AUH · DWC</p></div>
+      <div class="clock" id="clock">--:--<small>UAE time</small></div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" id="tab-trips" aria-selected="true" data-tab="trips">Trips<span class="count" id="tcount" hidden>0</span></button>
+      <button class="tab" role="tab" id="tab-add" aria-selected="false" data-tab="add">Add</button>
+      <button class="tab" role="tab" id="tab-his" aria-selected="false" data-tab="his">History</button>
+      <button class="tab" role="tab" id="tab-set" aria-selected="false" data-tab="set">Setup</button>
+    </nav>
+  </div>
+</header>
+
+<main><div class="wrap">
+  <section class="panel" id="p-trips"></section>
+
+  <section class="panel" id="p-add" hidden>
+    <form class="form" id="addForm" novalidate>
+      <div>
+        <p class="label">Trip type</p>
+        <div class="seg c2" id="kindSeg">
+          <button type="button" data-v="pickup" aria-pressed="true"><b>Pickup</b><small>MD is arriving</small></button>
+          <button type="button" data-v="drop" aria-pressed="false"><b>Drop</b><small>MD is flying out</small></button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="fFlight">Flight number</label>
+        <input class="input code" id="fFlight" placeholder="EK 203" autocomplete="off" autocapitalize="characters" maxlength="9">
+      </div>
+      <div class="grid2">
+        <div class="field"><label for="fDate">Date</label><input class="input" type="date" id="fDate"></div>
+        <div class="field"><label for="fTime" id="fTimeLbl">Landing time</label><input class="input" type="time" id="fTime"></div>
+      </div>
+      <div>
+        <p class="label">Airport</p>
+        <div class="seg c4" id="apSeg"></div>
+      </div>
+      <div>
+        <p class="label">Terminal</p>
+        <div class="seg c3" id="termSeg"></div>
+      </div>
+      <div class="field">
+        <label for="fFrom">Starting from</label>
+        <select class="input" id="fFrom"></select>
+        <div class="field" id="customWrap" hidden><label for="fMins">Drive time in minutes</label><input class="input" type="number" id="fMins" min="5" max="240" inputmode="numeric" placeholder="e.g. 35"></div>
+        <p class="hint" id="driveHint"></p>
+      </div>
+      <div>
+        <p class="label">Traffic</p>
+        <div class="seg c3" id="trafSeg">
+          <button type="button" data-v="0" aria-pressed="true"><b>Normal</b><small>no extra</small></button>
+          <button type="button" data-v="15" aria-pressed="false"><b>Busy</b><small>+15 min</small></button>
+          <button type="button" data-v="30" aria-pressed="false"><b>Rush</b><small>+30 min</small></button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="fNote">Note (optional)</label>
+        <input class="input" id="fNote" placeholder="e.g. MD + 1 guest, 3 bags" maxlength="80">
+      </div>
+      <div class="preview" id="preview"><span>Fill in flight, date and time</span><b>--:--</b></div>
+      <p class="err" id="formErr" hidden></p>
+      <button class="btn primary wide" type="submit" id="addBtn">Save trip</button>
+    </form>
+  </section>
+
+  <section class="panel" id="p-his" hidden></section>
+
+  <section class="panel" id="p-set" hidden>
+    <div class="card">
+      <h2>Timing rules</h2>
+      <div>
+        <p class="label">Pickup: reach the airport</p>
+        <div class="seg c3" id="pkSeg">
+          <button type="button" data-v="0"><b>On time</b><small>at landing</small></button>
+          <button type="button" data-v="15"><b>15 min</b><small>before landing</small></button>
+          <button type="button" data-v="30"><b>30 min</b><small>before landing</small></button>
+        </div>
+      </div>
+      <div>
+        <p class="label">Drop: MD reaches the airport</p>
+        <div class="seg c3" id="drSeg">
+          <button type="button" data-v="120"><b>2 hrs</b><small>before flight</small></button>
+          <button type="button" data-v="150"><b>2.5 hrs</b><small>before flight</small></button>
+          <button type="button" data-v="180"><b>3 hrs</b><small>before flight</small></button>
+        </div>
+      </div>
+      <p>Leave-by time = target time minus drive time minus traffic. Drive times are rough figures without traffic. Tap “Traffic now” on a trip to check Google Maps before leaving.</p>
+    </div>
+    <div class="card">
+      <h2>Live flight updates</h2>
+      <p>With a flight data key, the app checks upcoming flights every 10 minutes while it’s open. New landing time, status, terminal, gate and baggage belt show on the trip card.</p>
+      <div class="field">
+        <label for="apiKey">AeroDataBox key (from RapidAPI)</label>
+        <input class="input" id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="Paste key here">
+      </div>
+      <div class="btns" style="padding:0">
+        <button class="btn primary" type="button" id="keySave">Save key</button>
+        <button class="btn" type="button" id="keyShow">Show</button>
+        <button class="btn ghost" type="button" id="keyClear" hidden>Remove key</button>
+      </div>
+      <p id="keyState"></p>
+      <p>Checks this month: <b id="callCount">0</b>. The free plan has a monthly limit, so the app only checks flights within the next 12 hours.</p>
+    </div>
+    <p class="store" id="store" data-s="device">Saved on this phone only</p>
+  </section>
+</div></main>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(function(){
+const TZ='Asia/Dubai';
+const AIRPORTS={
+  DXB:{short:'Dubai Intl',name:'Dubai International',terms:['T1','T2','T3'],maps:{T1:'Dubai International Airport Terminal 1',T2:'Dubai International Airport Terminal 2',T3:'Dubai International Airport Terminal 3'}},
+  SHJ:{short:'Sharjah',name:'Sharjah International',terms:['Main'],maps:{Main:'Sharjah International Airport'}},
+  AUH:{short:'Abu Dhabi',name:'Zayed International',terms:['Terminal A'],maps:{'Terminal A':'Zayed International Airport Terminal A Abu Dhabi'}},
+  DWC:{short:'Al Maktoum',name:'Al Maktoum Intl (DWC)',terms:['Passenger'],maps:{Passenger:'Al Maktoum International Airport Passenger Terminal'}}
+};
+const AREAS=[
+  {id:'deira',name:'Deira / Garhoud',t:{DXB:10,SHJ:25,AUH:110,DWC:55}},
+  {id:'mirdif',name:'Mirdif / Rashidiya',t:{DXB:15,SHJ:25,AUH:110,DWC:50}},
+  {id:'bur',name:'Bur Dubai / Karama',t:{DXB:15,SHJ:30,AUH:100,DWC:45}},
+  {id:'downtown',name:'Downtown / Business Bay / DIFC',t:{DXB:20,SHJ:35,AUH:95,DWC:40}},
+  {id:'barsha',name:'Al Barsha / Al Quoz',t:{DXB:25,SHJ:40,AUH:90,DWC:35}},
+  {id:'silicon',name:'Silicon Oasis / Academic City',t:{DXB:20,SHJ:30,AUH:100,DWC:40}},
+  {id:'marina',name:'Marina / JLT / JBR',t:{DXB:35,SHJ:50,AUH:80,DWC:30}},
+  {id:'dip',name:'DIP / Jebel Ali',t:{DXB:40,SHJ:55,AUH:75,DWC:20}},
+  {id:'shj',name:'Sharjah city',t:{DXB:30,SHJ:15,AUH:120,DWC:70}},
+  {id:'ajman',name:'Ajman',t:{DXB:40,SHJ:20,AUH:130,DWC:80}},
+  {id:'auh',name:'Abu Dhabi city',t:{DXB:100,SHJ:120,AUH:30,DWC:75}},
+  {id:'custom',name:'Other place (enter minutes)'}
+];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function lsGet(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+/* ---------- time helpers (always UAE time) ---------- */
+const dFmt=new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit'});
+const tFmt=new Intl.DateTimeFormat('en-GB',{timeZone:TZ,hour:'2-digit',minute:'2-digit',hour12:false});
+const wFmt=new Intl.DateTimeFormat('en-GB',{timeZone:TZ,weekday:'short',day:'numeric',month:'short'});
+const todayStr=()=>dFmt.format(new Date());
+const addDays=(ds,n)=>{const d=new Date(ds+'T12:00:00+04:00');d.setUTCDate(d.getUTCDate()+n);return dFmt.format(d)};
+const parseLocal=s=>{if(!s)return null;const d=new Date(String(s).replace(' ','T').slice(0,16)+':00+04:00');return isNaN(d)?null:d};
+const hm=d=>d?tFmt.format(d):'--:--';
+const toLocalInput=d=>dFmt.format(d)+'T'+tFmt.format(d);
+function dayLabel(d){const ds=dFmt.format(d),t=todayStr();if(ds===t)return'Today';if(ds===addDays(t,1))return'Tomorrow';if(ds===addDays(t,-1))return'Yesterday';return wFmt.format(d)}
+function span(min){min=Math.round(Math.abs(min));const h=Math.floor(min/60),m=min%60;return h?(h+'h '+(m?m+'m':'')).trim():m+'m'}
+
+/* ---------- state ---------- */
+let settings=Object.assign({pickupBefore:15,dropBefore:180},lsGet('ar.settings',{}));
+let trips=[];let ready=false;
+let tab=lsGet('ar.tab','trips');
+let editing=null,editVal='',armed=null,armTimer=null;
+let form={kind:'pickup',ap:'DXB',term:'T3',traffic:0};
+
+function driveMins(t){if(t.from==='custom')return +t.drive||0;const a=AREAS.find(x=>x.id===t.from);return a&&a.t[t.airport]?a.t[t.airport]:(+t.drive||0)}
+function calc(t){
+  const sched=parseLocal(t.date+'T'+t.time);
+  const liveExp=t.live&&parseLocal(t.live.expected);
+  const manual=parseLocal(t.expected);
+  const flightTime=t.type==='pickup'?(manual||liveExp||sched):sched;
+  const changed=t.type==='pickup'&&flightTime&&sched&&Math.abs(flightTime-sched)>=60000?flightTime:null;
+  const before=t.type==='pickup'?settings.pickupBefore:settings.dropBefore;
+  const target=flightTime?new Date(flightTime-before*60000):null;
+  const drive=driveMins(t)+(+t.traffic||0);
+  const leave=target?new Date(target-drive*60000):null;
+  return{sched,flightTime,changed,target,leave,drive};
+}
+
+/* ---------- storage (this phone) ---------- */
+function saveLocal(){lsSet('ar.trips',trips)}
+function initStore(){trips=lsGet('ar.trips',[]);ready=true;render()}
+function errMsg(){return'Couldn’t save on this phone. Check storage isn’t full or in Private mode.'}
+async function addTrip(t){t.id='t'+Date.now();trips.push(t);saveLocal();render();checkTrip(t,false)}
+async function patchTrip(id,p){const t=trips.find(x=>x.id===id);if(!t)return;Object.assign(t,p);saveLocal();render()}
+async function removeTrip(id){trips=trips.filter(x=>x.id!==id);saveLocal();render()}
+async function saveSettings(){lsSet('ar.settings',settings);render()}
+
+/* ---------- live flight data (AeroDataBox via RapidAPI) ---------- */
+const API_HOST='aerodatabox.p.rapidapi.com';
+let apiKey=lsGet('ar.key','');let checking={};
+const STATUS={Expected:'On schedule',EnRoute:'In the air',Approaching:'Approaching',Arrived:'Landed',Delayed:'Delayed',Canceled:'Cancelled',CanceledUncertain:'May be cancelled',Diverted:'Diverted',Departed:'Departed',Boarding:'Boarding',GateClosed:'Gate closed',CheckIn:'Check-in open',Unknown:'No status yet'};
+function countCall(){const m=todayStr().slice(0,7);const c=lsGet('ar.calls',{m:m,n:0});if(c.m!==m){c.m=m;c.n=0}c.n++;lsSet('ar.calls',c);const el=$('#callCount');if(el)el.textContent=c.n}
+function callsThisMonth(){const c=lsGet('ar.calls',{m:'',n:0});return c.m===todayStr().slice(0,7)?c.n:0}
+const tOf=x=>x&&(x.local||x.utc)||null;
+async function fetchFlight(flight,date){
+  const url='https://'+API_HOST+'/flights/number/'+encodeURIComponent(flight.replace(/\s/g,''))+'/'+date+'?withAircraftImage=false&withLocation=false&dateLocalRole=Both';
+  const r=await fetch(url,{headers:{'x-rapidapi-key':apiKey,'x-rapidapi-host':API_HOST}});
+  countCall();
+  if(r.status===204||r.status===404)return[];
+  if(r.status===401||r.status===403)throw{code:'key'};
+  if(r.status===429)throw{code:'limit'};
+  if(!r.ok)throw{code:'http',status:r.status};
+  const j=await r.json();return Array.isArray(j)?j:[j];
+}
+function pickLive(t,list){
+  const side=t.type==='pickup'?'arrival':'departure';
+  const f=list.find(x=>x[side]&&x[side].airport&&x[side].airport.iata===t.airport)||list[0];
+  if(!f)return null;
+  const s=f[side]||{};
+  const exp=tOf(s.runwayTime)||tOf(s.revisedTime)||tOf(s.predictedTime)||tOf(s.scheduledTime);
+  const sch=tOf(s.scheduledTime);
+  let status=STATUS[f.status]||f.status||'';
+  const ed=parseLocal(exp),sd=parseLocal(sch);
+  if(ed&&sd&&ed-sd>=10*60000&&!/cancel|land|divert/i.test(status))status='Delayed '+span((ed-sd)/60000);
+  const wrongAirport=s.airport&&s.airport.iata&&s.airport.iata!==t.airport;
+  return{status,expected:exp?String(exp).replace(' ','T').slice(0,16):null,
+    terminal:s.terminal?(/^\d+$/.test(s.terminal)?'T'+s.terminal:s.terminal):null,
+    gate:s.gate||null,belt:s.baggageBelt||null,
+    note:wrongAirport?'This flight goes to '+s.airport.iata+', not '+t.airport+'. Check the airport.':null,
+    checkedAt:new Date().toISOString()};
+}
+function dueForCheck(t,now){
+  if(t.done)return false;const c=calc(t);if(!c.sched)return false;
+  const h=(c.sched-now)/3600000;if(h>12||h<-3)return false;
+  if(t.live&&t.live.checkedAt&&now-new Date(t.live.checkedAt)<10*60000)return false;
+  return true;
+}
+async function checkTrip(t,manual){
+  if(!apiKey){if(manual)toast('Add the flight data key in Setup first');return}
+  if(checking[t.id])return;
+  if(!manual&&!dueForCheck(t,new Date()))return;
+  checking[t.id]=true;render();
+  try{
+    const list=await fetchFlight(t.flight,t.date);
+    const live=pickLive(t,list);
+    if(!live){t.live={status:'Not found',note:'No flight '+t.flight+' on this date. Check the number and date.',checkedAt:new Date().toISOString()}}
+    else{t.live=live;if(t.expected&&live.expected)t.expected=null}
+    saveLocal();if(manual)toast('Flight updated');
+  }catch(e){
+    if(manual||e.code==='key'||e.code==='limit')toast(e.code==='key'?'Flight data key not accepted. Check it in Setup.':e.code==='limit'?'Monthly check limit reached. Use Flightradar24.':'Couldn’t reach flight data. Check the internet.');
+  }finally{delete checking[t.id];render()}
+}
+async function checkAll(){if(!apiKey||!navigator.onLine)return;for(const t of trips.filter(x=>dueForCheck(x,new Date())))await checkTrip(t,false)}
+function renderKey(){
+  $('#keyState').textContent=apiKey?'Key saved on this phone. Live updates are on.':'No key yet. Live updates are off. Trips still work with the buttons.';
+  $('#keyClear').hidden=!apiKey;$('#callCount').textContent=callsThisMonth();
+}
+$('#keySave').onclick=async()=>{const v=$('#apiKey').value.trim();if(v.length<20){toast('That key looks too short. Copy it again from RapidAPI.');return}
+  apiKey=v;lsSet('ar.key',v);$('#apiKey').value='';renderKey();toast('Testing key…');
+  try{await fetchFlight('EK1',todayStr());toast('Key works. Live updates are on.');checkAll()}
+  catch(e){toast(e.code==='key'?'Key not accepted. Make sure you subscribed to the free plan.':e.code==='limit'?'Key saved, but the monthly limit is used up.':'Key saved. Couldn’t test it right now.')}};
+$('#keyShow').onclick=()=>{const i=$('#apiKey');if(!i.value&&apiKey)i.value=apiKey;i.type=i.type==='password'?'text':'password';$('#keyShow').textContent=i.type==='password'?'Show':'Hide'};
+$('#keyClear').onclick=()=>{apiKey='';lsSet('ar.key','');$('#apiKey').value='';renderKey();toast('Key removed')};
+
+/* ---------- ui helpers ---------- */
+let toastT;function toast(m){const el=$('#toast');el.textContent=m;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>el.hidden=true,2800)}
+function setTab(t){tab=t;lsSet('ar.tab',t);document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));
+  ['trips','add','his','set'].forEach(k=>$('#p-'+k).hidden=k!==t);render()}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+
+const ICON={
+  radar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l6-6M12 7a5 5 0 1 0 5 5"/></svg>',
+  search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+  car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14v-5l-2-5H7l-2 5zM5 12h14"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/></svg>',
+  refresh:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+};
+function links(t){
+  const f=t.flight.replace(/\s/g,'');const a=AIRPORTS[t.airport];
+  const dest=(a&&a.maps[t.terminal])||(a?a.name+' Airport':'Airport');
+  return{fr:'https://www.flightradar24.com/data/flights/'+f.toLowerCase(),
+    g:'https://www.google.com/search?q='+encodeURIComponent(f+' flight status'),
+    map:'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest)+'&travelmode=driving'};
+}
+
+/* ---------- render: trips ---------- */
+function stateOf(t,c,now){
+  if(!c.leave)return['past','Time missing'];
+  const toLeave=(c.leave-now)/60000,toTarget=(c.target-now)/60000;
+  if(t.live&&/cancel/i.test(t.live.status||''))return['now','Flight cancelled. Call the office before going.'];
+  if(toLeave>60)return['ok','On track. Leave in '+span(toLeave)+'.'];
+  if(toLeave>0)return['soon','Get ready. Leave in '+span(toLeave)+'.'];
+  if(toTarget>-5)return['now',toLeave>-2?'Leave now.':'Leave now. Running '+span(-toLeave)+' behind.'];
+  const after=(now-c.flightTime)/60000;
+  if(t.type==='pickup')return['past',after<0?'Should be at the airport now.':'Landed '+span(after)+' ago. Tap “Done” after pickup.'];
+  return['past','Drop time passed. Tap “Done” when finished.'];
+}
+function tripCard(t,now){
+  const c=calc(t);const a=AIRPORTS[t.airport]||{short:t.airport};
+  const [st,stTxt]=stateOf(t,c,now);
+  const toLeave=c.leave?(c.leave-now)/60000:0;
+  const L=links(t);const live=t.live;
+  const fromName=(AREAS.find(x=>x.id===t.from)||{}).name||'—';
+  const timeLbl=t.type==='pickup'?'Landing':'Departure';
+  const timeVal=c.changed?`<b class="t">${hm(c.changed)}</b><span class="was">${hm(c.sched)}</span>`:`<b class="t">${hm(c.sched)}</b>`;
+  const terminal=(live&&live.terminal)||t.terminal;
+  let liveHtml;
+  if(live&&live.checkedAt){
+    const bits=[live.status&&'<b>'+esc(live.status)+'</b>',live.expected&&(t.type==='pickup'?'lands ':'departs ')+hm(parseLocal(live.expected)),live.gate&&'gate '+esc(live.gate),live.belt&&'belt '+esc(live.belt),live.note&&esc(live.note)].filter(Boolean).join(' · ');
+    liveHtml=`<div class="live on"><span class="dot"></span><div>${bits||'No change'}<br><small>Checked ${hm(new Date(live.checkedAt))} ${dayLabel(new Date(live.checkedAt))==='Today'?'':dayLabel(new Date(live.checkedAt))}</small></div></div>`;
+  }else liveHtml=`<div class="live"><span class="dot"></span><div>${checking[t.id]?'Checking flight…':apiKey?'Live check starts 12 hours before the flight.':'Live updates are off. Add the key in Setup, or use Flightradar24 below.'}</div></div>`;
+  if(checking[t.id]&&live)liveHtml=liveHtml.replace('<small>','<small>Checking now… · ');
+  const edit=editing===t.id?`<div class="editbox"><label class="label" for="ed-${t.id}" style="margin:0">New ${timeLbl.toLowerCase()} time</label>
+      <input class="input" type="datetime-local" id="ed-${t.id}" value="${esc(editVal)}">
+      <div class="row"><button class="btn primary" data-act="edsave" data-id="${t.id}">Save time</button>${t.expected?`<button class="btn" data-act="edclear" data-id="${t.id}">Back to scheduled</button>`:''}<button class="btn ghost" data-act="edcancel">Cancel</button></div></div>`:'';
+  return `<article class="trip">
+    <div class="trip-top"><span class="kind ${t.type}">${t.type==='pickup'?'Pickup':'Drop'}</span><span class="fno">${esc(t.flight)}</span><span class="day">${c.sched?dayLabel(c.sched):''}</span></div>
+    <div class="leave"><div><div class="lbl">Leave by</div><div class="big">${hm(c.leave)}</div></div>
+      <div class="cd">${toLeave>=0?'in '+span(toLeave):span(toLeave)+' ago'}<span>${c.drive} min drive</span></div>
+      <div class="state ${st}">${stTxt}</div></div>
+    <div class="facts">
+      <div class="fact"><span>${timeLbl}</span>${timeVal}</div>
+      <div class="fact"><span>Be there by</span><b class="t">${hm(c.target)}</b></div>
+      <div class="fact"><span>Airport</span><b>${esc(a.short)} · ${esc(terminal)}</b></div>
+      <div class="fact"><span>From</span><b>${esc(fromName)}</b></div>
+    </div>
+    ${liveHtml}
+    ${t.note?`<div class="note">${esc(t.note)}</div>`:''}
+    ${edit}
+    <div class="btns">
+      ${apiKey?`<button class="btn" data-act="check" data-id="${t.id}" ${checking[t.id]?'disabled':''}>${ICON.refresh}Check now</button>`:''}
+      <a class="btn" href="${L.fr}" target="_blank" rel="noopener">${ICON.radar}Flightradar24</a>
+      <a class="btn" href="${L.g}" target="_blank" rel="noopener">${ICON.search}Google</a>
+      <a class="btn" href="${L.map}" target="_blank" rel="noopener">${ICON.car}Traffic now</a>
+      ${t.type==='pickup'?`<button class="btn" data-act="edit" data-id="${t.id}">${ICON.clock}Update time</button>`:''}
+      <button class="btn primary" data-act="done" data-id="${t.id}">Done</button>
+      <button class="btn danger ${armed===t.id?'armed':''}" data-act="del" data-id="${t.id}">${armed===t.id?'Tap again to delete':'Delete'}</button>
+    </div>
+  </article>`;
+}
+function renderTrips(){
+  const now=new Date();const p=$('#p-trips');
+  const up=trips.filter(t=>!t.done).map(t=>[t,calc(t)]).sort((x,y)=>(x[1].leave||0)-(y[1].leave||0));
+  const cnt=$('#tcount');cnt.hidden=!up.length;cnt.textContent=up.length;
+  if(!ready){p.innerHTML='<div class="empty"><p>Loading trips…</p></div>';return}
+  if(!up.length){p.innerHTML=`<div class="empty"><h2>No trips planned</h2><p>Add the MD’s next flight. The app works out when to leave and keeps the time updated.</p><button class="btn primary" data-act="goadd">Add a trip</button></div>`;return}
+  p.innerHTML=up.map(x=>tripCard(x[0],now)).join('');
+}
+
+/* ---------- render: history ---------- */
+function renderHistory(){
+  const p=$('#p-his');const done=trips.filter(t=>t.done).sort((a,b)=>(b.doneAt||'').localeCompare(a.doneAt||''));
+  const month=todayStr().slice(0,7);const inMonth=done.filter(t=>(t.date||'').slice(0,7)===month);
+  const stats=`<div class="stats"><div class="stat"><b>${inMonth.length}</b><span>Trips this month</span></div><div class="stat"><b>${inMonth.filter(t=>t.type==='pickup').length}</b><span>Pickups</span></div><div class="stat"><b>${inMonth.filter(t=>t.type==='drop').length}</b><span>Drops</span></div></div>`;
+  if(!done.length){p.innerHTML=stats+'<div class="empty"><p>Finished trips show here after you tap “Done”.</p></div>';return}
+  p.innerHTML=stats+'<div class="hlist">'+done.slice(0,60).map(t=>{const d=parseLocal(t.date+'T'+t.time);const a=AIRPORTS[t.airport]||{short:t.airport};
+    return `<div class="hitem"><div class="when">${d?dayLabel(d):''}<br>${hm(d)}</div><div class="what"><b>${esc(t.flight)}</b><span>${t.type==='pickup'?'Pickup':'Drop'} · ${esc(a.short)} ${esc(t.terminal)}</span></div><button class="btn ghost" data-act="undo" data-id="${t.id}">Undo</button></div>`}).join('')+'</div>';
+}
+
+/* ---------- form ---------- */
+function segSet(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===String(v))))}
+function renderApSeg(){$('#apSeg').innerHTML=Object.keys(AIRPORTS).map(k=>`<button type="button" data-v="${k}" aria-pressed="${k===form.ap}"><b>${k}</b><small>${AIRPORTS[k].short}</small></button>`).join('');
+  const terms=AIRPORTS[form.ap].terms;if(!terms.includes(form.term))form.term=terms[terms.length-1];
+  $('#termSeg').innerHTML=terms.map(x=>`<button type="button" data-v="${esc(x)}" aria-pressed="${x===form.term}"><b>${esc(x)}</b></button>`).join('')}
+function normFlight(s){s=String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'');const m=s.match(/^([A-Z0-9]{2}?[A-Z]?)(\d{1,4}[A-Z]?)$/);if(!m)return null;let code=m[1],num=m[2];if(!/^[A-Z0-9]{2,3}$/.test(code)||!/[A-Z]/.test(code))return null;return code+' '+num}
+function draft(){return{type:form.kind,flight:normFlight($('#fFlight').value)||$('#fFlight').value.trim().toUpperCase(),date:$('#fDate').value,time:$('#fTime').value,airport:form.ap,terminal:form.term,from:$('#fFrom').value,drive:$('#fFrom').value==='custom'?+$('#fMins').value||0:null,traffic:form.traffic,note:$('#fNote').value.trim()}}
+function updatePreview(){
+  $('#fTimeLbl').textContent=form.kind==='pickup'?'Landing time':'Departure time';
+  const custom=$('#fFrom').value==='custom';$('#customWrap').hidden=!custom;
+  const d=draft();const area=AREAS.find(x=>x.id===d.from);
+  $('#driveHint').textContent=custom?'':'About '+area.t[form.ap]+' min to '+AIRPORTS[form.ap].short+' without traffic.';
+  const c=calc(d);const pv=$('#preview');
+  if(d.date&&d.time&&c.leave)pv.innerHTML=`<span>Leave ${dayLabel(c.leave).toLowerCase()} by</span><b>${hm(c.leave)}</b>`;
+  else pv.innerHTML='<span>Fill in date and time to see when to leave</span><b>--:--</b>';
+}
+function initForm(){
+  $('#fFrom').innerHTML=AREAS.map(a=>`<option value="${a.id}">${esc(a.name)}</option>`).join('');
+  $('#fFrom').value=lsGet('ar.lastFrom','downtown');
+  $('#fDate').value=todayStr();
+  renderApSeg();
+  $('#kindSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.kind=b.dataset.v;segSet($('#kindSeg'),form.kind);updatePreview()};
+  $('#apSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.ap=b.dataset.v;renderApSeg();updatePreview()};
+  $('#termSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.term=b.dataset.v;segSet($('#termSeg'),form.term)};
+  $('#trafSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.traffic=+b.dataset.v;segSet($('#trafSeg'),form.traffic);updatePreview()};
+  ['fFlight','fDate','fTime','fFrom','fMins'].forEach(id=>$('#'+id).addEventListener('input',updatePreview));
+  $('#fFrom').addEventListener('change',updatePreview);
+  $('#fFlight').addEventListener('blur',()=>{const n=normFlight($('#fFlight').value);if(n)$('#fFlight').value=n});
+  $('#addForm').addEventListener('submit',async e=>{
+    e.preventDefault();const err=$('#formErr');const d=draft();
+    const msg=!normFlight(d.flight)?'Enter the flight number, like EK 203 or G9 501.':!d.date?'Pick the date.':!d.time?'Enter the '+(d.type==='pickup'?'landing':'departure')+' time.':(d.from==='custom'&&!(d.drive>0))?'Enter the drive time in minutes.':'';
+    if(msg){err.textContent=msg;err.hidden=false;return}
+    err.hidden=true;d.flight=normFlight(d.flight);d.done=false;d.createdAt=new Date().toISOString();
+    const btn=$('#addBtn');btn.disabled=true;
+    try{await addTrip(d);lsSet('ar.lastFrom',d.from);$('#fFlight').value='';$('#fTime').value='';$('#fNote').value='';updatePreview();toast('Trip saved');setTab('trips')}
+    catch(ex){err.textContent=errMsg(ex);err.hidden=false}
+    finally{btn.disabled=false}
+  });
+  updatePreview();
+}
+
+/* ---------- settings ---------- */
+function renderSettings(){segSet($('#pkSeg'),settings.pickupBefore);segSet($('#drSeg'),settings.dropBefore);renderKey()}
+$('#pkSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;settings.pickupBefore=+b.dataset.v;saveSettings();toast('Pickup timing saved')};
+$('#drSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;settings.dropBefore=+b.dataset.v;saveSettings();toast('Drop timing saved')};
+
+/* ---------- actions ---------- */
+document.addEventListener('click',async e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const id=b.dataset.id;const act=b.dataset.act;
+  try{
+    if(act==='goadd')setTab('add');
+    else if(act==='check'){const t=trips.find(x=>x.id===id);if(t)await checkTrip(t,true)}
+    else if(act==='edit'){const t=trips.find(x=>x.id===id);const c=calc(t);editing=id;editVal=toLocalInput(c.flightTime||c.sched);render()}
+    else if(act==='edcancel'){editing=null;render()}
+    else if(act==='edsave'){const v=$('#ed-'+id).value;if(!v){toast('Pick the new time first');return}editing=null;await patchTrip(id,{expected:v});toast('Time updated')}
+    else if(act==='edclear'){editing=null;await patchTrip(id,{expected:null});toast('Back to scheduled time')}
+    else if(act==='done'){await patchTrip(id,{done:true,doneAt:new Date().toISOString()});toast('Moved to history')}
+    else if(act==='undo'){await patchTrip(id,{done:false,doneAt:null});toast('Back in trips')}
+    else if(act==='del'){if(armed===id){armed=null;clearTimeout(armTimer);await removeTrip(id);toast('Trip deleted')}else{armed=id;clearTimeout(armTimer);armTimer=setTimeout(()=>{armed=null;render()},4000);render()}}
+  }catch(ex){toast(errMsg(ex))}
+});
+document.addEventListener('input',e=>{if(e.target.id&&e.target.id.startsWith('ed-'))editVal=e.target.value});
+
+function render(){
+  $('#clock').firstChild.nodeValue=hm(new Date());
+  if(tab==='trips')renderTrips();else{const up=trips.filter(t=>!t.done).length;const cnt=$('#tcount');cnt.hidden=!up;cnt.textContent=up}
+  if(tab==='his')renderHistory();
+  if(tab==='set')renderSettings();
+  if(tab==='add')updatePreview();
+}
+initForm();initStore();setTab(tab);checkAll();
+setInterval(checkAll,10*60000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){render();checkAll()}});
+window.addEventListener('online',checkAll);
+setInterval(()=>{if(!editing)render();else $('#clock').firstChild.nodeValue=hm(new Date())},30000);
+})();
+</script>
+
+</body></html>
