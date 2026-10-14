@@ -2,7 +2,9 @@
 Airport pickup & drop planner for UAE airports (DXB, SHJ, AUH, DWC)
 
 ## What it does
-- Add a pickup or drop with flight number, date, time, airport and terminal
+- Add a pickup or drop for any passenger, with flight number, date, time, airport and terminal
+- Drops can include collecting the passenger on the way (start → passenger → airport)
+- Pick places on a free map; drive times are worked out automatically
 - Shows a big **Leave by** time with a countdown, based on drive time and traffic
 - Live flight status (delay, landing time, terminal, gate, belt) via AeroDataBox
 - One-tap Flightradar24, Google flight status and Google Maps traffic
@@ -18,6 +20,11 @@ Airport pickup & drop planner for UAE airports (DXB, SHJ, AUH, DWC)
 1. Open the link in **Safari**
 2. Tap **Share → Add to Home Screen → Add**
 3. Open it from the home screen icon (trips are saved in that copy)
+
+## Maps (free, no key)
+Places are picked on OpenStreetMap (search, tap to drop a pin, or use current location).
+Drive times come from the free OSRM router plus 15%, with 20 min extra in weekday rush hour.
+"Traffic now" still opens Google Maps for live traffic.
 
 ## Live flight data key (free)
 1. Sign up at **rapidapi.com**

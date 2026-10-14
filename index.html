@@ -15,7 +15,7 @@
   --fg:#111a2c; --muted:#5b6780; --band:#13213a; --band-fg:#f4f6fa;
   --board:#f2a900; --accent:#13213a; --accent-fg:#ffffff;
   --ok:#137a46; --ok-bg:#dff3e8; --warn:#9a5600; --warn-bg:#fdeed8; --bad:#b42318; --bad-bg:#fde4e1;
-  --wa:#128c4a;
+  --wa:#128c4a; --wa-bg:#e2f4ea; --shadow:0 1px 3px rgba(17,26,44,.14);
   --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
   --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
@@ -25,14 +25,14 @@
   --fg:#e7ecf4; --muted:#95a2b8; --band:#0c1628; --band-fg:#f4f6fa;
   --board:#ffbf2e; --accent:#ffbf2e; --accent-fg:#1a1200;
   --ok:#5fd394; --ok-bg:#12321f; --warn:#f2b45a; --warn-bg:#3a2a10; --bad:#ff8a7e; --bad-bg:#3b1612;
-  --wa:#4cd98a;
+  --wa:#4cd98a; --wa-bg:#103020; --shadow:0 1px 3px rgba(0,0,0,.5);
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0a1120; --surface:#121c2f; --sunk:#0e1727; --line:#24324a;
   --fg:#e7ecf4; --muted:#95a2b8; --band:#0c1628; --band-fg:#f4f6fa;
   --board:#ffbf2e; --accent:#ffbf2e; --accent-fg:#1a1200;
   --ok:#5fd394; --ok-bg:#12321f; --warn:#f2b45a; --warn-bg:#3a2a10; --bad:#ff8a7e; --bad-bg:#3b1612;
-  --wa:#4cd98a;
+  --wa:#4cd98a; --wa-bg:#103020; --shadow:0 1px 3px rgba(0,0,0,.5);
   color-scheme:dark}
 
 *{box-sizing:border-box}
@@ -98,23 +98,27 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 .who .name{flex:1 1 120px;min-width:0}
 .who .name span{display:block;font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.05em;text-transform:uppercase}
 .who .name b{font-weight:600}
-.main-acts{display:flex;gap:8px;padding:12px 14px 0;flex-wrap:wrap}
-.main-acts .btn{flex:1 1 140px}
-.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px 14px 14px}
-.tool{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:13px;font-weight:600;color:var(--fg);text-decoration:none;min-height:56px;justify-content:center;text-align:center;line-height:1.15}
-.tool svg{width:18px;height:18px}
-.tool[aria-expanded="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
-.tool.danger{color:var(--bad)}
-.tool.danger.armed{background:var(--bad);border-color:var(--bad);color:#fff}
-.btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;font-weight:600;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;color:var(--fg);min-height:44px}
-.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
-.btn.board{background:var(--board);border-color:var(--board);color:#13213a}
-.btn.wa{color:var(--wa)}
-.btn.wide{flex:1 1 100%;width:100%}
-.btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}
-.btn.small{min-height:36px;padding:6px 10px;font-size:14px}
-.btn.danger{color:var(--bad)}
-.btn.danger.armed{background:var(--bad);border-color:var(--bad);color:#fff}
+.main-acts{display:flex;gap:8px;padding:12px 14px 0;flex-wrap:wrap;align-items:center}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:10px 4px;padding:14px 8px 14px}
+.tool{border:0;background:transparent;padding:2px 0;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--muted);text-decoration:none;text-align:center;line-height:1.15;min-width:0}
+.tool .ic{width:44px;height:44px;border-radius:50%;background:var(--sunk);color:var(--fg);display:grid;place-items:center;transition:background .15s}
+.tool svg{width:19px;height:19px}
+.tool:active .ic{transform:scale(.94)}
+.tool[aria-expanded="true"]{color:var(--fg)}
+.tool[aria-expanded="true"] .ic{background:var(--accent);color:var(--accent-fg)}
+.tool.danger .ic{color:var(--bad)}
+.tool.danger.armed{color:var(--bad)}
+.tool.danger.armed .ic{background:var(--bad);color:#fff}
+.btn{border:0;background:var(--sunk);border-radius:999px;padding:8px 16px;font-weight:600;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;color:var(--fg);min-height:40px;line-height:1.2;transition:transform .1s}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);color:var(--accent-fg)}
+.btn.board{background:var(--board);color:#13213a}
+.btn.wa{background:var(--wa-bg);color:var(--wa)}
+.btn.wide{width:100%;min-height:50px;font-size:16px;border-radius:14px}
+.btn.ghost{background:transparent;color:var(--muted)}
+.btn.small{min-height:34px;padding:6px 12px;font-size:13px}
+.btn.danger{background:var(--bad-bg);color:var(--bad)}
+.btn.danger.armed{background:var(--bad);color:#fff}
 .btn svg{width:16px;height:16px;flex:none}
 .sub{display:flex;flex-direction:column;gap:8px;padding:12px 14px;background:var(--sunk);border-top:1px solid var(--line)}
 .sub .row{display:flex;gap:8px;flex-wrap:wrap}
@@ -135,18 +139,18 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 
 /* form */
 .form{display:flex;flex-direction:column;gap:18px}
-.seg{display:grid;gap:6px}
+.seg{display:grid;gap:4px;background:var(--sunk);padding:4px;border-radius:14px}
 .seg.c2{grid-template-columns:1fr 1fr}
 .seg.c3{grid-template-columns:repeat(3,1fr)}
 .seg.c4{grid-template-columns:repeat(4,1fr)}
-.seg button{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;min-height:48px}
-.seg b{font-family:var(--display);font-size:19px;font-weight:700;letter-spacing:.03em}
-.seg small{font-size:12px;color:var(--muted);text-align:center}
-.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
-.seg button[aria-pressed="true"] small{color:inherit;opacity:.85}
+.seg button{border:0;background:transparent;border-radius:10px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:0;min-height:44px;color:var(--muted);transition:background .15s}
+.seg b{font-family:var(--display);font-size:17px;font-weight:700;letter-spacing:.03em}
+.seg small{font-size:11.5px;text-align:center;line-height:1.2}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--fg);box-shadow:var(--shadow)}
+.seg button[aria-pressed="true"] small{color:var(--muted)}
 .field{display:flex;flex-direction:column;gap:6px}
 .field>label{font-size:15px;font-weight:600}
-.input{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:12px;width:100%;min-width:0;min-height:48px}
+.input{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:12px;width:100%;min-width:0;min-height:48px}
 textarea.input{min-height:90px;resize:vertical}
 .input.code{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:20px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -159,7 +163,7 @@ textarea.input{min-height:90px;resize:vertical}
 .preview span small{display:block;font-size:12px}
 .preview b{font-family:var(--mono);font-size:32px;color:var(--board);font-variant-numeric:tabular-nums}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
-.chip{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 12px;display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;text-align:left}
+.chip{border:0;background:var(--surface);box-shadow:var(--shadow);border-radius:12px;padding:8px 12px;display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;text-align:left}
 .chip b{font-family:var(--mono);font-size:15px}
 .chip span{font-size:12px;color:var(--muted)}
 .finder{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:12px}
@@ -188,7 +192,7 @@ textarea.input{min-height:90px;resize:vertical}
 .hitem .what span{display:block;font-size:13px;color:var(--muted)}
 .hitem .row{grid-column:2;display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
 .actions{display:flex;gap:8px;flex-wrap:wrap}
-.actions .btn{flex:1 1 140px}
+.actions .btn{flex:0 0 auto}
 
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px}
 .card h2{margin:0;font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:.02em}
@@ -235,15 +239,26 @@ textarea.input{min-height:90px;resize:vertical}
 .wlist{display:flex;flex-direction:column;gap:12px}
 @media (max-width:400px){.sides{grid-template-columns:1fr}.side+.side{border-left:0;border-top:1px solid var(--line)}}
 
+/* place picker */
+.sheet{position:fixed;inset:0;z-index:20;background:rgba(10,17,32,.55);display:flex;align-items:flex-end;justify-content:center}
+.sheet-in{background:var(--bg);width:100%;max-width:560px;max-height:100%;overflow:auto;border-radius:18px 18px 0 0;padding-top:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sheet-head h2{margin:0;font-family:var(--display);font-size:22px}
+#gMap{height:300px;border-radius:14px;overflow:hidden;background:var(--sunk)}
+#gMap .leaflet-control-attribution{font-size:10px}
+.stopbox{display:flex;flex-direction:column;gap:8px;background:var(--surface);border-radius:14px;padding:12px;box-shadow:var(--shadow)}
+
 /* big mode */
 body.big{font-size:20px}
 body.big .leave .big{font-size:64px}
 body.big .fno{font-size:26px}
 body.big .state{font-size:19px;padding:12px 14px}
 body.big .fact b{font-size:19px}
-body.big .btn{min-height:56px;font-size:18px}
-body.big .tool{min-height:66px;font-size:15px}
-body.big .tool svg{width:22px;height:22px}
+body.big .btn{min-height:50px;font-size:17px;padding:10px 20px}
+body.big .tool{font-size:14px}
+body.big .tool .ic{width:56px;height:56px}
+body.big .tool svg{width:24px;height:24px}
+body.big .tools{grid-template-columns:repeat(3,1fr)}
 
 @media (max-width:380px){.seg.c4{grid-template-columns:1fr 1fr}.leave .big{font-size:40px}.stats{grid-template-columns:1fr 1fr}}
 @media (prefers-reduced-motion:no-preference){.trip{animation:in .25s ease-out}@keyframes in{from{transform:translateY(4px);opacity:.6}to{transform:none;opacity:1}}}
@@ -299,8 +314,8 @@ body.big .tool svg{width:22px;height:22px}
       <div>
         <p class="label">Trip type</p>
         <div class="seg c2" id="kindSeg">
-          <button type="button" data-v="pickup" aria-pressed="true"><b>Pickup</b><small>MD is arriving</small></button>
-          <button type="button" data-v="drop" aria-pressed="false"><b>Drop</b><small>MD is flying out</small></button>
+          <button type="button" data-v="pickup" aria-pressed="true"><b>Pickup</b><small>passenger arriving</small></button>
+          <button type="button" data-v="drop" aria-pressed="false"><b>Drop</b><small>passenger flying out</small></button>
         </div>
       </div>
       <div>
@@ -335,13 +350,22 @@ body.big .tool svg{width:22px;height:22px}
       <div class="field">
         <label for="fPass">Passenger</label>
         <select class="input" id="fPass"></select>
-        <p class="hint" id="passHint" hidden>Add the MD’s number in Setup to call or WhatsApp from the trip.</p>
+        <div class="grid2" id="newPass" hidden>
+          <div class="field"><label for="npName">Name</label><input class="input" id="npName" maxlength="30" placeholder="e.g. Mr Ahmed"></div>
+          <div class="field"><label for="npPhone">Mobile (optional)</label><input class="input" id="npPhone" type="tel" inputmode="tel" maxlength="20" placeholder="050 123 4567"></div>
+        </div>
+        <p class="hint" id="passHint" hidden>Pick “New passenger” to add someone. Their number gives the trip Call and WhatsApp buttons.</p>
       </div>
       <div class="field">
         <label for="fFrom">Starting from</label>
         <select class="input" id="fFrom"></select>
         <div class="field" id="customWrap" hidden><label for="fMins">Drive time in minutes</label><input class="input" type="number" id="fMins" min="5" max="240" inputmode="numeric" placeholder="e.g. 35"></div>
         <p class="hint" id="driveHint"></p>
+      </div>
+      <div class="stopbox" id="stopWrap" hidden>
+        <div class="field"><label for="fStop">Collect passenger from</label><select class="input" id="fStop"></select></div>
+        <div class="field" id="stopMinsWrap" hidden><label for="fStopMins">Drive from start to passenger (min)</label><input class="input" type="number" id="fStopMins" min="1" max="240" inputmode="numeric" placeholder="e.g. 20"></div>
+        <p class="hint" id="stopHint" style="margin:0"></p>
       </div>
       <div>
         <p class="label">Traffic</p>
@@ -354,7 +378,7 @@ body.big .tool svg{width:22px;height:22px}
       </div>
       <div class="field">
         <label for="fNote">Note (optional)</label>
-        <input class="input" id="fNote" placeholder="e.g. MD + 1 guest, 3 bags" maxlength="80">
+        <input class="input" id="fNote" placeholder="e.g. 2 people, 3 bags" maxlength="80">
       </div>
       <div class="preview" id="preview"><span>Fill in flight, date and time</span><b>--:--</b></div>
       <p class="err" id="formErr" hidden></p>
@@ -384,22 +408,30 @@ body.big .tool svg{width:22px;height:22px}
         </div>
       </div>
       <div>
-        <p class="label">Drop: MD reaches the airport</p>
+        <p class="label">Drop: passenger reaches the airport</p>
         <div class="seg c3" id="drSeg">
           <button type="button" data-v="120"><b>2 hrs</b><small>before flight</small></button>
           <button type="button" data-v="150"><b>2.5 hrs</b><small>before flight</small></button>
           <button type="button" data-v="180"><b>3 hrs</b><small>before flight</small></button>
         </div>
       </div>
-      <p>Auto traffic adds 20 minutes when the drive falls in rush hour: Monday to Friday, 7:00–9:30 and 16:30–20:00.</p>
+      <div>
+        <p class="label">Drop: wait at passenger’s place</p>
+        <div class="seg c3" id="swSeg">
+          <button type="button" data-v="5"><b>5 min</b></button>
+          <button type="button" data-v="10"><b>10 min</b></button>
+          <button type="button" data-v="15"><b>15 min</b></button>
+        </div>
+      </div>
+      <p>Drive times come from the map plus 15%. Auto traffic adds 20 minutes more in weekday rush hour (7:00–9:30, 16:30–20:00).</p>
     </div>
 
     <div class="card">
       <h2>Contacts</h2>
-      <p>The MD and anyone else he drives. Their number gives the trip Call and WhatsApp buttons.</p>
+      <p>Anyone he drives: the MD, staff on business trips, guests. Their number gives the trip Call and WhatsApp buttons.</p>
       <div class="list" id="contactList"></div>
       <div class="grid2">
-        <div class="field"><label for="cName">Name</label><input class="input" id="cName" placeholder="MD" maxlength="30"></div>
+        <div class="field"><label for="cName">Name</label><input class="input" id="cName" placeholder="e.g. Mr Ahmed" maxlength="30"></div>
         <div class="field"><label for="cPhone">Mobile</label><input class="input" id="cPhone" type="tel" inputmode="tel" placeholder="050 123 4567" maxlength="20"></div>
       </div>
       <button class="btn" type="button" id="cAdd">Add contact</button>
@@ -407,8 +439,10 @@ body.big .tool svg{width:22px;height:22px}
 
     <div class="card">
       <h2>My places</h2>
-      <p>Office, MD’s house, home. Enter his real drive time in minutes to each airport.</p>
+      <p>Office, home, or where passengers live. Pin them on the map and drive times are worked out for you.</p>
       <div class="list" id="placeList"></div>
+      <div class="actions"><button class="btn primary" type="button" id="plMap">Add on map</button><button class="btn ghost" type="button" id="plManualToggle">Add without map</button></div>
+      <div id="plManual" class="form" style="gap:12px" hidden>
       <div class="field"><label for="plName">Place name</label><input class="input" id="plName" placeholder="Office" maxlength="30"></div>
       <div class="grid4">
         <div class="field"><label for="plDXB">DXB</label><input class="input" id="plDXB" type="number" inputmode="numeric" min="1" max="300"></div>
@@ -416,14 +450,15 @@ body.big .tool svg{width:22px;height:22px}
         <div class="field"><label for="plAUH">AUH</label><input class="input" id="plAUH" type="number" inputmode="numeric" min="1" max="300"></div>
         <div class="field"><label for="plDWC">DWC</label><input class="input" id="plDWC" type="number" inputmode="numeric" min="1" max="300"></div>
       </div>
-      <button class="btn" type="button" id="plAdd">Add place</button>
+      <button class="btn" type="button" id="plAdd" style="align-self:flex-start">Add place</button>
+      </div>
     </div>
 
     <div class="card">
       <h2>Airport notes</h2>
-      <p>Add your own tip for a terminal, like where to wait or which gate the MD comes out of. It shows on the trip under Tips.</p>
+      <p>Add your own tip for a terminal, like where to wait or which exit passengers come out of. It shows on the trip under Tips.</p>
       <div class="field"><label for="gTerm">Terminal</label><select class="input" id="gTerm"></select></div>
-      <div class="field"><label for="gText">Your note</label><textarea class="input" id="gText" maxlength="300" placeholder="e.g. Wait at Car Park A level 1, MD walks out of exit 2"></textarea></div>
+      <div class="field"><label for="gText">Your note</label><textarea class="input" id="gText" maxlength="300" placeholder="e.g. Wait at Car Park A level 1, passengers come out at exit 2"></textarea></div>
       <button class="btn" type="button" id="gSave">Save note</button>
     </div>
 
@@ -456,6 +491,19 @@ body.big .tool svg{width:22px;height:22px}
     <p class="store">Saved on this phone only</p>
   </section>
 </div></main>
+<div class="sheet" id="picker" hidden role="dialog" aria-modal="true" aria-labelledby="pkTitle">
+  <div class="sheet-in">
+    <div class="sheet-head"><h2 id="pkTitle">Pick a place</h2><button class="btn small" type="button" id="pkClose">Close</button></div>
+    <div class="actions" style="flex-wrap:nowrap"><input class="input" id="pkQ" placeholder="Search a building, area or landmark" autocomplete="off" style="flex:1"><button class="btn primary" type="button" id="pkGo">Search</button></div>
+    <div class="results" id="pkRes" hidden></div>
+    <div id="gMap"></div>
+    <div class="actions"><button class="btn small" type="button" id="pkHere">Use my location</button></div>
+    <p class="hint" id="pkAddr" style="margin:0">Search above, or tap the map to drop a pin.</p>
+    <div class="field"><label for="pkName">Name</label><input class="input" id="pkName" placeholder="e.g. Office, Mr Ahmed’s villa" maxlength="40"></div>
+    <p class="err" id="pkErr" hidden></p>
+    <button class="btn primary wide" type="button" id="pkSave">Save place</button>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
@@ -468,17 +516,17 @@ const AIRPORTS={
   DWC:{short:'Al Maktoum',name:'Al Maktoum Intl (DWC)',terms:['Passenger'],maps:{Passenger:'Al Maktoum International Airport Passenger Terminal'}}
 };
 const AREAS=[
-  {id:'deira',name:'Deira / Garhoud',t:{DXB:10,SHJ:25,AUH:110,DWC:55}},
-  {id:'mirdif',name:'Mirdif / Rashidiya',t:{DXB:15,SHJ:25,AUH:110,DWC:50}},
-  {id:'bur',name:'Bur Dubai / Karama',t:{DXB:15,SHJ:30,AUH:100,DWC:45}},
-  {id:'downtown',name:'Downtown / Business Bay / DIFC',t:{DXB:20,SHJ:35,AUH:95,DWC:40}},
-  {id:'barsha',name:'Al Barsha / Al Quoz',t:{DXB:25,SHJ:40,AUH:90,DWC:35}},
-  {id:'silicon',name:'Silicon Oasis / Academic City',t:{DXB:20,SHJ:30,AUH:100,DWC:40}},
-  {id:'marina',name:'Marina / JLT / JBR',t:{DXB:35,SHJ:50,AUH:80,DWC:30}},
-  {id:'dip',name:'DIP / Jebel Ali',t:{DXB:40,SHJ:55,AUH:75,DWC:20}},
-  {id:'shj',name:'Sharjah city',t:{DXB:30,SHJ:15,AUH:120,DWC:70}},
-  {id:'ajman',name:'Ajman',t:{DXB:40,SHJ:20,AUH:130,DWC:80}},
-  {id:'auh',name:'Abu Dhabi city',t:{DXB:100,SHJ:120,AUH:30,DWC:75}},
+  {id:'deira',lat:25.2697,lng:55.3095,name:'Deira / Garhoud',t:{DXB:10,SHJ:25,AUH:110,DWC:55}},
+  {id:'mirdif',lat:25.2196,lng:55.4206,name:'Mirdif / Rashidiya',t:{DXB:15,SHJ:25,AUH:110,DWC:50}},
+  {id:'bur',lat:25.2440,lng:55.3040,name:'Bur Dubai / Karama',t:{DXB:15,SHJ:30,AUH:100,DWC:45}},
+  {id:'downtown',lat:25.1860,lng:55.2650,name:'Downtown / Business Bay / DIFC',t:{DXB:20,SHJ:35,AUH:95,DWC:40}},
+  {id:'barsha',lat:25.1120,lng:55.1960,name:'Al Barsha / Al Quoz',t:{DXB:25,SHJ:40,AUH:90,DWC:35}},
+  {id:'silicon',lat:25.1180,lng:55.3830,name:'Silicon Oasis / Academic City',t:{DXB:20,SHJ:30,AUH:100,DWC:40}},
+  {id:'marina',lat:25.0800,lng:55.1400,name:'Marina / JLT / JBR',t:{DXB:35,SHJ:50,AUH:80,DWC:30}},
+  {id:'dip',lat:24.9850,lng:55.1700,name:'DIP / Jebel Ali',t:{DXB:40,SHJ:55,AUH:75,DWC:20}},
+  {id:'shj',lat:25.3260,lng:55.3870,name:'Sharjah city',t:{DXB:30,SHJ:15,AUH:120,DWC:70}},
+  {id:'ajman',lat:25.4050,lng:55.5130,name:'Ajman',t:{DXB:40,SHJ:20,AUH:130,DWC:80}},
+  {id:'auh',lat:24.4670,lng:54.3770,name:'Abu Dhabi city',t:{DXB:100,SHJ:120,AUH:30,DWC:75}},
   {id:'custom',name:'Other place (enter minutes)'}
 ];
 /* Parking rates from Property Finder airport guides, updated July 2026 (DXB, SHJ) and Sept 2025 (AUH). */
@@ -517,7 +565,7 @@ function isRush(d){
 }
 
 /* ---------- state ---------- */
-let settings=Object.assign({pickupBefore:15,dropBefore:180,big:false},lsGet('ar.settings',{}));
+let settings=Object.assign({pickupBefore:15,dropBefore:180,big:false,stopWait:10},lsGet('ar.settings',{}));
 let trips=lsGet('ar.trips',[]);
 let contacts=lsGet('ar.contacts',[]);
 let places=lsGet('ar.places',[]);
@@ -531,12 +579,22 @@ let pendingRestore=null;
 const saveTrips=()=>lsSet('ar.trips',trips);
 const findPlace=id=>places.find(p=>p.id===id);
 const findContact=id=>contacts.find(c=>c.id===id);
-function fromName(t){if(t.from==='custom')return'Other place';const p=findPlace(t.from);if(p)return p.name;const a=AREAS.find(x=>x.id===t.from);return a?a.name:'—'}
-function driveMins(t){
-  if(t.from==='custom')return +t.drive||0;
-  const p=findPlace(t.from);if(p)return +p.t[t.airport]||+t.drive||0;
-  const a=AREAS.find(x=>x.id===t.from);return a&&a.t[t.airport]?a.t[t.airport]:(+t.drive||0);
+function nameOf(id){if(!id)return'—';if(id==='custom')return'Other place';const p=findPlace(id);if(p)return p.name;const a=AREAS.find(x=>x.id===id);return a?a.name:'—'}
+function fromName(t){return nameOf(t.from)}
+function pointOf(id){
+  const p=findPlace(id);if(p&&p.lat!=null)return{lat:p.lat,lng:p.lng};
+  const a=AREAS.find(x=>x.id===id);if(a&&a.lat!=null)return{lat:a.lat,lng:a.lng};
+  return null;
 }
+const ptStr=p=>p.lat!=null?p.lat+','+p.lng:p.addr;
+/* minutes from a start point straight to the airport, without Google; null when unknown */
+function estToAirport(id,airport,manual){
+  if(id==='custom')return +manual||0;
+  const p=findPlace(id);if(p){const v=+(p.t||{})[airport];return v>0?v:null}
+  const a=AREAS.find(x=>x.id===id);return a&&a.t?a.t[airport]:null;
+}
+function driveMins(t){const v=estToAirport(t.stop||t.from,t.airport,t.drive);return v==null?30:v}
+function canRoute(t){return t.from!=='custom'&&!!pointOf(t.from)&&(!t.stop||!!pointOf(t.stop))}
 function calc(t){
   const sched=parseLocal(t.date+'T'+t.time);
   const liveExp=t.live&&parseLocal(t.live.expected);
@@ -545,14 +603,23 @@ function calc(t){
   const changed=t.type==='pickup'&&flightTime&&sched&&Math.abs(flightTime-sched)>=60000?flightTime:null;
   const before=t.type==='pickup'?settings.pickupBefore:settings.dropBefore;
   const target=flightTime?new Date(flightTime-before*60000):null;
-  const base=driveMins(t);
+  const stop=t.type==='drop'&&t.stop?t.stop:null;
+  const r=t.route&&Array.isArray(t.route.legs)&&t.route.legs.length===(stop?2:1)&&t.route.key===routeKey(t)?t.route.legs:null;
+  let toAir,first=0,est=false;
+  if(r){toAir=r[r.length-1];first=stop?r[0]:0}
+  else{
+    toAir=estToAirport(stop||t.from,t.airport,t.drive);if(toAir==null){toAir=30;est=true}
+    if(stop){first=+t.stopDrive||0;if(!first){first=20;est=true}}
+  }
+  const wait=stop?(+settings.stopWait||10):0;
   let extra=0,auto=false;
-  if(t.traffic==='auto'){auto=true;if(target){const l0=new Date(target-base*60000);extra=(isRush(l0)||isRush(new Date(l0-20*60000)))?20:0}}
+  if(t.traffic==='auto'||t.traffic==null){auto=true;if(target){const l0=new Date(target-(toAir+first+wait)*60000);extra=(isRush(l0)||isRush(new Date(l0-20*60000)))?20:0}}
   else extra=+t.traffic||0;
-  const drive=base+extra;
-  const leave=target?new Date(target-drive*60000):null;
-  return{sched,flightTime,changed,target,leave,drive,base,extra,auto};
+  const collect=stop&&target?new Date(target-(toAir+extra)*60000):null;
+  const leave=target?new Date(target-(toAir+extra+wait+first)*60000):null;
+  return{sched,flightTime,changed,target,leave,collect,toAir,first,wait,drive:toAir+first+extra,base:toAir+first,extra,auto,google:!!r,est};
 }
+
 
 /* ---------- live flight data (AeroDataBox via RapidAPI) ---------- */
 const API_HOST='aerodatabox.p.rapidapi.com';
@@ -617,7 +684,7 @@ async function checkTrip(t,manual){
   }catch(e){if(manual||e.code==='key'||e.code==='limit')toast(apiErr(e))}
   finally{delete checking[t.id];render()}
 }
-async function checkAll(){if(!apiKey||!navigator.onLine)return;refreshWatch();for(const t of trips.filter(x=>dueForCheck(x,new Date())))await checkTrip(t,false)}
+async function checkAll(){refreshRoutes();if(!apiKey||!navigator.onLine)return;refreshWatch();for(const t of trips.filter(x=>dueForCheck(x,new Date())))await checkTrip(t,false)}
 
 /* ---------- small helpers ---------- */
 let toastT;function toast(m){const el=$('#toast');el.textContent=m;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>el.hidden=true,3000)}
@@ -635,9 +702,10 @@ function links(t){
   const f=t.flight.replace(/\s/g,'');const a=AIRPORTS[t.airport];
   const term=(t.live&&t.live.terminal)||t.terminal;
   const dest=(a&&a.maps[term])||(a?a.name+' Airport':'Airport');
+  const stop=t.stop&&pointOf(t.stop);
   return{fr:'https://www.flightradar24.com/data/flights/'+f.toLowerCase(),
     g:'https://www.google.com/search?q='+encodeURIComponent(f+' flight status'),
-    map:'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest)+'&travelmode=driving',dest:dest};
+    map:'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest)+(stop?'&waypoints='+encodeURIComponent(ptStr(stop)):'')+'&travelmode=driving',dest:dest};
 }
 function waitMins(t){if(!t.arrivedAt||!t.doneAt)return null;const m=(new Date(t.doneAt)-new Date(t.arrivedAt))/60000;return m>=0&&m<24*60?Math.round(m):null}
 
@@ -682,7 +750,7 @@ function messages(t,c){
     'Your flight '+t.flight+' has landed. I’m waiting at '+where+'.',
     'Running about 15 minutes late because of traffic. Sorry, coming as fast as I can.'];
   return[
-    'On my way to pick you up for flight '+t.flight+'. I’ll reach you by '+hm(c.leave)+'.',
+    'On my way to pick you up for flight '+t.flight+'. I’ll reach you by '+hm(c.collect||new Date(c.leave.getTime()+c.first*60000))+'.',
     'I’m outside, ready to leave for the airport.',
     'Running about 10 minutes late because of traffic. We still have time for the flight.'];
 }
@@ -714,13 +782,14 @@ function tripCard(t,now){
   return `<article class="trip" id="trip-${t.id}">
     <div class="trip-top"><span class="kind ${t.type}">${t.type==='pickup'?'Pickup':'Drop'}</span><span class="fno">${esc(t.flight)}</span><span class="day">${c.sched?dayLabel(c.sched):''}</span></div>
     <div class="leave"><div><div class="lbl">Leave by</div><div class="big">${hm(c.leave)}</div></div>
-      <div class="cd">${toLeave>=0?'in '+span(toLeave):span(toLeave)+' ago'}<span>${c.base} min drive${c.extra?' +'+c.extra+(c.auto?' rush':' traffic'):''}</span></div>
+      <div class="cd">${toLeave>=0?'in '+span(toLeave):span(toLeave)+' ago'}<span>${c.base} min drive${c.google?' · map route':''}${c.extra?' +'+c.extra+(c.auto?' rush':' traffic'):''}${c.est?' · estimate':''}</span></div>
       <div class="state ${st}">${stTxt}</div></div>
     <div class="facts">
       <div class="fact"><span>${timeLbl}</span>${timeVal}</div>
       <div class="fact"><span>Be there by</span><b class="t">${hm(c.target)}</b></div>
       <div class="fact"><span>Airport</span><b>${esc(a.short)} · ${esc(terminal)}</b></div>
       <div class="fact"><span>From</span><b>${esc(fromName(t))}</b></div>
+      ${t.stop?`<div class="fact"><span>Collect from</span><b>${esc(nameOf(t.stop))}</b></div><div class="fact"><span>Collect by</span><b class="t">${hm(c.collect)}</b></div>`:''}
     </div>
     ${p?`<div class="who"><div class="name"><span>Passenger</span><b>${esc(p.name)}</b></div>${num?`<a class="btn small" href="tel:+${num}">${ICON.phone}Call</a><a class="btn small wa" href="https://wa.me/${num}" target="_blank" rel="noopener">${ICON.wa}WhatsApp</a>`:''}</div>`:''}
     ${liveHtml}${here}
@@ -730,15 +799,16 @@ function tripCard(t,now){
       <button class="btn primary" data-act="done" data-id="${t.id}">Done</button>
     </div>
     <div class="tools">
-      ${apiKey?`<button class="tool" data-act="check" data-id="${t.id}" ${checking[t.id]?'disabled':''}>${ICON.refresh}Check now</button>`:''}
-      <a class="tool" href="${L.fr}" target="_blank" rel="noopener">${ICON.radar}Flightradar</a>
-      <a class="tool" href="${L.g}" target="_blank" rel="noopener">${ICON.search}Google</a>
-      <a class="tool" href="${L.map}" target="_blank" rel="noopener">${ICON.car}Traffic now</a>
-      <button class="tool" data-act="ics" data-id="${t.id}">${ICON.bell}Add alarm</button>
-      <button class="tool" data-act="open" data-p="share" data-id="${t.id}" aria-expanded="${o==='share'}">${ICON.msg}Send update</button>
-      <button class="tool" data-act="open" data-p="tips" data-id="${t.id}" aria-expanded="${o==='tips'}">${ICON.info}Tips &amp; parking</button>
-      ${t.type==='pickup'?`<button class="tool" data-act="edit" data-id="${t.id}" aria-expanded="${editing===t.id}">${ICON.clock}Update time</button>`:''}
-      <button class="tool danger ${armed===t.id?'armed':''}" data-act="del" data-id="${t.id}">${ICON.trash}${armed===t.id?'Tap again':'Delete'}</button>
+      ${canRoute(t)?`<button class="tool" data-act="route" data-id="${t.id}" ${routing[t.id]?'disabled':''}><span class="ic">${ICON.car}</span>${routing[t.id]?'Updating…':'Drive time'}</button>`:''}
+      ${apiKey?`<button class="tool" data-act="check" data-id="${t.id}" ${checking[t.id]?'disabled':''}><span class="ic">${ICON.refresh}</span>Check now</button>`:''}
+      <a class="tool" href="${L.fr}" target="_blank" rel="noopener"><span class="ic">${ICON.radar}</span>Flightradar</a>
+      <a class="tool" href="${L.g}" target="_blank" rel="noopener"><span class="ic">${ICON.search}</span>Google</a>
+      <a class="tool" href="${L.map}" target="_blank" rel="noopener"><span class="ic">${ICON.car}</span>Traffic now</a>
+      <button class="tool" data-act="ics" data-id="${t.id}"><span class="ic">${ICON.bell}</span>Add alarm</button>
+      <button class="tool" data-act="open" data-p="share" data-id="${t.id}" aria-expanded="${o==='share'}"><span class="ic">${ICON.msg}</span>Send update</button>
+      <button class="tool" data-act="open" data-p="tips" data-id="${t.id}" aria-expanded="${o==='tips'}"><span class="ic">${ICON.info}</span>Tips &amp; parking</button>
+      ${t.type==='pickup'?`<button class="tool" data-act="edit" data-id="${t.id}" aria-expanded="${editing===t.id}"><span class="ic">${ICON.clock}</span>Update time</button>`:''}
+      <button class="tool danger ${armed===t.id?'armed':''}" data-act="del" data-id="${t.id}"><span class="ic">${ICON.trash}</span>${armed===t.id?'Tap again':'Delete'}</button>
     </div>
     ${sub}
   </article>`;
@@ -746,7 +816,7 @@ function tripCard(t,now){
 function upcoming(){return trips.filter(t=>!t.done).map(t=>[t,calc(t)]).sort((x,y)=>(x[1].leave||0)-(y[1].leave||0))}
 function renderTrips(){
   const now=new Date();const p=$('#p-trips');const up=upcoming();
-  if(!up.length){p.innerHTML=`<div class="empty"><h2>No trips planned</h2><p>Add the MD’s next flight. The app works out when to leave and keeps the time updated.</p><button class="btn primary" data-act="goadd">Add a trip</button></div>`;return}
+  if(!up.length){p.innerHTML=`<div class="empty"><h2>No trips planned</h2><p>Add the next pickup or drop for any passenger. The app works out when to leave and keeps the time updated.</p><button class="btn primary" data-act="goadd">Add a trip</button></div>`;return}
   if(!settings.big){p.innerHTML=up.map(x=>tripCard(x[0],now)).join('');return}
   const focus=up.find(x=>x[0].id===expanded)||up[0];
   const rest=up.filter(x=>x!==focus);
@@ -809,17 +879,29 @@ function segSet(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('a
 function renderApSeg(){$('#apSeg').innerHTML=Object.keys(AIRPORTS).map(k=>`<button type="button" data-v="${k}" aria-pressed="${k===form.ap}"><b>${k}</b><small>${AIRPORTS[k].short}</small></button>`).join('');
   const terms=AIRPORTS[form.ap].terms;if(!terms.includes(form.term))form.term=terms[terms.length-1];
   $('#termSeg').innerHTML=terms.map(x=>`<button type="button" data-v="${esc(x)}" aria-pressed="${x===form.term}"><b>${esc(x)}</b></button>`).join('')}
-function renderFromSelect(){
-  const sel=$('#fFrom');const cur=sel.value||lsGet('ar.lastFrom','downtown');
-  sel.innerHTML=(places.length?`<optgroup label="My places">${places.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')}</optgroup>`:'')+
-    `<optgroup label="Areas">${AREAS.map(a=>`<option value="${a.id}">${esc(a.name)}</option>`).join('')}</optgroup>`;
-  sel.value=[...sel.options].some(o=>o.value===cur)?cur:(places[0]?places[0].id:'downtown');
+const lastSel={from:'downtown',stop:''};
+function placeOptions(){
+  return (places.length?`<optgroup label="My places">${places.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')}</optgroup>`:'')+
+    `<optgroup label="Areas">${AREAS.filter(a=>a.id!=='custom').map(a=>`<option value="${a.id}">${esc(a.name)}</option>`).join('')}</optgroup>`;
 }
+function renderFromSelect(){
+  const sel=$('#fFrom');const cur=sel.value&&sel.value!=='__map'?sel.value:lsGet('ar.lastFrom','downtown');
+  sel.innerHTML='<option value="__map">Pick on map…</option>'+placeOptions()+'<option value="custom">Other place (enter minutes)</option>';
+  sel.value=[...sel.options].some(o=>o.value===cur)?cur:(places[0]?places[0].id:'downtown');
+  lastSel.from=sel.value;
+}
+function renderStopSelect(){
+  const sel=$('#fStop');const cur=sel.value&&sel.value!=='__map'?sel.value:'';
+  sel.innerHTML='<option value="">Going straight to the airport</option>'+'<option value="__map">Pick on map…</option>'+placeOptions();
+  sel.value=[...sel.options].some(o=>o.value===cur)?cur:'';
+  lastSel.stop=sel.value;
+}
+
 function renderPassSelect(){
   const sel=$('#fPass');const cur=sel.value;
-  sel.innerHTML=contacts.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')+'<option value="">No passenger</option>';
+  sel.innerHTML=contacts.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')+'<option value="__new">+ New passenger…</option><option value="">No passenger</option>';
   sel.value=[...sel.options].some(o=>o.value===cur)&&cur!==''?cur:(contacts[0]?contacts[0].id:'');
-  $('#passHint').hidden=contacts.length>0;
+  $('#passHint').hidden=contacts.length>0;$('#newPass').hidden=sel.value!=='__new';
 }
 function renderRecent(){
   const seen={};const rec=[];
@@ -827,15 +909,19 @@ function renderRecent(){
   $('#recentWrap').hidden=!rec.length;
   $('#recent').innerHTML=rec.map(t=>`<button type="button" class="chip" data-act="again" data-id="${t.id}"><b>${esc(t.flight)}</b><span>${t.type==='pickup'?'Pickup':'Drop'} · ${t.airport} ${esc(t.terminal)} · ${esc(t.time)}</span></button>`).join('');
 }
-function draft(){const from=$('#fFrom').value;return{type:form.kind,flight:normFlight($('#fFlight').value)||$('#fFlight').value.trim().toUpperCase(),date:$('#fDate').value,time:$('#fTime').value,airport:form.ap,terminal:form.term,from:from,drive:from==='custom'?+$('#fMins').value||0:null,traffic:form.traffic,passenger:$('#fPass').value||null,note:$('#fNote').value.trim()}}
+function draft(){const from=$('#fFrom').value;const stop=form.kind==='drop'?$('#fStop').value||null:null;return{stop:stop,stopDrive:stop?+$('#fStopMins').value||null:null,type:form.kind,flight:normFlight($('#fFlight').value)||$('#fFlight').value.trim().toUpperCase(),date:$('#fDate').value,time:$('#fTime').value,airport:form.ap,terminal:form.term,from:from,drive:from==='custom'?+$('#fMins').value||0:null,traffic:form.traffic,passenger:($('#fPass').value&&$('#fPass').value!=='__new')?$('#fPass').value:null,note:$('#fNote').value.trim()}}
 function updatePreview(){
   $('#fTimeLbl').textContent=form.kind==='pickup'?'Landing time':'Departure time';
   $('#finderTitle').textContent='Find '+(form.kind==='pickup'?'arrivals at ':'departures from ')+form.ap;
   const custom=$('#fFrom').value==='custom';$('#customWrap').hidden=!custom;
+  $('#stopWrap').hidden=form.kind!=='drop';$('#newPass').hidden=$('#fPass').value!=='__new';
   const d=draft();
-  $('#driveHint').textContent=custom?'':'About '+driveMins(d)+' min to '+AIRPORTS[form.ap].short+' without traffic.'+(findPlace(d.from)?'':' Add your own places in Setup for exact times.');
+  const est0=estToAirport(d.from,d.airport,d.drive);
+  $('#driveHint').textContent=custom?'':canRoute(d)?'Drive time is worked out from the map when you save.':est0==null?'Drive time will be estimated.':(d.stop?'':'About '+est0+' min to '+AIRPORTS[form.ap].short+' without traffic.');
+  const needMins=!!d.stop&&!canRoute(d);$('#stopMinsWrap').hidden=!needMins;
+  $('#stopHint').textContent=d.stop?(canRoute(d)?'The map works out start → passenger → airport.':'Enter how long Dad takes to reach the passenger.')+' He waits '+(settings.stopWait||10)+' min there (change in Setup).':'Leave as “Going straight” if the passenger rides from the start.';
   const c=calc(d);const pv=$('#preview');
-  if(d.date&&d.time&&c.leave)pv.innerHTML=`<span>Leave ${dayLabel(c.leave).toLowerCase()} by${c.extra?'<small>includes +'+c.extra+' min '+(c.auto?'rush hour':'traffic')+'</small>':''}</span><b>${hm(c.leave)}</b>`;
+  if(d.date&&d.time&&c.leave)pv.innerHTML=`<span>Leave ${dayLabel(c.leave).toLowerCase()} by${c.collect?'<small>collect passenger at '+hm(c.collect)+'</small>':''}${c.extra?'<small>includes +'+c.extra+' min '+(c.auto?'rush hour':'traffic')+'</small>':''}</span><b>${hm(c.leave)}</b>`;
   else pv.innerHTML='<span>Fill in date and time to see when to leave</span><b>--:--</b>';
 }
 function fillForm(t,keepDate){
@@ -845,26 +931,30 @@ function fillForm(t,keepDate){
   if(!keepDate)$('#fDate').value=t.date||todayStr();
   renderFromSelect();if(t.from&&[...$('#fFrom').options].some(o=>o.value===t.from))$('#fFrom').value=t.from;
   if(t.from==='custom')$('#fMins').value=t.drive||'';
+  renderStopSelect();$('#fStop').value=t.stop&&[...$('#fStop').options].some(o=>o.value===t.stop)?t.stop:'';$('#fStopMins').value=t.stopDrive||'';
   renderPassSelect();if(t.passenger&&findContact(t.passenger))$('#fPass').value=t.passenger;
   $('#fNote').value='';updatePreview();
 }
 function initForm(){
   $('#fDate').value=todayStr();
-  renderApSeg();renderFromSelect();renderPassSelect();
+  renderApSeg();renderFromSelect();renderStopSelect();renderPassSelect();lastSel.from=$('#fFrom').value;
   $('#kindSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.kind=b.dataset.v;segSet($('#kindSeg'),form.kind);$('#results').hidden=true;updatePreview()};
   $('#apSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.ap=b.dataset.v;renderApSeg();$('#results').hidden=true;updatePreview()};
   $('#termSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.term=b.dataset.v;segSet($('#termSeg'),form.term)};
   $('#trafSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.traffic=b.dataset.v==='auto'?'auto':+b.dataset.v;segSet($('#trafSeg'),b.dataset.v);updatePreview()};
-  ['fFlight','fDate','fTime','fFrom','fMins','fPass'].forEach(id=>{$('#'+id).addEventListener('input',updatePreview);$('#'+id).addEventListener('change',updatePreview)});
+  $('#fFrom').addEventListener('change',()=>{if($('#fFrom').value==='__map'){$('#fFrom').value=lastSel.from;openPicker('from')}else lastSel.from=$('#fFrom').value});
+  $('#fStop').addEventListener('change',()=>{if($('#fStop').value==='__map'){$('#fStop').value=lastSel.stop;openPicker('stop')}else lastSel.stop=$('#fStop').value});
+  ['fFlight','fDate','fTime','fFrom','fMins','fPass','fStop','fStopMins'].forEach(id=>{$('#'+id).addEventListener('input',updatePreview);$('#'+id).addEventListener('change',updatePreview)});
   $('#fFlight').addEventListener('blur',()=>{const n=normFlight($('#fFlight').value);if(n)$('#fFlight').value=n});
   $('#addForm').addEventListener('submit',e=>{
     e.preventDefault();const err=$('#formErr');const d=draft();
-    const msg=!normFlight(d.flight)?'Enter the flight number, like EK 203 or G9 501.':!d.date?'Pick the date.':!d.time?'Enter the '+(d.type==='pickup'?'landing':'departure')+' time.':(d.from==='custom'&&!(d.drive>0))?'Enter the drive time in minutes.':'';
+    const msg=!normFlight(d.flight)?'Enter the flight number, like EK 203 or G9 501.':!d.date?'Pick the date.':!d.time?'Enter the '+(d.type==='pickup'?'landing':'departure')+' time.':(d.from==='custom'&&!(d.drive>0))?'Enter the drive time in minutes.':($('#fPass').value==='__new'&&!$('#npName').value.trim())?'Enter the new passenger’s name.':'';
     if(msg){err.textContent=msg;err.hidden=false;return}
-    err.hidden=true;d.flight=normFlight(d.flight);d.done=false;d.createdAt=new Date().toISOString();d.id='t'+Date.now();
+    err.hidden=true;if($('#fPass').value==='__new'){const c={id:'c'+Date.now(),name:$('#npName').value.trim(),phone:$('#npPhone').value.trim()};contacts.push(c);lsSet('ar.contacts',contacts);d.passenger=c.id;$('#npName').value='';$('#npPhone').value='';renderPassSelect();$('#fPass').value=c.id}
+    d.flight=normFlight(d.flight);d.done=false;d.createdAt=new Date().toISOString();d.id='t'+Date.now();
     trips.push(d);if(!saveTrips()){trips.pop();return}
     lsSet('ar.lastFrom',d.from);$('#fFlight').value='';$('#fTime').value='';$('#fNote').value='';$('#finder').hidden=true;
-    updatePreview();toast('Trip saved');setTab('trips');checkTrip(d,false);
+    updatePreview();toast('Trip saved');setTab('trips');checkTrip(d,false);if(canRoute(d))computeRoute(d,true);
   });
   /* finder */
   $('#findOpen').onclick=()=>{
@@ -905,9 +995,9 @@ function renderResults(){
 
 /* ---------- setup ---------- */
 function renderSettings(){
-  segSet($('#pkSeg'),settings.pickupBefore);segSet($('#drSeg'),settings.dropBefore);segSet($('#bigSeg'),settings.big?1:0);
+  segSet($('#pkSeg'),settings.pickupBefore);segSet($('#drSeg'),settings.dropBefore);segSet($('#bigSeg'),settings.big?1:0);segSet($('#swSeg'),settings.stopWait);
   $('#contactList').innerHTML=contacts.map(c=>`<div class="li"><div><b>${esc(c.name)}</b><span>${esc(c.phone||'No number')}</span></div><button class="btn small danger ${armed==='c'+c.id?'armed':''}" data-act="cdel" data-id="${c.id}">${armed==='c'+c.id?'Tap again':'Remove'}</button></div>`).join('');
-  $('#placeList').innerHTML=places.map(p=>`<div class="li"><div><b>${esc(p.name)}</b><span>DXB ${p.t.DXB||'–'} · SHJ ${p.t.SHJ||'–'} · AUH ${p.t.AUH||'–'} · DWC ${p.t.DWC||'–'} min</span></div><button class="btn small danger ${armed==='p'+p.id?'armed':''}" data-act="pdel" data-id="${p.id}">${armed==='p'+p.id?'Tap again':'Remove'}</button></div>`).join('');
+  $('#placeList').innerHTML=places.map(p=>`<div class="li"><div><b>${esc(p.name)}</b><span>${p.lat?esc(p.addr||'Map pin'):'DXB '+(p.t.DXB||'–')+' · SHJ '+(p.t.SHJ||'–')+' · AUH '+(p.t.AUH||'–')+' · DWC '+(p.t.DWC||'–')+' min'}</span></div><button class="btn small danger ${armed==='p'+p.id?'armed':''}" data-act="pdel" data-id="${p.id}">${armed==='p'+p.id?'Tap again':'Remove'}</button></div>`).join('');
   renderKey();
 }
 function renderKey(){
@@ -917,6 +1007,7 @@ function renderKey(){
 function saveSettings(){lsSet('ar.settings',settings);document.body.classList.toggle('big',!!settings.big);render()}
 $('#pkSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;settings.pickupBefore=+b.dataset.v;saveSettings();toast('Pickup timing saved')};
 $('#drSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;settings.dropBefore=+b.dataset.v;saveSettings();toast('Drop timing saved')};
+$('#swSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;settings.stopWait=+b.dataset.v;saveSettings();toast('Wait time saved')};
 $('#bigSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;settings.big=b.dataset.v==='1';saveSettings();toast(settings.big?'Big & simple mode on':'Normal mode on')};
 $('#cAdd').onclick=()=>{const n=$('#cName').value.trim(),ph=$('#cPhone').value.trim();
   if(!n){toast('Enter a name');return}if(ph&&waNum(ph).length<10){toast('That number looks too short. Use 050 123 4567 or +971…');return}
@@ -925,7 +1016,7 @@ $('#plAdd').onclick=()=>{const n=$('#plName').value.trim();const t={};let any=fa
   ['DXB','SHJ','AUH','DWC'].forEach(k=>{const v=+$('#pl'+k).value;if(v>0){t[k]=v;any=true}});
   if(!n){toast('Enter a place name');return}if(!any){toast('Enter the drive time to at least one airport');return}
   const pid='p'+Date.now();places.push({id:pid,name:n,t:t});lsSet('ar.places',places);
-  ['plName','plDXB','plSHJ','plAUH','plDWC'].forEach(id=>$('#'+id).value='');renderFromSelect();$('#fFrom').value=pid;render();toast(n+' added')};
+  ['plName','plDXB','plSHJ','plAUH','plDWC'].forEach(id=>$('#'+id).value='');renderFromSelect();renderStopSelect();$('#fFrom').value=pid;render();toast(n+' added')};
 function initNotes(){
   const sel=$('#gTerm');sel.innerHTML=Object.keys(AIRPORTS).flatMap(k=>AIRPORTS[k].terms.map(t=>`<option value="${k}|${esc(t)}">${k} · ${esc(t)}</option>`)).join('');
   sel.value='DXB|T3';const load=()=>{$('#gText').value=notes[sel.value]||''};load();sel.onchange=load;
@@ -949,6 +1040,109 @@ $('#bkFile').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)retu
     const box=$('#bkConfirm');box.hidden=false;box.innerHTML=`<span>Replace this phone’s ${trips.length} trips with ${d.trips.length} trips from the backup (${esc((d.exported||'').slice(0,10))})?</span><div class="actions"><button class="btn primary" data-act="restore">Restore</button><button class="btn ghost" data-act="restorecancel">Cancel</button></div>`}
     catch(x){toast('That file isn’t an Airport Run backup')}};
   r.readAsText(f)};
+
+/* ---------- Free map: OpenStreetMap picker (Leaflet + Nominatim) and OSRM drive times ---------- */
+const AIRPORT_PTS={'DXB|T1':[25.2483,55.3520],'DXB|T2':[25.2627,55.3658],'DXB|T3':[25.2445,55.3640],'SHJ|Main':[25.3286,55.5172],'AUH|Terminal A':[24.4433,54.6400],'DWC|Passenger':[24.8960,55.1660]};
+let routing={};let leafReady=null;
+function routeKey(t){return[t.from,t.type==='drop'?(t.stop||''):'',t.airport,t.terminal].join('|')}
+function airportPt(t){const term=(t.live&&t.live.terminal)||t.terminal;const p=AIRPORT_PTS[t.airport+'|'+term]||AIRPORT_PTS[t.airport+'|'+t.terminal];return p?{lat:p[0],lng:p[1]}:null}
+function loadLeaflet(){
+  if(leafReady)return leafReady;
+  leafReady=new Promise((res,rej)=>{
+    if(window.L){res(window.L);return}
+    const css=document.createElement('link');css.rel='stylesheet';css.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';document.head.appendChild(css);
+    const sc=document.createElement('script');sc.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+    sc.onload=()=>res(window.L);sc.onerror=()=>{leafReady=null;rej({code:'load'})};document.head.appendChild(sc);
+  });
+  return leafReady;
+}
+/* drive times from the free OSRM router (no live traffic; the rush-hour extra is added on top) */
+async function computeRoute(t,manual){
+  if(!canRoute(t)){if(manual)toast('Pick the start from the list or the map to get drive times');return}
+  if(routing[t.id])return;routing[t.id]=true;render();
+  try{
+    const pts=[pointOf(t.from)];if(t.type==='drop'&&t.stop)pts.push(pointOf(t.stop));pts.push(airportPt(t));
+    if(pts.some(p=>!p))throw{code:'noroute'};
+    const r=await fetch('https://router.project-osrm.org/route/v1/driving/'+pts.map(p=>p.lng.toFixed(5)+','+p.lat.toFixed(5)).join(';')+'?overview=false');
+    if(!r.ok)throw{code:'http'};
+    const j=await r.json();const route=j.routes&&j.routes[0];
+    if(j.code!=='Ok'||!route||!route.legs)throw{code:'noroute'};
+    /* free-flow times run short in UAE traffic, so add 15% */
+    t.route={legs:route.legs.map(l=>Math.max(1,Math.round(l.duration*1.15/60))),at:new Date().toISOString(),key:routeKey(t)};saveTrips();
+    if(manual)toast('Drive time updated from the map');
+  }catch(e){if(manual)toast(e.code==='noroute'?'No driving route found for this trip.':'Couldn’t reach the map service. Using area times.')}
+  finally{delete routing[t.id];render()}
+}
+async function refreshRoutes(){
+  if(!navigator.onLine)return;
+  for(const t of trips){if(t.done||!canRoute(t))continue;if(t.route&&t.route.key===routeKey(t))continue;await computeRoute(t,false)}
+}
+let plManualOpen=false;
+$('#plManualToggle').onclick=()=>{plManualOpen=!plManualOpen;$('#plManual').hidden=!plManualOpen;$('#plManualToggle').textContent=plManualOpen?'Hide manual entry':'Add without map'};
+
+/* place picker sheet */
+let pk={mode:'place',map:null,marker:null,pick:null,revT:null};
+function setPin(lat,lng,name,addr){
+  pk.pick={lat:lat,lng:lng,name:name||'',addr:addr||''};
+  if(pk.map){if(!pk.marker){pk.marker=L.marker([lat,lng],{draggable:true}).addTo(pk.map);pk.marker.on('dragend',()=>{const ll=pk.marker.getLatLng();setPin(ll.lat,ll.lng,'','');reverse(ll.lat,ll.lng)})}
+    else pk.marker.setLatLng([lat,lng]);pk.map.setView([lat,lng],Math.max(pk.map.getZoom(),16))}
+  $('#pkAddr').textContent=addr||('Pin at '+lat.toFixed(5)+', '+lng.toFixed(5));
+  if(name&&!$('#pkName').value)$('#pkName').value=name;
+  $('#pkErr').hidden=true;
+}
+function reverse(lat,lng){
+  clearTimeout(pk.revT);
+  pk.revT=setTimeout(async()=>{try{const r=await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=18&accept-language=en&lat='+lat+'&lon='+lng);const j=await r.json();
+    if(j&&j.display_name&&pk.pick&&pk.pick.lat===lat){pk.pick.addr=j.display_name.split(', ').slice(0,4).join(', ');$('#pkAddr').textContent=pk.pick.addr}}catch(e){}},700);
+}
+async function placeSearch(){
+  const q=$('#pkQ').value.trim();const box=$('#pkRes');if(q.length<3){toast('Type at least 3 letters');return}
+  box.hidden=false;box.innerHTML='<p class="hint" style="padding:10px 12px;margin:0">Searching…</p>';
+  try{
+    const r=await fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&countrycodes=ae&limit=6&accept-language=en&q='+encodeURIComponent(q));
+    const list=await r.json();
+    if(!list.length){box.innerHTML='<p class="hint" style="padding:10px 12px;margin:0">Nothing found. Try a building, area or landmark name, or tap the map.</p>';return}
+    pk.res=list;
+    box.innerHTML=list.map((x,i)=>`<button type="button" class="res" data-act="pkpick" data-i="${i}" style="grid-template-columns:1fr"><span class="f"><b style="font-family:var(--body)">${esc(x.name||x.display_name.split(',')[0])}</b><span>${esc(x.display_name.split(', ').slice(1,4).join(', '))}</span></span></button>`).join('');
+  }catch(e){box.innerHTML='<p class="hint" style="padding:10px 12px;margin:0">Search isn’t reachable. Check the internet, or tap the map.</p>'}
+}
+async function openPicker(mode){
+  pk.mode=mode;pk.pick=null;$('#pkName').value='';$('#pkErr').hidden=true;$('#pkRes').hidden=true;$('#pkQ').value='';
+  $('#pkTitle').textContent=mode==='stop'?'Where to collect the passenger':mode==='from'?'Where Dad starts':'Add a place';
+  $('#pkAddr').textContent='Search, or tap the map to drop a pin.';
+  $('#picker').hidden=false;document.body.style.overflow='hidden';
+  try{
+    await loadLeaflet();
+    if(!pk.map){
+      pk.map=L.map('gMap',{zoomControl:true,attributionControl:true}).setView([25.2048,55.2708],11);
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap'}).addTo(pk.map);
+      pk.map.on('click',e=>{setPin(e.latlng.lat,e.latlng.lng,'','');reverse(e.latlng.lat,e.latlng.lng)});
+    }else{if(pk.marker){pk.marker.remove();pk.marker=null}pk.map.setView([25.2048,55.2708],11)}
+    setTimeout(()=>pk.map.invalidateSize(),60);
+  }catch(e){$('#pkErr').textContent='The map didn’t load. Check the internet and try again.';$('#pkErr').hidden=false}
+}
+function closePicker(){$('#picker').hidden=true;document.body.style.overflow=''}
+$('#pkClose').onclick=closePicker;
+$('#picker').addEventListener('click',e=>{if(e.target.id==='picker')closePicker()});
+$('#pkGo').onclick=placeSearch;
+$('#pkQ').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();placeSearch()}});
+$('#pkHere').onclick=()=>{
+  if(!navigator.geolocation){toast('Location isn’t available on this phone');return}
+  $('#pkAddr').textContent='Finding your location…';
+  navigator.geolocation.getCurrentPosition(p=>{setPin(p.coords.latitude,p.coords.longitude,'','');reverse(p.coords.latitude,p.coords.longitude)},
+    ()=>{$('#pkAddr').textContent='Location blocked. Allow location for Safari in iPhone Settings, or search instead.'},{enableHighAccuracy:true,timeout:15000});
+};
+$('#pkSave').onclick=()=>{
+  const n=$('#pkName').value.trim();const e=$('#pkErr');
+  if(!pk.pick){e.textContent='Search for a place or tap the map first.';e.hidden=false;return}
+  if(!n){e.textContent='Give the place a name, like “Office”.';e.hidden=false;return}
+  const id='p'+Date.now();places.push({id:id,name:n,addr:pk.pick.addr,lat:pk.pick.lat,lng:pk.pick.lng,t:{}});lsSet('ar.places',places);
+  renderFromSelect();renderStopSelect();
+  if(pk.mode==='from'){$('#fFrom').value=id;lastSel.from=id}
+  if(pk.mode==='stop'){$('#fStop').value=id;lastSel.stop=id}
+  closePicker();updatePreview();render();toast(n+' saved');
+};
+$('#plMap').onclick=()=>openPicker('place');
 
 /* ---------- track any flight ---------- */
 let watch=lsGet('ar.watch',[]);let tkDay=0;let tkRes=null;let tkBusy=false;let wBusy={};
@@ -1069,6 +1263,8 @@ function arm(key){if(armed===key)return true;armed=key;clearTimeout(armTimer);ar
 document.addEventListener('click',async e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const id=b.dataset.id;const act=b.dataset.act;const t=id&&trips.find(x=>x.id===id);
   if(act==='goadd')setTab('add');
+  else if(act==='route'){if(t)await computeRoute(t,true)}
+  else if(act==='pkpick'){const x=pk.res&&pk.res[+b.dataset.i];if(!x)return;setPin(+x.lat,+x.lon,x.name||x.display_name.split(',')[0],x.display_name.split(', ').slice(0,4).join(', '));$('#pkRes').hidden=true}
   else if(act==='wadd'){const f=tkRes&&tkRes.list[+b.dataset.i];if(!f)return;const fl=normFlight(f.number)||String(f.number).toUpperCase();const dc=f.departure&&f.departure.airport&&f.departure.airport.iata;
     if(watch.some(x=>x.flight===fl&&x.date===tkRes.date&&x.depCode===dc)){toast('Already watching');return}
     watch.unshift({id:'w'+Date.now(),flight:fl,date:tkRes.date,depCode:dc,f:f,checkedAt:new Date().toISOString()});watch=watch.slice(0,8);lsSet('ar.watch',watch);tkRes=null;$('#tkFlight').value='';render();toast('Watching '+fl+'. Updates every 10 min while the app is open.')}
@@ -1096,10 +1292,10 @@ document.addEventListener('click',async e=>{
   else if(act==='repshare'){shareText(reportText(reportMonth),'Airport trips '+monthName(reportMonth))}
   else if(act==='repcsv'){download('airport-trips-'+reportMonth+'.csv',reportCsv(reportMonth),'text/csv');toast('CSV saved to Files')}
   else if(act==='cdel'){if(arm('c'+id)){armed=null;contacts=contacts.filter(c=>c.id!==id);lsSet('ar.contacts',contacts);renderPassSelect();render();toast('Contact removed')}}
-  else if(act==='pdel'){if(arm('p'+id)){armed=null;places=places.filter(p=>p.id!==id);lsSet('ar.places',places);renderFromSelect();render();toast('Place removed')}}
+  else if(act==='pdel'){if(arm('p'+id)){armed=null;places=places.filter(p=>p.id!==id);lsSet('ar.places',places);renderFromSelect();renderStopSelect();render();toast('Place removed')}}
   else if(act==='restore'){const d=pendingRestore;if(!d)return;trips=d.trips;contacts=d.contacts||[];places=d.places||[];notes=d.notes||{};settings=Object.assign(settings,d.settings||{});
     saveTrips();lsSet('ar.contacts',contacts);lsSet('ar.places',places);lsSet('ar.notes',notes);pendingRestore=null;$('#bkConfirm').hidden=true;
-    renderFromSelect();renderPassSelect();initNotes();saveSettings();toast('Backup restored')}
+    renderFromSelect();renderStopSelect();renderPassSelect();initNotes();saveSettings();toast('Backup restored')}
   else if(act==='restorecancel'){pendingRestore=null;$('#bkConfirm').hidden=true}
 });
 document.addEventListener('input',e=>{if(e.target.id&&e.target.id.startsWith('ed-'))editVal=e.target.value});
