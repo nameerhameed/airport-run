@@ -202,6 +202,39 @@ textarea.input{min-height:90px;resize:vertical}
 .confirm{background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px;font-weight:600}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:12px 16px;border-radius:10px;font-weight:600;font-size:15px;max-width:calc(100% - 32px);z-index:9}
 
+/* track */
+.tabs .tab{font-size:16px;letter-spacing:.04em}
+.datechips{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.leg-top{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.leg-top .air{font-size:13px;color:var(--muted);flex:1 1 120px;min-width:0}
+.pill{font-size:13px;font-weight:700;border-radius:99px;padding:3px 10px;background:var(--sunk);color:var(--muted);white-space:nowrap}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.warn{background:var(--warn-bg);color:var(--warn)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.pill.air{background:var(--board);color:#13213a}
+.route{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:16px 14px 6px}
+.route .code{font-family:var(--display);font-weight:700;font-size:36px;line-height:1;letter-spacing:.02em}
+.route .city{display:block;font-family:var(--body);font-size:13px;font-weight:500;color:var(--muted);letter-spacing:0;max-width:120px;overflow-wrap:anywhere}
+.route .end{text-align:right}
+.route .end .city{margin-left:auto}
+.track{position:relative;height:4px;background:var(--line);border-radius:2px;margin:0 4px}
+.track i{position:absolute;left:0;top:0;bottom:0;background:var(--board);border-radius:2px}
+.track .pl{position:absolute;top:2px;width:22px;height:22px;transform:translate(-50%,-50%) rotate(90deg);color:var(--fg)}
+.track .pl svg{width:22px;height:22px;display:block}
+.sides{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);margin-top:10px}
+.side{padding:10px 14px;min-width:0}
+.side+.side{border-left:1px solid var(--line)}
+.side h3{margin:0 0 6px;font-family:var(--display);font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.kv{display:flex;justify-content:space-between;gap:8px;font-size:14px;padding:3px 0}
+.kv span{color:var(--muted)}
+.kv b{font-family:var(--mono);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.kv b small{display:block;font-family:var(--body);font-weight:500;font-size:11px;color:var(--muted)}
+.kv b.late{color:var(--warn)}
+.kv b.early{color:var(--ok)}
+.legnote{font-size:12px;color:var(--muted);padding:0 14px 10px;margin:0}
+.wlist{display:flex;flex-direction:column;gap:12px}
+@media (max-width:400px){.sides{grid-template-columns:1fr}.side+.side{border-left:0;border-top:1px solid var(--line)}}
+
 /* big mode */
 body.big{font-size:20px}
 body.big .leave .big{font-size:64px}
@@ -225,6 +258,7 @@ body.big .tool svg{width:22px;height:22px}
     </div>
     <nav class="tabs" role="tablist">
       <button class="tab" role="tab" aria-selected="true" data-tab="trips">Trips<span class="count" id="tcount" hidden>0</span></button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="track">Track</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="add">Add</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="his">History</button>
       <button class="tab" role="tab" aria-selected="false" data-tab="set">Setup</button>
@@ -234,6 +268,27 @@ body.big .tool svg{width:22px;height:22px}
 
 <main><div class="wrap">
   <section class="panel" id="p-trips"></section>
+
+  <section class="panel" id="p-track" hidden>
+    <form class="form" id="trackForm" novalidate style="gap:12px">
+      <div class="field">
+        <label for="tkFlight">Track any flight</label>
+        <input class="input code" id="tkFlight" placeholder="EK 203" autocomplete="off" autocapitalize="characters" maxlength="9">
+      </div>
+      <div class="datechips seg" id="tkDay">
+        <button type="button" data-v="-1" aria-pressed="false"><b>Yesterday</b></button>
+        <button type="button" data-v="0" aria-pressed="true"><b>Today</b></button>
+        <button type="button" data-v="1" aria-pressed="false"><b>Tomorrow</b></button>
+      </div>
+      <button class="btn primary wide" type="submit" id="tkGo">Track flight</button>
+      <p class="err" id="tkErr" hidden></p>
+    </form>
+    <div id="tkResult" class="wlist"></div>
+    <div id="tkWatchWrap" hidden>
+      <p class="label">Watching</p>
+      <div id="tkWatch" class="wlist"></div>
+    </div>
+  </section>
 
   <section class="panel" id="p-add" hidden>
     <div id="recentWrap" hidden>
@@ -562,7 +617,7 @@ async function checkTrip(t,manual){
   }catch(e){if(manual||e.code==='key'||e.code==='limit')toast(apiErr(e))}
   finally{delete checking[t.id];render()}
 }
-async function checkAll(){if(!apiKey||!navigator.onLine)return;for(const t of trips.filter(x=>dueForCheck(x,new Date())))await checkTrip(t,false)}
+async function checkAll(){if(!apiKey||!navigator.onLine)return;refreshWatch();for(const t of trips.filter(x=>dueForCheck(x,new Date())))await checkTrip(t,false)}
 
 /* ---------- small helpers ---------- */
 let toastT;function toast(m){const el=$('#toast');el.textContent=m;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>el.hidden=true,3000)}
@@ -602,7 +657,7 @@ const ICON={
 
 /* ---------- tabs ---------- */
 function setTab(t){tab=t;lsSet('ar.tab',t);document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===t)));
-  ['trips','add','his','set'].forEach(k=>$('#p-'+k).hidden=k!==t);window.scrollTo(0,0);render()}
+  ['trips','track','add','his','set'].forEach(k=>$('#p-'+k).hidden=k!==t);window.scrollTo(0,0);render()}
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
 
 /* ---------- trips ---------- */
@@ -895,11 +950,133 @@ $('#bkFile').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)retu
     catch(x){toast('That file isn’t an Airport Run backup')}};
   r.readAsText(f)};
 
+/* ---------- track any flight ---------- */
+let watch=lsGet('ar.watch',[]);let tkDay=0;let tkRes=null;let tkBusy=false;let wBusy={};
+const PLANE='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z"/></svg>';
+function tp(x){
+  if(!x)return null;const s=String(x.local||'');
+  const d=x.utc?new Date(String(x.utc).replace(' ','T').replace(/Z?$/,'Z')):(s?new Date(s.replace(' ','T')):null);
+  if(!d||isNaN(d))return null;
+  return{hhmm:s?s.slice(11,16):hm(d),date:s?s.slice(0,10):dFmt.format(d),off:s?s.slice(16):'+04:00',d:d};
+}
+function legOf(f){
+  const dep=f.departure||{},arr=f.arrival||{};
+  const dS=tp(dep.scheduledTime),dE=tp(dep.revisedTime),dA=tp(dep.runwayTime);
+  const aS=tp(arr.scheduledTime),aE=tp(arr.predictedTime)||tp(arr.revisedTime),aA=tp(arr.runwayTime);
+  const st=f.status||'Unknown';
+  const landed=!!aA||st==='Arrived';
+  const departed=landed||!!dA||/Departed|EnRoute|Approaching/.test(st);
+  const cancelled=/Cancel/.test(st);
+  const depBest=dA||dE||dS,arrBest=aA||aE||aS;
+  let pill,cls='';
+  if(cancelled){pill='Cancelled';cls='bad'}
+  else if(st==='Diverted'){pill='Diverted';cls='bad'}
+  else if(landed){pill='Landed';cls='ok'}
+  else if(departed){pill='In the air';cls='air'}
+  else{const dl=dS&&depBest?(depBest.d-dS.d)/60000:0;if(dl>=10){pill='Delayed '+span(dl);cls='warn'}else pill=STATUS[st]||st}
+  let pct=0;
+  if(landed)pct=100;
+  else if(departed&&depBest&&arrBest&&arrBest.d>depBest.d)pct=Math.max(3,Math.min(97,(Date.now()-depBest.d)/(arrBest.d-depBest.d)*100));
+  return{f,dep,arr,dS,dE,dA,aS,aE,aA,departed,landed,cancelled,pill,cls,pct,
+    depCode:(dep.airport&&dep.airport.iata)||'?',arrCode:(arr.airport&&arr.airport.iata)||'?',
+    depCity:dep.airport&&(dep.airport.municipalityName||dep.airport.name)||'',arrCity:arr.airport&&(arr.airport.municipalityName||arr.airport.name)||''};
+}
+function tcell(label,t,ref){
+  if(!t)return'';
+  const diff=ref?Math.round((t.d-ref.d)/60000):0;
+  const uae=t.off&&t.off!=='+04:00'?`<small>${hm(t.d)} UAE</small>`:'';
+  const day=ref&&t.date!==ref.date?`<small>${wFmt.format(t.d)}</small>`:'';
+  return`<div class="kv"><span>${label}</span><b class="${diff>=10?'late':diff<=-5?'early':''}">${t.hhmm}${diff>=10?' +'+span(diff):''}${uae}${day}</b></div>`;
+}
+function legCard(L,opts){
+  const f=L.f;const fl=normFlight(f.number)||String(f.number||'').toUpperCase();
+  const air=[f.airline&&f.airline.name,f.aircraft&&f.aircraft.model].filter(Boolean).map(esc).join(' · ');
+  const dep=L.dep,arr=L.arr;
+  const kv=(k,v)=>v?`<div class="kv"><span>${k}</span><b>${esc(v)}</b></div>`:'';
+  const w=opts.watchId;
+  const foreign=(L.dS&&L.dS.off!=='+04:00')||(L.aS&&L.aS.off!=='+04:00');
+  return`<article class="trip">
+    <div class="leg-top"><span class="fno">${esc(fl)}</span><span class="air">${air}</span><span class="pill ${L.cls}">${esc(L.pill)}</span></div>
+    <div class="route"><div class="code">${esc(L.depCode)}<span class="city">${esc(L.depCity)}</span></div>
+      <div class="track"><i style="width:${L.pct}%"></i>${L.departed&&!L.landed?`<span class="pl" style="left:${L.pct}%">${PLANE}</span>`:''}</div>
+      <div class="code end">${esc(L.arrCode)}<span class="city">${esc(L.arrCity)}</span></div></div>
+    <div class="sides">
+      <div class="side"><h3>Departure</h3>${tcell('Scheduled',L.dS)}${L.dA?tcell('Departed',L.dA,L.dS):tcell('Expected',L.dE,L.dS)}${kv('Terminal',dep.terminal)}${kv('Gate',dep.gate)}${kv('Check-in',dep.checkInDesk)}</div>
+      <div class="side"><h3>Arrival</h3>${tcell('Scheduled',L.aS)}${L.aA?tcell('Landed',L.aA,L.aS):tcell('Expected',L.aE,L.aS)}${kv('Terminal',arr.terminal)}${kv('Gate',arr.gate)}${kv('Belt',arr.baggageBelt)}</div>
+    </div>
+    ${foreign?'<p class="legnote">Times are local at each airport. UAE time is shown underneath when different.</p>':''}
+    ${opts.checkedAt?`<p class="legnote">Checked ${hm(new Date(opts.checkedAt))}${wBusy[w]?' · updating…':''}</p>`:''}
+    <div class="main-acts" style="padding-bottom:14px">
+      ${w?`<button class="btn" data-act="wcheck" data-id="${w}" ${wBusy[w]?'disabled':''}>${ICON.refresh}Refresh</button><button class="btn ghost" data-act="wdel" data-id="${w}">Stop watching</button>`:`<button class="btn" data-act="wadd" data-i="${opts.i}">Watch this flight</button>`}
+      <button class="btn primary" data-act="totrip" data-w="${w||''}" data-i="${opts.i==null?'':opts.i}">Make it a trip</button>
+      <a class="btn ghost" href="https://www.flightradar24.com/data/flights/${esc(fl.replace(/\s/g,'').toLowerCase())}" target="_blank" rel="noopener">${ICON.radar}Flightradar24</a>
+    </div>
+  </article>`;
+}
+function renderTrack(){
+  segSet($('#tkDay'),tkDay);
+  const box=$('#tkResult');
+  if(tkBusy)box.innerHTML='<div class="empty"><p>Checking flight…</p></div>';
+  else if(tkRes&&tkRes.list.length)box.innerHTML=tkRes.list.map((f,i)=>legCard(legOf(f),{i:i})).join('');
+  else if(tkRes)box.innerHTML=`<div class="empty"><p>No flight ${esc(tkRes.flight)} found for ${esc(dayLabel(parseLocal(tkRes.date+'T12:00')).toLowerCase())}. Check the number or try another day.</p><a class="btn" href="https://www.flightradar24.com/data/flights/${esc(tkRes.flight.replace(/\s/g,'').toLowerCase())}" target="_blank" rel="noopener">Try Flightradar24</a></div>`;
+  else box.innerHTML=apiKey?'':'<div class="empty"><p>Add the flight data key in Setup to track flights here. Until then, use Flightradar24.</p></div>';
+  $('#tkWatchWrap').hidden=!watch.length;
+  $('#tkWatch').innerHTML=watch.map(x=>legCard(legOf(x.f),{watchId:x.id,checkedAt:x.checkedAt})).join('');
+}
+function legToTrip(f){
+  const flight=normFlight(f.number)||String(f.number||'').toUpperCase();
+  const arr=f.arrival||{},dep=f.departure||{};
+  const ai=arr.airport&&arr.airport.iata,di=dep.airport&&dep.airport.iata;
+  const last=k=>AIRPORTS[k].terms[AIRPORTS[k].terms.length-1];
+  if(AIRPORTS[ai]){const t=tp(arr.scheduledTime);return{type:'pickup',flight,airport:ai,terminal:mapTerm(ai,arr.terminal)||last(ai),date:t?t.date:todayStr(),time:t?t.hhmm:''}}
+  if(AIRPORTS[di]){const t=tp(dep.scheduledTime);return{type:'drop',flight,airport:di,terminal:mapTerm(di,dep.terminal)||last(di),date:t?t.date:todayStr(),time:t?t.hhmm:''}}
+  return null;
+}
+async function refreshWatchItem(x,manual){
+  if(wBusy[x.id])return;wBusy[x.id]=true;render();
+  try{
+    const list=await fetchFlight(x.flight,x.date);
+    const f=list.find(y=>y.departure&&y.departure.airport&&y.departure.airport.iata===x.depCode)||list[0];
+    if(f){x.f=f;x.checkedAt=new Date().toISOString();lsSet('ar.watch',watch);if(manual)toast('Flight updated')}
+    else if(manual)toast('Flight not found any more');
+  }catch(e){if(manual||e.code==='key'||e.code==='limit')toast(apiErr(e))}
+  finally{delete wBusy[x.id];render()}
+}
+async function refreshWatch(){
+  const now=Date.now();
+  for(const x of watch){
+    const L=legOf(x.f);if(L.landed||L.cancelled)continue;
+    if(x.checkedAt&&now-new Date(x.checkedAt)<10*60000)continue;
+    const dep=L.dE||L.dS;if(!L.departed&&dep&&dep.d-now>12*3600000)continue;
+    await refreshWatchItem(x,false);
+  }
+}
+$('#tkDay').onclick=e=>{const b=e.target.closest('button');if(!b)return;tkDay=+b.dataset.v;segSet($('#tkDay'),tkDay)};
+$('#tkFlight').addEventListener('blur',()=>{const n=normFlight($('#tkFlight').value);if(n)$('#tkFlight').value=n});
+$('#trackForm').addEventListener('submit',async e=>{
+  e.preventDefault();const err=$('#tkErr');const fl=normFlight($('#tkFlight').value);
+  if(!fl){err.textContent='Enter the flight number, like EK 203 or G9 501.';err.hidden=false;return}
+  if(!apiKey){err.textContent='Add the flight data key in Setup first.';err.hidden=false;return}
+  err.hidden=true;$('#tkFlight').value=fl;$('#tkFlight').blur();
+  const date=addDays(todayStr(),tkDay);tkBusy=true;render();$('#tkGo').disabled=true;
+  try{const list=await fetchFlight(fl,date);tkRes={flight:fl,date:date,list:list}}
+  catch(x){tkRes=null;err.textContent=apiErr(x);err.hidden=false}
+  finally{tkBusy=false;$('#tkGo').disabled=false;render()}
+});
+
 /* ---------- actions ---------- */
 function arm(key){if(armed===key)return true;armed=key;clearTimeout(armTimer);armTimer=setTimeout(()=>{armed=null;render()},4000);render();return false}
 document.addEventListener('click',async e=>{
   const b=e.target.closest('[data-act]');if(!b)return;const id=b.dataset.id;const act=b.dataset.act;const t=id&&trips.find(x=>x.id===id);
   if(act==='goadd')setTab('add');
+  else if(act==='wadd'){const f=tkRes&&tkRes.list[+b.dataset.i];if(!f)return;const fl=normFlight(f.number)||String(f.number).toUpperCase();const dc=f.departure&&f.departure.airport&&f.departure.airport.iata;
+    if(watch.some(x=>x.flight===fl&&x.date===tkRes.date&&x.depCode===dc)){toast('Already watching');return}
+    watch.unshift({id:'w'+Date.now(),flight:fl,date:tkRes.date,depCode:dc,f:f,checkedAt:new Date().toISOString()});watch=watch.slice(0,8);lsSet('ar.watch',watch);tkRes=null;$('#tkFlight').value='';render();toast('Watching '+fl+'. Updates every 10 min while the app is open.')}
+  else if(act==='wdel'){watch=watch.filter(x=>x.id!==id);lsSet('ar.watch',watch);render();toast('Stopped watching')}
+  else if(act==='wcheck'){const x=watch.find(y=>y.id===id);if(x)await refreshWatchItem(x,true)}
+  else if(act==='totrip'){const f=b.dataset.w?(watch.find(y=>y.id===b.dataset.w)||{}).f:(tkRes&&tkRes.list[+b.dataset.i]);if(!f)return;const tr=legToTrip(f);
+    if(!tr){toast('This flight doesn’t land at or leave from a UAE airport in the app');return}
+    fillForm(tr,false);setTab('add');toast((tr.type==='pickup'?'Pickup':'Drop')+' filled in. Check and save.')}
   else if(act==='check'){if(t)await checkTrip(t,true)}
   else if(act==='edit'){if(editing===id){editing=null}else{const c=calc(t);editing=id;editVal=toLocalInput(c.flightTime||c.sched);open[id]=''}render()}
   else if(act==='edcancel'){editing=null;render()}
@@ -932,11 +1109,12 @@ function render(){
   const n=trips.filter(t=>!t.done).length;const cnt=$('#tcount');cnt.hidden=!n;cnt.textContent=n;
   if(tab==='trips')renderTrips();
   if(tab==='his')renderHistory();
+  if(tab==='track')renderTrack();
   if(tab==='set')renderSettings();
   if(tab==='add'){renderRecent();updatePreview()}
 }
 document.body.classList.toggle('big',!!settings.big);
-initForm();initNotes();setTab(['trips','add','his','set'].includes(tab)?tab:'trips');checkAll();
+initForm();initNotes();setTab(['trips','track','add','his','set'].includes(tab)?tab:'trips');checkAll();
 setInterval(()=>{if(!editing)render();else $('#clock').firstChild.nodeValue=hm(new Date())},30000);
 setInterval(checkAll,10*60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){render();checkAll()}});
