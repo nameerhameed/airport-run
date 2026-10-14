@@ -15,6 +15,7 @@
   --fg:#111a2c; --muted:#5b6780; --band:#13213a; --band-fg:#f4f6fa;
   --board:#f2a900; --accent:#13213a; --accent-fg:#ffffff;
   --ok:#137a46; --ok-bg:#dff3e8; --warn:#9a5600; --warn-bg:#fdeed8; --bad:#b42318; --bad-bg:#fde4e1;
+  --wa:#128c4a;
   --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
   --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
   --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
@@ -24,21 +25,23 @@
   --fg:#e7ecf4; --muted:#95a2b8; --band:#0c1628; --band-fg:#f4f6fa;
   --board:#ffbf2e; --accent:#ffbf2e; --accent-fg:#1a1200;
   --ok:#5fd394; --ok-bg:#12321f; --warn:#f2b45a; --warn-bg:#3a2a10; --bad:#ff8a7e; --bad-bg:#3b1612;
+  --wa:#4cd98a;
   color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#0a1120; --surface:#121c2f; --sunk:#0e1727; --line:#24324a;
   --fg:#e7ecf4; --muted:#95a2b8; --band:#0c1628; --band-fg:#f4f6fa;
   --board:#ffbf2e; --accent:#ffbf2e; --accent-fg:#1a1200;
   --ok:#5fd394; --ok-bg:#12321f; --warn:#f2b45a; --warn-bg:#3a2a10; --bad:#ff8a7e; --bad-bg:#3b1612;
+  --wa:#4cd98a;
   color-scheme:dark}
 
 *{box-sizing:border-box}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);background:var(--band)}
-body{margin:0}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.45;min-height:100vh}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.45}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
+button:disabled{opacity:.5;cursor:default}
 :focus-visible{outline:2px solid var(--board);outline-offset:2px}
 
 .band{background:var(--band);color:var(--band-fg);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 0}
@@ -60,9 +63,7 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 .label{font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
 .hint{font-size:14px;color:var(--muted);margin:6px 0 0}
 .store{margin:0;font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
-.store::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none}
-.store[data-s="cloud"]::before,.store[data-s="device"]::before{background:var(--ok)}
-.store[data-s="error"]::before{background:var(--bad)}
+.store::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
 
 /* trip card */
 .trip{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
@@ -80,7 +81,7 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 .state.soon{background:var(--warn-bg);color:var(--warn)}
 .state.now{background:var(--bad-bg);color:var(--bad)}
 .state.past{background:var(--sunk);color:var(--muted)}
-.facts{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.facts{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
 .fact{padding:10px 14px;border-bottom:1px solid var(--line);min-width:0}
 .fact:nth-child(odd){border-right:1px solid var(--line)}
 .fact span{display:block;font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.05em;text-transform:uppercase}
@@ -90,18 +91,43 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 .live{padding:10px 14px;font-size:14px;color:var(--muted);display:flex;gap:8px;align-items:flex-start;border-bottom:1px solid var(--line)}
 .live .dot{width:9px;height:9px;border-radius:50%;background:var(--muted);flex:none;margin-top:6px}
 .live.on .dot{background:var(--ok)}
+.live.here .dot{background:var(--board)}
 .live b{color:var(--fg)}
 .note{padding:10px 14px;font-size:15px;border-bottom:1px solid var(--line)}
-.btns{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px}
+.who{display:flex;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.who .name{flex:1 1 120px;min-width:0}
+.who .name span{display:block;font-size:12px;color:var(--muted);font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.who .name b{font-weight:600}
+.main-acts{display:flex;gap:8px;padding:12px 14px 0;flex-wrap:wrap}
+.main-acts .btn{flex:1 1 140px}
+.tools{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:12px 14px 14px}
+.tool{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:13px;font-weight:600;color:var(--fg);text-decoration:none;min-height:56px;justify-content:center;text-align:center;line-height:1.15}
+.tool svg{width:18px;height:18px}
+.tool[aria-expanded="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.tool.danger{color:var(--bad)}
+.tool.danger.armed{background:var(--bad);border-color:var(--bad);color:#fff}
 .btn{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 14px;font-weight:600;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;color:var(--fg);min-height:44px}
 .btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
-.btn.wide{flex:1 1 100%}
+.btn.board{background:var(--board);border-color:var(--board);color:#13213a}
+.btn.wa{color:var(--wa)}
+.btn.wide{flex:1 1 100%;width:100%}
 .btn.ghost{border-color:transparent;background:transparent;color:var(--muted)}
+.btn.small{min-height:36px;padding:6px 10px;font-size:14px}
 .btn.danger{color:var(--bad)}
 .btn.danger.armed{background:var(--bad);border-color:var(--bad);color:#fff}
 .btn svg{width:16px;height:16px;flex:none}
-.editbox{display:flex;flex-direction:column;gap:8px;padding:12px 14px;background:var(--sunk);border-bottom:1px solid var(--line)}
-.editbox .row{display:flex;gap:8px;flex-wrap:wrap}
+.sub{display:flex;flex-direction:column;gap:8px;padding:12px 14px;background:var(--sunk);border-top:1px solid var(--line)}
+.sub .row{display:flex;gap:8px;flex-wrap:wrap}
+.sub p{margin:0;font-size:15px}
+.sub p small{display:block;color:var(--muted);font-size:13px}
+.msg{display:flex;gap:8px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 8px 8px 12px}
+.msg span{flex:1;min-width:0;font-size:14px}
+
+.later{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.later button{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:12px 14px;border:0;border-top:1px solid var(--line);background:transparent;text-align:left;width:100%}
+.later button:first-child{border-top:0}
+.later .fno{font-size:17px}
+.later .lv{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums}
 
 .empty{border:1.5px dashed var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:10px;align-items:flex-start}
 .empty h2{margin:0;font-family:var(--display);font-size:24px}
@@ -111,8 +137,8 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 .form{display:flex;flex-direction:column;gap:18px}
 .seg{display:grid;gap:6px}
 .seg.c2{grid-template-columns:1fr 1fr}
-.seg.c4{grid-template-columns:repeat(4,1fr)}
 .seg.c3{grid-template-columns:repeat(3,1fr)}
+.seg.c4{grid-template-columns:repeat(4,1fr)}
 .seg button{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0;min-height:48px}
 .seg b{font-family:var(--display);font-size:19px;font-weight:700;letter-spacing:.03em}
 .seg small{font-size:12px;color:var(--muted);text-align:center}
@@ -121,35 +147,74 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 .field{display:flex;flex-direction:column;gap:6px}
 .field>label{font-size:15px;font-weight:600}
 .input{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:12px;width:100%;min-width:0;min-height:48px}
+textarea.input{min-height:90px;resize:vertical}
 .input.code{font-family:var(--mono);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:20px}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.grid2>*{min-width:0}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.grid2>*,.grid4>*{min-width:0}
+.grid4 label{font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.04em}
 .err{color:var(--bad);font-size:14px;font-weight:600;margin:0}
 .preview{background:var(--band);color:var(--band-fg);border-radius:14px;padding:14px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .preview span{font-size:14px;opacity:.8}
+.preview span small{display:block;font-size:12px}
 .preview b{font-family:var(--mono);font-size:32px;color:var(--board);font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 12px;display:flex;flex-direction:column;align-items:flex-start;line-height:1.2;text-align:left}
+.chip b{font-family:var(--mono);font-size:15px}
+.chip span{font-size:12px;color:var(--muted)}
+.finder{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.results{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;overflow:hidden;max-height:420px;overflow-y:auto}
+.res{display:grid;grid-template-columns:auto 1fr auto;gap:2px 12px;align-items:center;padding:10px 12px;border:0;border-top:1px solid var(--line);background:var(--surface);text-align:left;width:100%}
+.res:first-child{border-top:0}
+.res .t{font-family:var(--mono);font-weight:700;font-variant-numeric:tabular-nums}
+.res .f{min-width:0}
+.res .f b{font-family:var(--mono)}
+.res .f span{display:block;font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.res .s{font-size:12px;color:var(--muted);text-align:right}
 
 /* history */
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
-.stat b{display:block;font-family:var(--display);font-size:28px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
+.monthnav{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.monthnav h2{margin:0;font-family:var(--display);font-size:24px;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px}
+.stat b{display:block;font-family:var(--display);font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.1}
 .stat span{font-size:12px;color:var(--muted)}
 .hlist{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.hitem{display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;padding:12px;border-top:1px solid var(--line);align-items:center}
+.hitem{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;padding:12px;border-top:1px solid var(--line);align-items:start}
 .hitem:first-child{border-top:0}
 .hitem .when{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:62px}
 .hitem .what{min-width:0}
 .hitem .what b{font-family:var(--mono);font-weight:700}
 .hitem .what span{display:block;font-size:13px;color:var(--muted)}
+.hitem .row{grid-column:2;display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.actions .btn{flex:1 1 140px}
 
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px}
 .card h2{margin:0;font-family:var(--display);font-size:22px;font-weight:700;letter-spacing:.02em}
 .card p{margin:0;font-size:15px;color:var(--muted)}
+.list{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.list:empty{display:none}
+.li{display:flex;align-items:center;gap:10px;padding:10px 12px;border-top:1px solid var(--line)}
+.li:first-child{border-top:0}
+.li div{flex:1;min-width:0}
+.li div span{display:block;font-size:13px;color:var(--muted);font-family:var(--mono)}
+.confirm{background:var(--warn-bg);color:var(--warn);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px;font-weight:600}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--fg);color:var(--bg);padding:12px 16px;border-radius:10px;font-weight:600;font-size:15px;max-width:calc(100% - 32px);z-index:9}
-@media (max-width:380px){.seg.c4{grid-template-columns:1fr 1fr}.leave .big{font-size:40px}}
+
+/* big mode */
+body.big{font-size:20px}
+body.big .leave .big{font-size:64px}
+body.big .fno{font-size:26px}
+body.big .state{font-size:19px;padding:12px 14px}
+body.big .fact b{font-size:19px}
+body.big .btn{min-height:56px;font-size:18px}
+body.big .tool{min-height:66px;font-size:15px}
+body.big .tool svg{width:22px;height:22px}
+
+@media (max-width:380px){.seg.c4{grid-template-columns:1fr 1fr}.leave .big{font-size:40px}.stats{grid-template-columns:1fr 1fr}}
 @media (prefers-reduced-motion:no-preference){.trip{animation:in .25s ease-out}@keyframes in{from{transform:translateY(4px);opacity:.6}to{transform:none;opacity:1}}}
 </style>
-
 </head><body>
 <header class="band">
   <div class="wrap">
@@ -159,10 +224,10 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
       <div class="clock" id="clock">--:--<small>UAE time</small></div>
     </div>
     <nav class="tabs" role="tablist">
-      <button class="tab" role="tab" id="tab-trips" aria-selected="true" data-tab="trips">Trips<span class="count" id="tcount" hidden>0</span></button>
-      <button class="tab" role="tab" id="tab-add" aria-selected="false" data-tab="add">Add</button>
-      <button class="tab" role="tab" id="tab-his" aria-selected="false" data-tab="his">History</button>
-      <button class="tab" role="tab" id="tab-set" aria-selected="false" data-tab="set">Setup</button>
+      <button class="tab" role="tab" aria-selected="true" data-tab="trips">Trips<span class="count" id="tcount" hidden>0</span></button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="add">Add</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="his">History</button>
+      <button class="tab" role="tab" aria-selected="false" data-tab="set">Setup</button>
     </nav>
   </div>
 </header>
@@ -171,6 +236,10 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
   <section class="panel" id="p-trips"></section>
 
   <section class="panel" id="p-add" hidden>
+    <div id="recentWrap" hidden>
+      <p class="label">Add again</p>
+      <div class="chips" id="recent"></div>
+    </div>
     <form class="form" id="addForm" novalidate>
       <div>
         <p class="label">Trip type</p>
@@ -179,21 +248,39 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
           <button type="button" data-v="drop" aria-pressed="false"><b>Drop</b><small>MD is flying out</small></button>
         </div>
       </div>
+      <div>
+        <p class="label">Airport</p>
+        <div class="seg c4" id="apSeg"></div>
+      </div>
       <div class="field">
         <label for="fFlight">Flight number</label>
         <input class="input code" id="fFlight" placeholder="EK 203" autocomplete="off" autocapitalize="characters" maxlength="9">
+        <button class="btn small" type="button" id="findOpen" style="align-self:flex-start">Don’t know the number? Find the flight</button>
+      </div>
+      <div class="finder" id="finder" hidden>
+        <p class="label" style="margin:0" id="finderTitle">Find a flight</p>
+        <div class="grid2">
+          <div class="field"><label for="sDate">Date</label><input class="input" type="date" id="sDate"></div>
+          <div class="field"><label for="sTime">From time</label><input class="input" type="time" id="sTime"></div>
+        </div>
+        <div class="field"><label for="sFilter">City or airline (optional)</label><input class="input" id="sFilter" placeholder="e.g. London, Emirates" autocomplete="off"></div>
+        <div class="actions"><button class="btn primary" type="button" id="findGo">Search 12 hours</button><button class="btn ghost" type="button" id="findClose">Close</button></div>
+        <p class="hint" style="margin:0">Uses about 2 live checks. Tap a flight to fill in the form.</p>
+        <p class="err" id="findErr" hidden></p>
+        <div class="results" id="results" hidden></div>
       </div>
       <div class="grid2">
         <div class="field"><label for="fDate">Date</label><input class="input" type="date" id="fDate"></div>
         <div class="field"><label for="fTime" id="fTimeLbl">Landing time</label><input class="input" type="time" id="fTime"></div>
       </div>
       <div>
-        <p class="label">Airport</p>
-        <div class="seg c4" id="apSeg"></div>
-      </div>
-      <div>
         <p class="label">Terminal</p>
         <div class="seg c3" id="termSeg"></div>
+      </div>
+      <div class="field">
+        <label for="fPass">Passenger</label>
+        <select class="input" id="fPass"></select>
+        <p class="hint" id="passHint" hidden>Add the MD’s number in Setup to call or WhatsApp from the trip.</p>
       </div>
       <div class="field">
         <label for="fFrom">Starting from</label>
@@ -203,8 +290,9 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
       </div>
       <div>
         <p class="label">Traffic</p>
-        <div class="seg c3" id="trafSeg">
-          <button type="button" data-v="0" aria-pressed="true"><b>Normal</b><small>no extra</small></button>
+        <div class="seg c4" id="trafSeg">
+          <button type="button" data-v="auto" aria-pressed="true"><b>Auto</b><small>+20 at rush hour</small></button>
+          <button type="button" data-v="0" aria-pressed="false"><b>Normal</b><small>no extra</small></button>
           <button type="button" data-v="15" aria-pressed="false"><b>Busy</b><small>+15 min</small></button>
           <button type="button" data-v="30" aria-pressed="false"><b>Rush</b><small>+30 min</small></button>
         </div>
@@ -223,6 +311,14 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
 
   <section class="panel" id="p-set" hidden>
     <div class="card">
+      <h2>Display</h2>
+      <div class="seg c2" id="bigSeg">
+        <button type="button" data-v="0"><b>Normal</b><small>all trips in full</small></button>
+        <button type="button" data-v="1"><b>Big &amp; simple</b><small>large text, next trip first</small></button>
+      </div>
+    </div>
+
+    <div class="card">
       <h2>Timing rules</h2>
       <div>
         <p class="label">Pickup: reach the airport</p>
@@ -240,8 +336,42 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
           <button type="button" data-v="180"><b>3 hrs</b><small>before flight</small></button>
         </div>
       </div>
-      <p>Leave-by time = target time minus drive time minus traffic. Drive times are rough figures without traffic. Tap “Traffic now” on a trip to check Google Maps before leaving.</p>
+      <p>Auto traffic adds 20 minutes when the drive falls in rush hour: Monday to Friday, 7:00–9:30 and 16:30–20:00.</p>
     </div>
+
+    <div class="card">
+      <h2>Contacts</h2>
+      <p>The MD and anyone else he drives. Their number gives the trip Call and WhatsApp buttons.</p>
+      <div class="list" id="contactList"></div>
+      <div class="grid2">
+        <div class="field"><label for="cName">Name</label><input class="input" id="cName" placeholder="MD" maxlength="30"></div>
+        <div class="field"><label for="cPhone">Mobile</label><input class="input" id="cPhone" type="tel" inputmode="tel" placeholder="050 123 4567" maxlength="20"></div>
+      </div>
+      <button class="btn" type="button" id="cAdd">Add contact</button>
+    </div>
+
+    <div class="card">
+      <h2>My places</h2>
+      <p>Office, MD’s house, home. Enter his real drive time in minutes to each airport.</p>
+      <div class="list" id="placeList"></div>
+      <div class="field"><label for="plName">Place name</label><input class="input" id="plName" placeholder="Office" maxlength="30"></div>
+      <div class="grid4">
+        <div class="field"><label for="plDXB">DXB</label><input class="input" id="plDXB" type="number" inputmode="numeric" min="1" max="300"></div>
+        <div class="field"><label for="plSHJ">SHJ</label><input class="input" id="plSHJ" type="number" inputmode="numeric" min="1" max="300"></div>
+        <div class="field"><label for="plAUH">AUH</label><input class="input" id="plAUH" type="number" inputmode="numeric" min="1" max="300"></div>
+        <div class="field"><label for="plDWC">DWC</label><input class="input" id="plDWC" type="number" inputmode="numeric" min="1" max="300"></div>
+      </div>
+      <button class="btn" type="button" id="plAdd">Add place</button>
+    </div>
+
+    <div class="card">
+      <h2>Airport notes</h2>
+      <p>Add your own tip for a terminal, like where to wait or which gate the MD comes out of. It shows on the trip under Tips.</p>
+      <div class="field"><label for="gTerm">Terminal</label><select class="input" id="gTerm"></select></div>
+      <div class="field"><label for="gText">Your note</label><textarea class="input" id="gText" maxlength="300" placeholder="e.g. Wait at Car Park A level 1, MD walks out of exit 2"></textarea></div>
+      <button class="btn" type="button" id="gSave">Save note</button>
+    </div>
+
     <div class="card">
       <h2>Live flight updates</h2>
       <p>With a flight data key, the app checks upcoming flights every 10 minutes while it’s open. New landing time, status, terminal, gate and baggage belt show on the trip card.</p>
@@ -249,7 +379,7 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
         <label for="apiKey">AeroDataBox key (from RapidAPI)</label>
         <input class="input" id="apiKey" type="password" autocomplete="off" spellcheck="false" placeholder="Paste key here">
       </div>
-      <div class="btns" style="padding:0">
+      <div class="actions">
         <button class="btn primary" type="button" id="keySave">Save key</button>
         <button class="btn" type="button" id="keyShow">Show</button>
         <button class="btn ghost" type="button" id="keyClear" hidden>Remove key</button>
@@ -257,7 +387,18 @@ main{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px
       <p id="keyState"></p>
       <p>Checks this month: <b id="callCount">0</b>. The free plan has a monthly limit, so the app only checks flights within the next 12 hours.</p>
     </div>
-    <p class="store" id="store" data-s="device">Saved on this phone only</p>
+
+    <div class="card">
+      <h2>Backup</h2>
+      <p>Save trips, contacts, places and notes to a file. Use it when changing phones. The flight data key is not included.</p>
+      <div class="actions">
+        <button class="btn" type="button" id="bkSave">Download backup</button>
+        <button class="btn" type="button" id="bkPick">Restore from file</button>
+      </div>
+      <input type="file" id="bkFile" accept="application/json,.json" hidden>
+      <div class="confirm" id="bkConfirm" hidden></div>
+    </div>
+    <p class="store">Saved on this phone only</p>
   </section>
 </div></main>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -285,15 +426,25 @@ const AREAS=[
   {id:'auh',name:'Abu Dhabi city',t:{DXB:100,SHJ:120,AUH:30,DWC:75}},
   {id:'custom',name:'Other place (enter minutes)'}
 ];
+/* Parking rates from Property Finder airport guides, updated July 2026 (DXB, SHJ) and Sept 2025 (AUH). */
+const GUIDE={
+  'DXB|T1':{pickup:'Arrivals are on the ground floor. Car Park A (premium) is closest to the exit, Car Park B is cheaper.',drop:'Use the departures-level drop-off lane for a quick stop.',park:'Car Park A: 5 min AED 5 · 15 min AED 15 · 30 min AED 30 · up to 2 hrs AED 40. Car Park B: 1 hr AED 25 · 2 hrs AED 30.'},
+  'DXB|T2':{pickup:'Car Park A is closest to the terminal, Car Park B is cheaper for a longer wait.',drop:'Use the departures-level drop-off lane for a quick stop.',park:'Car Park A: 1 hr AED 30 · 2 hrs AED 40. Car Park B: 1 hr AED 15 · 2 hrs AED 20.'},
+  'DXB|T3':{pickup:'Short-stay parking is right in front of the terminal, a 2–3 min walk on covered paths to arrivals.',drop:'Use the departures-level drop-off lane for a quick stop.',park:'Short-stay: 5 min AED 5 · 15 min AED 15 · 30 min AED 30 · up to 2 hrs AED 40 · 3 hrs AED 55.'},
+  'SHJ|Main':{pickup:'Short-term parking is next to the arrival and departure areas.',drop:'Short-term parking is close to departures if he needs to help with bags.',park:'1 hr AED 16 · 2 hrs AED 27 · 3 hrs AED 37 · each extra hr AED 11. Lost ticket adds AED 200.'},
+  'AUH|Terminal A':{pickup:'Covered short-stay car park, about a 1–2 min walk to the terminal.',drop:'Forecourt drop-off is free but strictly timed.',park:'6–15 min AED 15 · 16–30 min AED 25 · up to 2 hrs AED 35 · 3 hrs AED 55.'},
+  'DWC|Passenger':{pickup:'Follow the signs to arrivals parking.',drop:'Follow the signs to departures drop-off.',park:'Rates not confirmed. Check the sign at the car park entrance.'}
+};
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function lsGet(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
-function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));return true}catch(e){toast('Couldn’t save on this phone. Check storage isn’t full.');return false}}
 
-/* ---------- time helpers (always UAE time) ---------- */
+/* ---------- time (always UAE time) ---------- */
 const dFmt=new Intl.DateTimeFormat('en-CA',{timeZone:TZ,year:'numeric',month:'2-digit',day:'2-digit'});
 const tFmt=new Intl.DateTimeFormat('en-GB',{timeZone:TZ,hour:'2-digit',minute:'2-digit',hour12:false});
 const wFmt=new Intl.DateTimeFormat('en-GB',{timeZone:TZ,weekday:'short',day:'numeric',month:'short'});
+const wdFmt=new Intl.DateTimeFormat('en-US',{timeZone:TZ,weekday:'short',hour:'2-digit',minute:'2-digit',hour12:false});
 const todayStr=()=>dFmt.format(new Date());
 const addDays=(ds,n)=>{const d=new Date(ds+'T12:00:00+04:00');d.setUTCDate(d.getUTCDate()+n);return dFmt.format(d)};
 const parseLocal=s=>{if(!s)return null;const d=new Date(String(s).replace(' ','T').slice(0,16)+':00+04:00');return isNaN(d)?null:d};
@@ -301,15 +452,36 @@ const hm=d=>d?tFmt.format(d):'--:--';
 const toLocalInput=d=>dFmt.format(d)+'T'+tFmt.format(d);
 function dayLabel(d){const ds=dFmt.format(d),t=todayStr();if(ds===t)return'Today';if(ds===addDays(t,1))return'Tomorrow';if(ds===addDays(t,-1))return'Yesterday';return wFmt.format(d)}
 function span(min){min=Math.round(Math.abs(min));const h=Math.floor(min/60),m=min%60;return h?(h+'h '+(m?m+'m':'')).trim():m+'m'}
+function monthName(ym){const [y,m]=ym.split('-').map(Number);return new Date(Date.UTC(y,m-1,15)).toLocaleString('en-GB',{month:'long',year:'numeric',timeZone:'UTC'})}
+function shiftMonth(ym,n){let [y,m]=ym.split('-').map(Number);m+=n;while(m<1){m+=12;y--}while(m>12){m-=12;y++}return y+'-'+String(m).padStart(2,'0')}
+function isRush(d){
+  const p={};wdFmt.formatToParts(d).forEach(x=>p[x.type]=x.value);
+  if(!['Mon','Tue','Wed','Thu','Fri'].includes(p.weekday))return false;
+  const mins=(+p.hour%24)*60+(+p.minute);
+  return (mins>=420&&mins<=570)||(mins>=990&&mins<=1200);
+}
 
 /* ---------- state ---------- */
-let settings=Object.assign({pickupBefore:15,dropBefore:180},lsGet('ar.settings',{}));
-let trips=[];let ready=false;
+let settings=Object.assign({pickupBefore:15,dropBefore:180,big:false},lsGet('ar.settings',{}));
+let trips=lsGet('ar.trips',[]);
+let contacts=lsGet('ar.contacts',[]);
+let places=lsGet('ar.places',[]);
+let notes=lsGet('ar.notes',{});
 let tab=lsGet('ar.tab','trips');
-let editing=null,editVal='',armed=null,armTimer=null;
-let form={kind:'pickup',ap:'DXB',term:'T3',traffic:0};
+let editing=null,editVal='',armed=null,armTimer=null,open={},expanded=null;
+let reportMonth=todayStr().slice(0,7);
+let form={kind:'pickup',ap:'DXB',term:'T3',traffic:'auto'};
+let pendingRestore=null;
 
-function driveMins(t){if(t.from==='custom')return +t.drive||0;const a=AREAS.find(x=>x.id===t.from);return a&&a.t[t.airport]?a.t[t.airport]:(+t.drive||0)}
+const saveTrips=()=>lsSet('ar.trips',trips);
+const findPlace=id=>places.find(p=>p.id===id);
+const findContact=id=>contacts.find(c=>c.id===id);
+function fromName(t){if(t.from==='custom')return'Other place';const p=findPlace(t.from);if(p)return p.name;const a=AREAS.find(x=>x.id===t.from);return a?a.name:'—'}
+function driveMins(t){
+  if(t.from==='custom')return +t.drive||0;
+  const p=findPlace(t.from);if(p)return +p.t[t.airport]||+t.drive||0;
+  const a=AREAS.find(x=>x.id===t.from);return a&&a.t[t.airport]?a.t[t.airport]:(+t.drive||0);
+}
 function calc(t){
   const sched=parseLocal(t.date+'T'+t.time);
   const liveExp=t.live&&parseLocal(t.live.expected);
@@ -318,36 +490,39 @@ function calc(t){
   const changed=t.type==='pickup'&&flightTime&&sched&&Math.abs(flightTime-sched)>=60000?flightTime:null;
   const before=t.type==='pickup'?settings.pickupBefore:settings.dropBefore;
   const target=flightTime?new Date(flightTime-before*60000):null;
-  const drive=driveMins(t)+(+t.traffic||0);
+  const base=driveMins(t);
+  let extra=0,auto=false;
+  if(t.traffic==='auto'){auto=true;if(target){const l0=new Date(target-base*60000);extra=(isRush(l0)||isRush(new Date(l0-20*60000)))?20:0}}
+  else extra=+t.traffic||0;
+  const drive=base+extra;
   const leave=target?new Date(target-drive*60000):null;
-  return{sched,flightTime,changed,target,leave,drive};
+  return{sched,flightTime,changed,target,leave,drive,base,extra,auto};
 }
-
-/* ---------- storage (this phone) ---------- */
-function saveLocal(){lsSet('ar.trips',trips)}
-function initStore(){trips=lsGet('ar.trips',[]);ready=true;render()}
-function errMsg(){return'Couldn’t save on this phone. Check storage isn’t full or in Private mode.'}
-async function addTrip(t){t.id='t'+Date.now();trips.push(t);saveLocal();render();checkTrip(t,false)}
-async function patchTrip(id,p){const t=trips.find(x=>x.id===id);if(!t)return;Object.assign(t,p);saveLocal();render()}
-async function removeTrip(id){trips=trips.filter(x=>x.id!==id);saveLocal();render()}
-async function saveSettings(){lsSet('ar.settings',settings);render()}
 
 /* ---------- live flight data (AeroDataBox via RapidAPI) ---------- */
 const API_HOST='aerodatabox.p.rapidapi.com';
 let apiKey=lsGet('ar.key','');let checking={};
 const STATUS={Expected:'On schedule',EnRoute:'In the air',Approaching:'Approaching',Arrived:'Landed',Delayed:'Delayed',Canceled:'Cancelled',CanceledUncertain:'May be cancelled',Diverted:'Diverted',Departed:'Departed',Boarding:'Boarding',GateClosed:'Gate closed',CheckIn:'Check-in open',Unknown:'No status yet'};
-function countCall(){const m=todayStr().slice(0,7);const c=lsGet('ar.calls',{m:m,n:0});if(c.m!==m){c.m=m;c.n=0}c.n++;lsSet('ar.calls',c);const el=$('#callCount');if(el)el.textContent=c.n}
+function countCall(n){const m=todayStr().slice(0,7);const c=lsGet('ar.calls',{m:m,n:0});if(c.m!==m){c.m=m;c.n=0}c.n+=n||1;lsSet('ar.calls',c);const el=$('#callCount');if(el)el.textContent=c.n}
 function callsThisMonth(){const c=lsGet('ar.calls',{m:'',n:0});return c.m===todayStr().slice(0,7)?c.n:0}
 const tOf=x=>x&&(x.local||x.utc)||null;
-async function fetchFlight(flight,date){
-  const url='https://'+API_HOST+'/flights/number/'+encodeURIComponent(flight.replace(/\s/g,''))+'/'+date+'?withAircraftImage=false&withLocation=false&dateLocalRole=Both';
-  const r=await fetch(url,{headers:{'x-rapidapi-key':apiKey,'x-rapidapi-host':API_HOST}});
-  countCall();
-  if(r.status===204||r.status===404)return[];
+function mapTerm(ap,raw){
+  if(!raw)return null;const r=String(raw).toUpperCase().replace(/^T(ERMINAL)?\s*/,'').trim();
+  if(ap==='DXB')return['1','2','3'].includes(r)?'T'+r:null;
+  return AIRPORTS[ap]?AIRPORTS[ap].terms[0]:null;
+}
+async function apiGet(path,cost){
+  const r=await fetch('https://'+API_HOST+path,{headers:{'x-rapidapi-key':apiKey,'x-rapidapi-host':API_HOST}});
+  countCall(cost);
+  if(r.status===204||r.status===404)return null;
   if(r.status===401||r.status===403)throw{code:'key'};
   if(r.status===429)throw{code:'limit'};
   if(!r.ok)throw{code:'http',status:r.status};
-  const j=await r.json();return Array.isArray(j)?j:[j];
+  return r.json();
+}
+async function fetchFlight(flight,date){
+  const j=await apiGet('/flights/number/'+encodeURIComponent(flight.replace(/\s/g,''))+'/'+date+'?withAircraftImage=false&withLocation=false&dateLocalRole=Both',1);
+  if(!j)return[];return Array.isArray(j)?j:[j];
 }
 function pickLive(t,list){
   const side=t.type==='pickup'?'arrival':'departure';
@@ -361,7 +536,7 @@ function pickLive(t,list){
   if(ed&&sd&&ed-sd>=10*60000&&!/cancel|land|divert/i.test(status))status='Delayed '+span((ed-sd)/60000);
   const wrongAirport=s.airport&&s.airport.iata&&s.airport.iata!==t.airport;
   return{status,expected:exp?String(exp).replace(' ','T').slice(0,16):null,
-    terminal:s.terminal?(/^\d+$/.test(s.terminal)?'T'+s.terminal:s.terminal):null,
+    terminal:wrongAirport?null:mapTerm(t.airport,s.terminal),
     gate:s.gate||null,belt:s.baggageBelt||null,
     note:wrongAirport?'This flight goes to '+s.airport.iata+', not '+t.airport+'. Check the airport.':null,
     checkedAt:new Date().toISOString()};
@@ -372,6 +547,7 @@ function dueForCheck(t,now){
   if(t.live&&t.live.checkedAt&&now-new Date(t.live.checkedAt)<10*60000)return false;
   return true;
 }
+function apiErr(e){return e.code==='key'?'Flight data key not accepted. Check it in Setup.':e.code==='limit'?'Monthly check limit reached. Use Flightradar24.':'Couldn’t reach flight data. Check the internet.'}
 async function checkTrip(t,manual){
   if(!apiKey){if(manual)toast('Add the flight data key in Setup first');return}
   if(checking[t.id])return;
@@ -382,49 +558,59 @@ async function checkTrip(t,manual){
     const live=pickLive(t,list);
     if(!live){t.live={status:'Not found',note:'No flight '+t.flight+' on this date. Check the number and date.',checkedAt:new Date().toISOString()}}
     else{t.live=live;if(t.expected&&live.expected)t.expected=null}
-    saveLocal();if(manual)toast('Flight updated');
-  }catch(e){
-    if(manual||e.code==='key'||e.code==='limit')toast(e.code==='key'?'Flight data key not accepted. Check it in Setup.':e.code==='limit'?'Monthly check limit reached. Use Flightradar24.':'Couldn’t reach flight data. Check the internet.');
-  }finally{delete checking[t.id];render()}
+    saveTrips();if(manual)toast('Flight updated');
+  }catch(e){if(manual||e.code==='key'||e.code==='limit')toast(apiErr(e))}
+  finally{delete checking[t.id];render()}
 }
 async function checkAll(){if(!apiKey||!navigator.onLine)return;for(const t of trips.filter(x=>dueForCheck(x,new Date())))await checkTrip(t,false)}
-function renderKey(){
-  $('#keyState').textContent=apiKey?'Key saved on this phone. Live updates are on.':'No key yet. Live updates are off. Trips still work with the buttons.';
-  $('#keyClear').hidden=!apiKey;$('#callCount').textContent=callsThisMonth();
-}
-$('#keySave').onclick=async()=>{const v=$('#apiKey').value.trim();if(v.length<20){toast('That key looks too short. Copy it again from RapidAPI.');return}
-  apiKey=v;lsSet('ar.key',v);$('#apiKey').value='';renderKey();toast('Testing key…');
-  try{await fetchFlight('EK1',todayStr());toast('Key works. Live updates are on.');checkAll()}
-  catch(e){toast(e.code==='key'?'Key not accepted. Make sure you subscribed to the free plan.':e.code==='limit'?'Key saved, but the monthly limit is used up.':'Key saved. Couldn’t test it right now.')}};
-$('#keyShow').onclick=()=>{const i=$('#apiKey');if(!i.value&&apiKey)i.value=apiKey;i.type=i.type==='password'?'text':'password';$('#keyShow').textContent=i.type==='password'?'Show':'Hide'};
-$('#keyClear').onclick=()=>{apiKey='';lsSet('ar.key','');$('#apiKey').value='';renderKey();toast('Key removed')};
 
-/* ---------- ui helpers ---------- */
-let toastT;function toast(m){const el=$('#toast');el.textContent=m;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>el.hidden=true,2800)}
-function setTab(t){tab=t;lsSet('ar.tab',t);document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));
-  ['trips','add','his','set'].forEach(k=>$('#p-'+k).hidden=k!==t);render()}
-document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+/* ---------- small helpers ---------- */
+let toastT;function toast(m){const el=$('#toast');el.textContent=m;el.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>el.hidden=true,3000)}
+function waNum(p){let d=String(p||'').replace(/\D/g,'');if(d.startsWith('00'))d=d.slice(2);else if(d.startsWith('0'))d='971'+d.slice(1);else if(d.length===9&&d[0]==='5')d='971'+d;return d}
+function download(name,text,type){
+  const blob=new Blob([text],{type:type});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;
+  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},2000);
+}
+async function shareText(text,title){
+  if(navigator.share){try{await navigator.share({title:title,text:text});return}catch(e){if(e&&e.name==='AbortError')return}}
+  try{await navigator.clipboard.writeText(text);toast('Copied. Paste it in WhatsApp or email.')}catch(e){toast('Sharing isn’t available here')}
+}
+function normFlight(s){s=String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'');const m=s.match(/^([A-Z0-9]{2}[A-Z]?)(\d{1,4}[A-Z]?)$/);if(!m)return null;const code=m[1];if(!/[A-Z]/.test(code))return null;return code+' '+m[2]}
+function links(t){
+  const f=t.flight.replace(/\s/g,'');const a=AIRPORTS[t.airport];
+  const term=(t.live&&t.live.terminal)||t.terminal;
+  const dest=(a&&a.maps[term])||(a?a.name+' Airport':'Airport');
+  return{fr:'https://www.flightradar24.com/data/flights/'+f.toLowerCase(),
+    g:'https://www.google.com/search?q='+encodeURIComponent(f+' flight status'),
+    map:'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest)+'&travelmode=driving',dest:dest};
+}
+function waitMins(t){if(!t.arrivedAt||!t.doneAt)return null;const m=(new Date(t.doneAt)-new Date(t.arrivedAt))/60000;return m>=0&&m<24*60?Math.round(m):null}
 
 const ICON={
   radar:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12l6-6M12 7a5 5 0 1 0 5 5"/></svg>',
   search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
   car:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17h14v-5l-2-5H7l-2 5zM5 12h14"/><circle cx="8" cy="17" r="1.5"/><circle cx="16" cy="17" r="1.5"/></svg>',
   refresh:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></svg>',
-  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>'
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  bell:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg>',
+  msg:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>',
+  trash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>',
+  phone:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/></svg>',
+  wa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9c0 3 3 6 6 6l1-1.5-2-1-1 .8a4 4 0 0 1-2.3-2.3l.8-1-1-2z"/></svg>'
 };
-function links(t){
-  const f=t.flight.replace(/\s/g,'');const a=AIRPORTS[t.airport];
-  const dest=(a&&a.maps[t.terminal])||(a?a.name+' Airport':'Airport');
-  return{fr:'https://www.flightradar24.com/data/flights/'+f.toLowerCase(),
-    g:'https://www.google.com/search?q='+encodeURIComponent(f+' flight status'),
-    map:'https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(dest)+'&travelmode=driving'};
-}
 
-/* ---------- render: trips ---------- */
+/* ---------- tabs ---------- */
+function setTab(t){tab=t;lsSet('ar.tab',t);document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===t)));
+  ['trips','add','his','set'].forEach(k=>$('#p-'+k).hidden=k!==t);window.scrollTo(0,0);render()}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>setTab(b.dataset.tab));
+
+/* ---------- trips ---------- */
 function stateOf(t,c,now){
   if(!c.leave)return['past','Time missing'];
-  const toLeave=(c.leave-now)/60000,toTarget=(c.target-now)/60000;
   if(t.live&&/cancel/i.test(t.live.status||''))return['now','Flight cancelled. Call the office before going.'];
+  if(t.arrivedAt){const after=c.flightTime?(now-c.flightTime)/60000:0;return['past',t.type==='pickup'?(after<0?'At the airport. Flight lands in '+span(-after)+'.':'At the airport. Flight landed '+span(after)+' ago.'):'At the airport. Tap “Done” after the drop.']}
+  const toLeave=(c.leave-now)/60000,toTarget=(c.target-now)/60000;
   if(toLeave>60)return['ok','On track. Leave in '+span(toLeave)+'.'];
   if(toLeave>0)return['soon','Get ready. Leave in '+span(toLeave)+'.'];
   if(toTarget>-5)return['now',toLeave>-2?'Leave now.':'Leave now. Running '+span(-toLeave)+' behind.'];
@@ -432,144 +618,329 @@ function stateOf(t,c,now){
   if(t.type==='pickup')return['past',after<0?'Should be at the airport now.':'Landed '+span(after)+' ago. Tap “Done” after pickup.'];
   return['past','Drop time passed. Tap “Done” when finished.'];
 }
+function messages(t,c){
+  const a=AIRPORTS[t.airport]||{short:t.airport};const term=(t.live&&t.live.terminal)||t.terminal;
+  const where=a.short+(term&&term!=='Main'&&term!=='Passenger'?' '+term:'');
+  if(t.type==='pickup')return[
+    'On my way to '+where+'. I’ll be there by '+hm(c.target)+'.',
+    'I’m at '+where+' arrivals, waiting for you.',
+    'Your flight '+t.flight+' has landed. I’m waiting at '+where+'.',
+    'Running about 15 minutes late because of traffic. Sorry, coming as fast as I can.'];
+  return[
+    'On my way to pick you up for flight '+t.flight+'. I’ll reach you by '+hm(c.leave)+'.',
+    'I’m outside, ready to leave for the airport.',
+    'Running about 10 minutes late because of traffic. We still have time for the flight.'];
+}
 function tripCard(t,now){
   const c=calc(t);const a=AIRPORTS[t.airport]||{short:t.airport};
   const [st,stTxt]=stateOf(t,c,now);
   const toLeave=c.leave?(c.leave-now)/60000:0;
   const L=links(t);const live=t.live;
-  const fromName=(AREAS.find(x=>x.id===t.from)||{}).name||'—';
   const timeLbl=t.type==='pickup'?'Landing':'Departure';
   const timeVal=c.changed?`<b class="t">${hm(c.changed)}</b><span class="was">${hm(c.sched)}</span>`:`<b class="t">${hm(c.sched)}</b>`;
   const terminal=(live&&live.terminal)||t.terminal;
+  const p=findContact(t.passenger);const num=p&&waNum(p.phone);
   let liveHtml;
   if(live&&live.checkedAt){
     const bits=[live.status&&'<b>'+esc(live.status)+'</b>',live.expected&&(t.type==='pickup'?'lands ':'departs ')+hm(parseLocal(live.expected)),live.gate&&'gate '+esc(live.gate),live.belt&&'belt '+esc(live.belt),live.note&&esc(live.note)].filter(Boolean).join(' · ');
-    liveHtml=`<div class="live on"><span class="dot"></span><div>${bits||'No change'}<br><small>Checked ${hm(new Date(live.checkedAt))} ${dayLabel(new Date(live.checkedAt))==='Today'?'':dayLabel(new Date(live.checkedAt))}</small></div></div>`;
-  }else liveHtml=`<div class="live"><span class="dot"></span><div>${checking[t.id]?'Checking flight…':apiKey?'Live check starts 12 hours before the flight.':'Live updates are off. Add the key in Setup, or use Flightradar24 below.'}</div></div>`;
-  if(checking[t.id]&&live)liveHtml=liveHtml.replace('<small>','<small>Checking now… · ');
-  const edit=editing===t.id?`<div class="editbox"><label class="label" for="ed-${t.id}" style="margin:0">New ${timeLbl.toLowerCase()} time</label>
+    const ck=new Date(live.checkedAt);
+    liveHtml=`<div class="live on"><span class="dot"></span><div>${bits||'No change'}<br><small>${checking[t.id]?'Checking now… · ':''}Checked ${hm(ck)}${dayLabel(ck)==='Today'?'':' '+dayLabel(ck)}</small></div></div>`;
+  }else liveHtml=`<div class="live"><span class="dot"></span><div>${checking[t.id]?'Checking flight…':apiKey?'Live check starts 12 hours before the flight.':'Live updates are off. Add the key in Setup, or use Flightradar24.'}</div></div>`;
+  const here=t.arrivedAt?`<div class="live here"><span class="dot"></span><div><b>At the airport since ${hm(new Date(t.arrivedAt))}</b> · waiting ${span((now-new Date(t.arrivedAt))/60000)}</div></div>`:'';
+  const o=open[t.id]||'';
+  let sub='';
+  if(editing===t.id)sub=`<div class="sub"><label class="label" for="ed-${t.id}" style="margin:0">New ${timeLbl.toLowerCase()} time</label>
       <input class="input" type="datetime-local" id="ed-${t.id}" value="${esc(editVal)}">
-      <div class="row"><button class="btn primary" data-act="edsave" data-id="${t.id}">Save time</button>${t.expected?`<button class="btn" data-act="edclear" data-id="${t.id}">Back to scheduled</button>`:''}<button class="btn ghost" data-act="edcancel">Cancel</button></div></div>`:'';
-  return `<article class="trip">
+      <div class="row"><button class="btn primary" data-act="edsave" data-id="${t.id}">Save time</button>${t.expected?`<button class="btn" data-act="edclear" data-id="${t.id}">Back to scheduled</button>`:''}<button class="btn ghost" data-act="edcancel">Cancel</button></div></div>`;
+  else if(o==='share')sub=`<div class="sub"><p class="label" style="margin:0">Send update${p?' to '+esc(p.name):''}</p>`+messages(t,c).map((m,i)=>`<div class="msg"><span>${esc(m)}</span>${num?`<a class="btn small wa" href="https://wa.me/${num}?text=${encodeURIComponent(m)}" target="_blank" rel="noopener">WhatsApp</a>`:''}<button class="btn small" data-act="sharemsg" data-id="${t.id}" data-i="${i}">${num?'Other':'Share'}</button></div>`).join('')+(num?'':`<p><small>Add a passenger with a number to send straight to WhatsApp.</small></p>`)+`</div>`;
+  else if(o==='tips'){const g=GUIDE[t.airport+'|'+terminal]||GUIDE[t.airport+'|'+t.terminal]||{};const my=notes[t.airport+'|'+terminal];
+    sub=`<div class="sub"><p class="label" style="margin:0">${esc(a.short)} ${esc(terminal)} tips</p>${my?`<p><b>Your note:</b> ${esc(my)}</p>`:''}<p>${esc(t.type==='pickup'?g.pickup:g.drop)}</p><p><b>Parking:</b> ${esc(g.park||'')}<small>Rates checked mid-2026. They can change.</small></p></div>`}
+  const canArrive=!t.arrivedAt&&c.leave&&now-c.leave>-90*60000;
+  return `<article class="trip" id="trip-${t.id}">
     <div class="trip-top"><span class="kind ${t.type}">${t.type==='pickup'?'Pickup':'Drop'}</span><span class="fno">${esc(t.flight)}</span><span class="day">${c.sched?dayLabel(c.sched):''}</span></div>
     <div class="leave"><div><div class="lbl">Leave by</div><div class="big">${hm(c.leave)}</div></div>
-      <div class="cd">${toLeave>=0?'in '+span(toLeave):span(toLeave)+' ago'}<span>${c.drive} min drive</span></div>
+      <div class="cd">${toLeave>=0?'in '+span(toLeave):span(toLeave)+' ago'}<span>${c.base} min drive${c.extra?' +'+c.extra+(c.auto?' rush':' traffic'):''}</span></div>
       <div class="state ${st}">${stTxt}</div></div>
     <div class="facts">
       <div class="fact"><span>${timeLbl}</span>${timeVal}</div>
       <div class="fact"><span>Be there by</span><b class="t">${hm(c.target)}</b></div>
       <div class="fact"><span>Airport</span><b>${esc(a.short)} · ${esc(terminal)}</b></div>
-      <div class="fact"><span>From</span><b>${esc(fromName)}</b></div>
+      <div class="fact"><span>From</span><b>${esc(fromName(t))}</b></div>
     </div>
-    ${liveHtml}
+    ${p?`<div class="who"><div class="name"><span>Passenger</span><b>${esc(p.name)}</b></div>${num?`<a class="btn small" href="tel:+${num}">${ICON.phone}Call</a><a class="btn small wa" href="https://wa.me/${num}" target="_blank" rel="noopener">${ICON.wa}WhatsApp</a>`:''}</div>`:''}
+    ${liveHtml}${here}
     ${t.note?`<div class="note">${esc(t.note)}</div>`:''}
-    ${edit}
-    <div class="btns">
-      ${apiKey?`<button class="btn" data-act="check" data-id="${t.id}" ${checking[t.id]?'disabled':''}>${ICON.refresh}Check now</button>`:''}
-      <a class="btn" href="${L.fr}" target="_blank" rel="noopener">${ICON.radar}Flightradar24</a>
-      <a class="btn" href="${L.g}" target="_blank" rel="noopener">${ICON.search}Google</a>
-      <a class="btn" href="${L.map}" target="_blank" rel="noopener">${ICON.car}Traffic now</a>
-      ${t.type==='pickup'?`<button class="btn" data-act="edit" data-id="${t.id}">${ICON.clock}Update time</button>`:''}
+    <div class="main-acts">
+      ${canArrive?`<button class="btn board" data-act="arrive" data-id="${t.id}">I’m at the airport</button>`:''}
       <button class="btn primary" data-act="done" data-id="${t.id}">Done</button>
-      <button class="btn danger ${armed===t.id?'armed':''}" data-act="del" data-id="${t.id}">${armed===t.id?'Tap again to delete':'Delete'}</button>
     </div>
+    <div class="tools">
+      ${apiKey?`<button class="tool" data-act="check" data-id="${t.id}" ${checking[t.id]?'disabled':''}>${ICON.refresh}Check now</button>`:''}
+      <a class="tool" href="${L.fr}" target="_blank" rel="noopener">${ICON.radar}Flightradar</a>
+      <a class="tool" href="${L.g}" target="_blank" rel="noopener">${ICON.search}Google</a>
+      <a class="tool" href="${L.map}" target="_blank" rel="noopener">${ICON.car}Traffic now</a>
+      <button class="tool" data-act="ics" data-id="${t.id}">${ICON.bell}Add alarm</button>
+      <button class="tool" data-act="open" data-p="share" data-id="${t.id}" aria-expanded="${o==='share'}">${ICON.msg}Send update</button>
+      <button class="tool" data-act="open" data-p="tips" data-id="${t.id}" aria-expanded="${o==='tips'}">${ICON.info}Tips &amp; parking</button>
+      ${t.type==='pickup'?`<button class="tool" data-act="edit" data-id="${t.id}" aria-expanded="${editing===t.id}">${ICON.clock}Update time</button>`:''}
+      <button class="tool danger ${armed===t.id?'armed':''}" data-act="del" data-id="${t.id}">${ICON.trash}${armed===t.id?'Tap again':'Delete'}</button>
+    </div>
+    ${sub}
   </article>`;
 }
+function upcoming(){return trips.filter(t=>!t.done).map(t=>[t,calc(t)]).sort((x,y)=>(x[1].leave||0)-(y[1].leave||0))}
 function renderTrips(){
-  const now=new Date();const p=$('#p-trips');
-  const up=trips.filter(t=>!t.done).map(t=>[t,calc(t)]).sort((x,y)=>(x[1].leave||0)-(y[1].leave||0));
-  const cnt=$('#tcount');cnt.hidden=!up.length;cnt.textContent=up.length;
-  if(!ready){p.innerHTML='<div class="empty"><p>Loading trips…</p></div>';return}
+  const now=new Date();const p=$('#p-trips');const up=upcoming();
   if(!up.length){p.innerHTML=`<div class="empty"><h2>No trips planned</h2><p>Add the MD’s next flight. The app works out when to leave and keeps the time updated.</p><button class="btn primary" data-act="goadd">Add a trip</button></div>`;return}
-  p.innerHTML=up.map(x=>tripCard(x[0],now)).join('');
+  if(!settings.big){p.innerHTML=up.map(x=>tripCard(x[0],now)).join('');return}
+  const focus=up.find(x=>x[0].id===expanded)||up[0];
+  const rest=up.filter(x=>x!==focus);
+  p.innerHTML=tripCard(focus[0],now)+(rest.length?`<div><p class="label">Later</p><div class="later">${rest.map(([t,c])=>`<button data-act="focus" data-id="${t.id}"><span class="kind ${t.type}">${t.type==='pickup'?'Pickup':'Drop'}</span><span class="fno">${esc(t.flight)}</span><span>${c.leave?dayLabel(c.leave)+' · <span class="lv">'+hm(c.leave)+'</span>':''}</span></button>`).join('')}</div></div>`:'');
 }
 
-/* ---------- render: history ---------- */
+/* ---------- history & report ---------- */
+function monthDone(ym){return trips.filter(t=>t.done&&(t.date||'').slice(0,7)===ym).sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time))}
 function renderHistory(){
-  const p=$('#p-his');const done=trips.filter(t=>t.done).sort((a,b)=>(b.doneAt||'').localeCompare(a.doneAt||''));
-  const month=todayStr().slice(0,7);const inMonth=done.filter(t=>(t.date||'').slice(0,7)===month);
-  const stats=`<div class="stats"><div class="stat"><b>${inMonth.length}</b><span>Trips this month</span></div><div class="stat"><b>${inMonth.filter(t=>t.type==='pickup').length}</b><span>Pickups</span></div><div class="stat"><b>${inMonth.filter(t=>t.type==='drop').length}</b><span>Drops</span></div></div>`;
-  if(!done.length){p.innerHTML=stats+'<div class="empty"><p>Finished trips show here after you tap “Done”.</p></div>';return}
-  p.innerHTML=stats+'<div class="hlist">'+done.slice(0,60).map(t=>{const d=parseLocal(t.date+'T'+t.time);const a=AIRPORTS[t.airport]||{short:t.airport};
-    return `<div class="hitem"><div class="when">${d?dayLabel(d):''}<br>${hm(d)}</div><div class="what"><b>${esc(t.flight)}</b><span>${t.type==='pickup'?'Pickup':'Drop'} · ${esc(a.short)} ${esc(t.terminal)}</span></div><button class="btn ghost" data-act="undo" data-id="${t.id}">Undo</button></div>`}).join('')+'</div>';
+  const p=$('#p-his');const list=monthDone(reportMonth);
+  const pk=list.filter(t=>t.type==='pickup').length;const waits=list.map(waitMins).filter(x=>x!=null);
+  const avg=waits.length?Math.round(waits.reduce((a,b)=>a+b,0)/waits.length):null;
+  const isNow=reportMonth===todayStr().slice(0,7);
+  let h=`<div class="monthnav"><button class="btn small" data-act="mon" data-n="-1" aria-label="Previous month">‹</button><h2>${monthName(reportMonth)}</h2><button class="btn small" data-act="mon" data-n="1" aria-label="Next month" ${isNow?'disabled':''}>›</button></div>
+  <div class="stats"><div class="stat"><b>${list.length}</b><span>Trips</span></div><div class="stat"><b>${pk}</b><span>Pickups</span></div><div class="stat"><b>${list.length-pk}</b><span>Drops</span></div><div class="stat"><b>${avg==null?'–':avg+'m'}</b><span>Avg wait</span></div></div>`;
+  if(!list.length){p.innerHTML=h+`<div class="empty"><p>Finished trips for ${monthName(reportMonth)} show here after you tap “Done”.</p></div>`;return}
+  h+=`<div class="actions"><button class="btn" data-act="repshare">Share report</button><button class="btn" data-act="repcsv">Download CSV</button></div>`;
+  h+='<div class="hlist">'+list.slice().reverse().map(t=>{const d=parseLocal(t.date+'T'+t.time);const a=AIRPORTS[t.airport]||{short:t.airport};const w=waitMins(t);const pp=findContact(t.passenger);
+    return `<div class="hitem"><div class="when">${d?wFmt.format(d):''}<br>${hm(d)}</div><div class="what"><b>${esc(t.flight)}</b><span>${t.type==='pickup'?'Pickup':'Drop'} · ${esc(a.short)} ${esc(t.terminal)}${pp?' · '+esc(pp.name):''}${w!=null?' · waited '+span(w):''}</span></div>
+    <div class="row"><button class="btn small" data-act="again" data-id="${t.id}">Add again</button><button class="btn small ghost" data-act="undo" data-id="${t.id}">Undo</button></div></div>`}).join('')+'</div>';
+  p.innerHTML=h;
+}
+function reportRows(ym){
+  return monthDone(ym).map(t=>{const a=AIRPORTS[t.airport]||{short:t.airport};const w=waitMins(t);const pp=findContact(t.passenger);
+    const exp=t.live&&t.live.expected?t.live.expected.slice(11,16):(t.expected?t.expected.slice(11,16):'');
+    return{date:t.date,type:t.type==='pickup'?'Pickup':'Drop',flight:t.flight,airport:t.airport,terminal:t.terminal,scheduled:t.time,actual:exp,
+      arrived:t.arrivedAt?hm(new Date(t.arrivedAt)):'',done:t.doneAt?hm(new Date(t.doneAt)):'',wait:w==null?'':w,passenger:pp?pp.name:'',note:t.note||'',short:a.short}});
+}
+function reportText(ym){
+  const r=reportRows(ym);const pk=r.filter(x=>x.type==='Pickup').length;const ws=r.map(x=>x.wait).filter(x=>x!=='');
+  let s='Airport trips – '+monthName(ym)+'\nTotal: '+r.length+' ('+pk+' pickups, '+(r.length-pk)+' drops)';
+  if(ws.length)s+='\nAverage wait: '+Math.round(ws.reduce((a,b)=>a+b,0)/ws.length)+' min';
+  s+='\n\n'+r.map(x=>x.date.slice(8)+'/'+x.date.slice(5,7)+' · '+x.type+' · '+x.flight+' · '+x.airport+' '+x.terminal+' · '+x.scheduled+(x.wait!==''?' · waited '+x.wait+' min':'')).join('\n');
+  return s;
+}
+function reportCsv(ym){
+  const q=v=>'"'+String(v).replace(/"/g,'""')+'"';
+  const head=['Date','Type','Flight','Airport','Terminal','Scheduled','Actual','At airport','Done','Wait (min)','Passenger','Note'];
+  return [head.map(q).join(',')].concat(reportRows(ym).map(x=>[x.date,x.type,x.flight,x.airport,x.terminal,x.scheduled,x.actual,x.arrived,x.done,x.wait,x.passenger,x.note].map(q).join(','))).join('\r\n');
 }
 
-/* ---------- form ---------- */
+/* ---------- calendar alarm ---------- */
+function icsDate(d){return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'')}
+function icsEsc(s){return String(s).replace(/\\/g,'\\\\').replace(/[,;]/g,m=>'\\'+m).replace(/\n/g,'\\n')}
+function makeIcs(t){
+  const c=calc(t);const a=AIRPORTS[t.airport]||{short:t.airport};const term=(t.live&&t.live.terminal)||t.terminal;
+  const kind=t.type==='pickup'?'pickup':'drop';
+  return['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Airport Run//EN','METHOD:PUBLISH','BEGIN:VEVENT',
+    'UID:'+t.id+'-'+Date.now()+'@airport-run','DTSTAMP:'+icsDate(new Date()),'DTSTART:'+icsDate(c.leave),'DTEND:'+icsDate(c.target),
+    'SUMMARY:'+icsEsc('Leave for '+a.short+' '+term+' · '+t.flight+' '+kind),
+    'DESCRIPTION:'+icsEsc((t.type==='pickup'?'Landing ':'Departure ')+hm(c.flightTime)+'. Be at the airport by '+hm(c.target)+'.'+(t.note?' '+t.note:'')),
+    'LOCATION:'+icsEsc(links(t).dest),
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+icsEsc('Leave in 15 minutes · '+t.flight),'TRIGGER:-PT15M','END:VALARM',
+    'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+icsEsc('Leave now · '+t.flight),'TRIGGER:PT0M','END:VALARM',
+    'END:VEVENT','END:VCALENDAR'].join('\r\n');
+}
+
+/* ---------- add form ---------- */
 function segSet(el,v){el.querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.v===String(v))))}
 function renderApSeg(){$('#apSeg').innerHTML=Object.keys(AIRPORTS).map(k=>`<button type="button" data-v="${k}" aria-pressed="${k===form.ap}"><b>${k}</b><small>${AIRPORTS[k].short}</small></button>`).join('');
   const terms=AIRPORTS[form.ap].terms;if(!terms.includes(form.term))form.term=terms[terms.length-1];
   $('#termSeg').innerHTML=terms.map(x=>`<button type="button" data-v="${esc(x)}" aria-pressed="${x===form.term}"><b>${esc(x)}</b></button>`).join('')}
-function normFlight(s){s=String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,'');const m=s.match(/^([A-Z0-9]{2}?[A-Z]?)(\d{1,4}[A-Z]?)$/);if(!m)return null;let code=m[1],num=m[2];if(!/^[A-Z0-9]{2,3}$/.test(code)||!/[A-Z]/.test(code))return null;return code+' '+num}
-function draft(){return{type:form.kind,flight:normFlight($('#fFlight').value)||$('#fFlight').value.trim().toUpperCase(),date:$('#fDate').value,time:$('#fTime').value,airport:form.ap,terminal:form.term,from:$('#fFrom').value,drive:$('#fFrom').value==='custom'?+$('#fMins').value||0:null,traffic:form.traffic,note:$('#fNote').value.trim()}}
+function renderFromSelect(){
+  const sel=$('#fFrom');const cur=sel.value||lsGet('ar.lastFrom','downtown');
+  sel.innerHTML=(places.length?`<optgroup label="My places">${places.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')}</optgroup>`:'')+
+    `<optgroup label="Areas">${AREAS.map(a=>`<option value="${a.id}">${esc(a.name)}</option>`).join('')}</optgroup>`;
+  sel.value=[...sel.options].some(o=>o.value===cur)?cur:(places[0]?places[0].id:'downtown');
+}
+function renderPassSelect(){
+  const sel=$('#fPass');const cur=sel.value;
+  sel.innerHTML=contacts.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')+'<option value="">No passenger</option>';
+  sel.value=[...sel.options].some(o=>o.value===cur)&&cur!==''?cur:(contacts[0]?contacts[0].id:'');
+  $('#passHint').hidden=contacts.length>0;
+}
+function renderRecent(){
+  const seen={};const rec=[];
+  trips.slice().sort((a,b)=>(b.createdAt||'').localeCompare(a.createdAt||'')).forEach(t=>{const k=t.type+t.flight+t.airport;if(!seen[k]&&rec.length<6){seen[k]=1;rec.push(t)}});
+  $('#recentWrap').hidden=!rec.length;
+  $('#recent').innerHTML=rec.map(t=>`<button type="button" class="chip" data-act="again" data-id="${t.id}"><b>${esc(t.flight)}</b><span>${t.type==='pickup'?'Pickup':'Drop'} · ${t.airport} ${esc(t.terminal)} · ${esc(t.time)}</span></button>`).join('');
+}
+function draft(){const from=$('#fFrom').value;return{type:form.kind,flight:normFlight($('#fFlight').value)||$('#fFlight').value.trim().toUpperCase(),date:$('#fDate').value,time:$('#fTime').value,airport:form.ap,terminal:form.term,from:from,drive:from==='custom'?+$('#fMins').value||0:null,traffic:form.traffic,passenger:$('#fPass').value||null,note:$('#fNote').value.trim()}}
 function updatePreview(){
   $('#fTimeLbl').textContent=form.kind==='pickup'?'Landing time':'Departure time';
+  $('#finderTitle').textContent='Find '+(form.kind==='pickup'?'arrivals at ':'departures from ')+form.ap;
   const custom=$('#fFrom').value==='custom';$('#customWrap').hidden=!custom;
-  const d=draft();const area=AREAS.find(x=>x.id===d.from);
-  $('#driveHint').textContent=custom?'':'About '+area.t[form.ap]+' min to '+AIRPORTS[form.ap].short+' without traffic.';
+  const d=draft();
+  $('#driveHint').textContent=custom?'':'About '+driveMins(d)+' min to '+AIRPORTS[form.ap].short+' without traffic.'+(findPlace(d.from)?'':' Add your own places in Setup for exact times.');
   const c=calc(d);const pv=$('#preview');
-  if(d.date&&d.time&&c.leave)pv.innerHTML=`<span>Leave ${dayLabel(c.leave).toLowerCase()} by</span><b>${hm(c.leave)}</b>`;
+  if(d.date&&d.time&&c.leave)pv.innerHTML=`<span>Leave ${dayLabel(c.leave).toLowerCase()} by${c.extra?'<small>includes +'+c.extra+' min '+(c.auto?'rush hour':'traffic')+'</small>':''}</span><b>${hm(c.leave)}</b>`;
   else pv.innerHTML='<span>Fill in date and time to see when to leave</span><b>--:--</b>';
 }
+function fillForm(t,keepDate){
+  form.kind=t.type;form.ap=t.airport;form.term=t.terminal;form.traffic='auto';
+  segSet($('#kindSeg'),form.kind);renderApSeg();segSet($('#trafSeg'),'auto');
+  $('#fFlight').value=t.flight||'';$('#fTime').value=t.time||'';
+  if(!keepDate)$('#fDate').value=t.date||todayStr();
+  renderFromSelect();if(t.from&&[...$('#fFrom').options].some(o=>o.value===t.from))$('#fFrom').value=t.from;
+  if(t.from==='custom')$('#fMins').value=t.drive||'';
+  renderPassSelect();if(t.passenger&&findContact(t.passenger))$('#fPass').value=t.passenger;
+  $('#fNote').value='';updatePreview();
+}
 function initForm(){
-  $('#fFrom').innerHTML=AREAS.map(a=>`<option value="${a.id}">${esc(a.name)}</option>`).join('');
-  $('#fFrom').value=lsGet('ar.lastFrom','downtown');
   $('#fDate').value=todayStr();
-  renderApSeg();
-  $('#kindSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.kind=b.dataset.v;segSet($('#kindSeg'),form.kind);updatePreview()};
-  $('#apSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.ap=b.dataset.v;renderApSeg();updatePreview()};
+  renderApSeg();renderFromSelect();renderPassSelect();
+  $('#kindSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.kind=b.dataset.v;segSet($('#kindSeg'),form.kind);$('#results').hidden=true;updatePreview()};
+  $('#apSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.ap=b.dataset.v;renderApSeg();$('#results').hidden=true;updatePreview()};
   $('#termSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.term=b.dataset.v;segSet($('#termSeg'),form.term)};
-  $('#trafSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.traffic=+b.dataset.v;segSet($('#trafSeg'),form.traffic);updatePreview()};
-  ['fFlight','fDate','fTime','fFrom','fMins'].forEach(id=>$('#'+id).addEventListener('input',updatePreview));
-  $('#fFrom').addEventListener('change',updatePreview);
+  $('#trafSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;form.traffic=b.dataset.v==='auto'?'auto':+b.dataset.v;segSet($('#trafSeg'),b.dataset.v);updatePreview()};
+  ['fFlight','fDate','fTime','fFrom','fMins','fPass'].forEach(id=>{$('#'+id).addEventListener('input',updatePreview);$('#'+id).addEventListener('change',updatePreview)});
   $('#fFlight').addEventListener('blur',()=>{const n=normFlight($('#fFlight').value);if(n)$('#fFlight').value=n});
-  $('#addForm').addEventListener('submit',async e=>{
+  $('#addForm').addEventListener('submit',e=>{
     e.preventDefault();const err=$('#formErr');const d=draft();
     const msg=!normFlight(d.flight)?'Enter the flight number, like EK 203 or G9 501.':!d.date?'Pick the date.':!d.time?'Enter the '+(d.type==='pickup'?'landing':'departure')+' time.':(d.from==='custom'&&!(d.drive>0))?'Enter the drive time in minutes.':'';
     if(msg){err.textContent=msg;err.hidden=false;return}
-    err.hidden=true;d.flight=normFlight(d.flight);d.done=false;d.createdAt=new Date().toISOString();
-    const btn=$('#addBtn');btn.disabled=true;
-    try{await addTrip(d);lsSet('ar.lastFrom',d.from);$('#fFlight').value='';$('#fTime').value='';$('#fNote').value='';updatePreview();toast('Trip saved');setTab('trips')}
-    catch(ex){err.textContent=errMsg(ex);err.hidden=false}
-    finally{btn.disabled=false}
+    err.hidden=true;d.flight=normFlight(d.flight);d.done=false;d.createdAt=new Date().toISOString();d.id='t'+Date.now();
+    trips.push(d);if(!saveTrips()){trips.pop();return}
+    lsSet('ar.lastFrom',d.from);$('#fFlight').value='';$('#fTime').value='';$('#fNote').value='';$('#finder').hidden=true;
+    updatePreview();toast('Trip saved');setTab('trips');checkTrip(d,false);
   });
-  updatePreview();
+  /* finder */
+  $('#findOpen').onclick=()=>{
+    if(!apiKey){toast('Add the flight data key in Setup to search flights');return}
+    $('#finder').hidden=false;$('#sDate').value=$('#fDate').value||todayStr();
+    const n=new Date();const s=dFmt.format(n)===$('#sDate').value?tFmt.format(new Date(n-30*60000)):'06:00';$('#sTime').value=$('#sTime').value||s;
+    $('#findErr').hidden=true;updatePreview();
+  };
+  $('#findClose').onclick=()=>{$('#finder').hidden=true};
+  $('#findGo').onclick=searchFlights;
+  $('#sFilter').addEventListener('input',()=>renderResults());
+}
+let searchRes=[];
+async function searchFlights(){
+  const date=$('#sDate').value,time=$('#sTime').value,err=$('#findErr');
+  if(!date||!time){err.textContent='Pick a date and start time.';err.hidden=false;return}
+  const fromD=parseLocal(date+'T'+time);const toD=new Date(fromD.getTime()+(11*60+59)*60000);
+  const btn=$('#findGo');btn.disabled=true;btn.textContent='Searching…';err.hidden=true;
+  try{
+    const dir=form.kind==='pickup'?'Arrival':'Departure';
+    const j=await apiGet('/flights/airports/iata/'+form.ap+'/'+toLocalInput(fromD)+'/'+toLocalInput(toD)+'?withLeg=false&direction='+dir+'&withCancelled=true&withCodeshared=false&withCargo=false&withPrivate=false&withLocation=false',2);
+    const list=(j&&(form.kind==='pickup'?j.arrivals:j.departures))||[];
+    searchRes=list.map(f=>{const m=f.movement||{};const tm=tOf(m.revisedTime)||tOf(m.scheduledTime);const sch=tOf(m.scheduledTime);const ap=m.airport||{};
+      return{flight:normFlight(f.number)||String(f.number||'').toUpperCase(),city:ap.municipalityName||ap.name||'',code:ap.iata||'',airline:(f.airline&&f.airline.name)||'',
+        time:sch?String(sch).replace(' ','T').slice(0,16):null,shown:tm?String(tm).replace(' ','T').slice(0,16):null,terminal:mapTerm(form.ap,m.terminal),status:STATUS[f.status]||f.status||''}})
+      .filter(x=>x.time&&x.flight).sort((a,b)=>a.time.localeCompare(b.time));
+    if(!searchRes.length){err.textContent='No flights found in that window. Try another time.';err.hidden=false}
+    renderResults();
+  }catch(e){err.textContent=apiErr(e);err.hidden=false}
+  finally{btn.disabled=false;btn.textContent='Search 12 hours'}
+}
+function renderResults(){
+  const box=$('#results');const q=$('#sFilter').value.trim().toLowerCase();
+  const list=searchRes.filter(x=>!q||(x.city+' '+x.code+' '+x.airline+' '+x.flight).toLowerCase().includes(q));
+  box.hidden=!searchRes.length;
+  box.innerHTML=list.length?list.slice(0,80).map((x,i)=>`<button type="button" class="res" data-act="pick" data-i="${searchRes.indexOf(x)}"><span class="t">${hm(parseLocal(x.time))}</span><span class="f"><b>${esc(x.flight)}</b><span>${form.kind==='pickup'?'from ':'to '}${esc(x.city)}${x.code?' ('+esc(x.code)+')':''} · ${esc(x.airline)}</span></span><span class="s">${esc(x.terminal||'')}<br>${esc(x.status)}</span></button>`).join(''):'<p class="hint" style="padding:12px;margin:0">No match for that filter.</p>';
 }
 
-/* ---------- settings ---------- */
-function renderSettings(){segSet($('#pkSeg'),settings.pickupBefore);segSet($('#drSeg'),settings.dropBefore);renderKey()}
+/* ---------- setup ---------- */
+function renderSettings(){
+  segSet($('#pkSeg'),settings.pickupBefore);segSet($('#drSeg'),settings.dropBefore);segSet($('#bigSeg'),settings.big?1:0);
+  $('#contactList').innerHTML=contacts.map(c=>`<div class="li"><div><b>${esc(c.name)}</b><span>${esc(c.phone||'No number')}</span></div><button class="btn small danger ${armed==='c'+c.id?'armed':''}" data-act="cdel" data-id="${c.id}">${armed==='c'+c.id?'Tap again':'Remove'}</button></div>`).join('');
+  $('#placeList').innerHTML=places.map(p=>`<div class="li"><div><b>${esc(p.name)}</b><span>DXB ${p.t.DXB||'–'} · SHJ ${p.t.SHJ||'–'} · AUH ${p.t.AUH||'–'} · DWC ${p.t.DWC||'–'} min</span></div><button class="btn small danger ${armed==='p'+p.id?'armed':''}" data-act="pdel" data-id="${p.id}">${armed==='p'+p.id?'Tap again':'Remove'}</button></div>`).join('');
+  renderKey();
+}
+function renderKey(){
+  $('#keyState').textContent=apiKey?'Key saved on this phone. Live updates are on.':'No key yet. Live updates are off. Trips still work with the buttons.';
+  $('#keyClear').hidden=!apiKey;$('#callCount').textContent=callsThisMonth();
+}
+function saveSettings(){lsSet('ar.settings',settings);document.body.classList.toggle('big',!!settings.big);render()}
 $('#pkSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;settings.pickupBefore=+b.dataset.v;saveSettings();toast('Pickup timing saved')};
 $('#drSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;settings.dropBefore=+b.dataset.v;saveSettings();toast('Drop timing saved')};
+$('#bigSeg').onclick=e=>{const b=e.target.closest('button');if(!b)return;settings.big=b.dataset.v==='1';saveSettings();toast(settings.big?'Big & simple mode on':'Normal mode on')};
+$('#cAdd').onclick=()=>{const n=$('#cName').value.trim(),ph=$('#cPhone').value.trim();
+  if(!n){toast('Enter a name');return}if(ph&&waNum(ph).length<10){toast('That number looks too short. Use 050 123 4567 or +971…');return}
+  contacts.push({id:'c'+Date.now(),name:n,phone:ph});lsSet('ar.contacts',contacts);$('#cName').value='';$('#cPhone').value='';renderPassSelect();render();toast(n+' added')};
+$('#plAdd').onclick=()=>{const n=$('#plName').value.trim();const t={};let any=false;
+  ['DXB','SHJ','AUH','DWC'].forEach(k=>{const v=+$('#pl'+k).value;if(v>0){t[k]=v;any=true}});
+  if(!n){toast('Enter a place name');return}if(!any){toast('Enter the drive time to at least one airport');return}
+  const pid='p'+Date.now();places.push({id:pid,name:n,t:t});lsSet('ar.places',places);
+  ['plName','plDXB','plSHJ','plAUH','plDWC'].forEach(id=>$('#'+id).value='');renderFromSelect();$('#fFrom').value=pid;render();toast(n+' added')};
+function initNotes(){
+  const sel=$('#gTerm');sel.innerHTML=Object.keys(AIRPORTS).flatMap(k=>AIRPORTS[k].terms.map(t=>`<option value="${k}|${esc(t)}">${k} · ${esc(t)}</option>`)).join('');
+  sel.value='DXB|T3';const load=()=>{$('#gText').value=notes[sel.value]||''};load();sel.onchange=load;
+  $('#gSave').onclick=()=>{const v=$('#gText').value.trim();if(v)notes[sel.value]=v;else delete notes[sel.value];lsSet('ar.notes',notes);toast(v?'Note saved':'Note removed');render()};
+}
+$('#keySave').onclick=async()=>{const v=$('#apiKey').value.trim();if(v.length<20){toast('That key looks too short. Copy it again from RapidAPI.');return}
+  apiKey=v;lsSet('ar.key',v);$('#apiKey').value='';$('#apiKey').type='password';$('#keyShow').textContent='Show';renderKey();toast('Testing key…');
+  try{await fetchFlight('EK1',todayStr());toast('Key works. Live updates are on.');checkAll()}
+  catch(e){toast(e.code==='key'?'Key not accepted. Make sure you subscribed to the free plan.':e.code==='limit'?'Key saved, but the monthly limit is used up.':'Key saved. Couldn’t test it right now.')}};
+$('#keyShow').onclick=()=>{const i=$('#apiKey');if(!i.value&&apiKey)i.value=apiKey;i.type=i.type==='password'?'text':'password';$('#keyShow').textContent=i.type==='password'?'Show':'Hide'};
+$('#keyClear').onclick=()=>{apiKey='';lsSet('ar.key','');$('#apiKey').value='';renderKey();render();toast('Key removed')};
+
+/* backup */
+$('#bkSave').onclick=()=>{
+  const data={app:'airport-run',v:2,exported:new Date().toISOString(),trips:trips,contacts:contacts,places:places,notes:notes,settings:settings};
+  download('airport-run-backup-'+todayStr()+'.json',JSON.stringify(data,null,1),'application/json');toast('Backup saved to Files');
+};
+$('#bkPick').onclick=()=>$('#bkFile').click();
+$('#bkFile').onchange=e=>{const f=e.target.files[0];e.target.value='';if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const d=JSON.parse(r.result);if(d.app!=='airport-run'||!Array.isArray(d.trips))throw 0;pendingRestore=d;
+    const box=$('#bkConfirm');box.hidden=false;box.innerHTML=`<span>Replace this phone’s ${trips.length} trips with ${d.trips.length} trips from the backup (${esc((d.exported||'').slice(0,10))})?</span><div class="actions"><button class="btn primary" data-act="restore">Restore</button><button class="btn ghost" data-act="restorecancel">Cancel</button></div>`}
+    catch(x){toast('That file isn’t an Airport Run backup')}};
+  r.readAsText(f)};
 
 /* ---------- actions ---------- */
+function arm(key){if(armed===key)return true;armed=key;clearTimeout(armTimer);armTimer=setTimeout(()=>{armed=null;render()},4000);render();return false}
 document.addEventListener('click',async e=>{
-  const b=e.target.closest('[data-act]');if(!b)return;const id=b.dataset.id;const act=b.dataset.act;
-  try{
-    if(act==='goadd')setTab('add');
-    else if(act==='check'){const t=trips.find(x=>x.id===id);if(t)await checkTrip(t,true)}
-    else if(act==='edit'){const t=trips.find(x=>x.id===id);const c=calc(t);editing=id;editVal=toLocalInput(c.flightTime||c.sched);render()}
-    else if(act==='edcancel'){editing=null;render()}
-    else if(act==='edsave'){const v=$('#ed-'+id).value;if(!v){toast('Pick the new time first');return}editing=null;await patchTrip(id,{expected:v});toast('Time updated')}
-    else if(act==='edclear'){editing=null;await patchTrip(id,{expected:null});toast('Back to scheduled time')}
-    else if(act==='done'){await patchTrip(id,{done:true,doneAt:new Date().toISOString()});toast('Moved to history')}
-    else if(act==='undo'){await patchTrip(id,{done:false,doneAt:null});toast('Back in trips')}
-    else if(act==='del'){if(armed===id){armed=null;clearTimeout(armTimer);await removeTrip(id);toast('Trip deleted')}else{armed=id;clearTimeout(armTimer);armTimer=setTimeout(()=>{armed=null;render()},4000);render()}}
-  }catch(ex){toast(errMsg(ex))}
+  const b=e.target.closest('[data-act]');if(!b)return;const id=b.dataset.id;const act=b.dataset.act;const t=id&&trips.find(x=>x.id===id);
+  if(act==='goadd')setTab('add');
+  else if(act==='check'){if(t)await checkTrip(t,true)}
+  else if(act==='edit'){if(editing===id){editing=null}else{const c=calc(t);editing=id;editVal=toLocalInput(c.flightTime||c.sched);open[id]=''}render()}
+  else if(act==='edcancel'){editing=null;render()}
+  else if(act==='edsave'){const v=$('#ed-'+id).value;if(!v){toast('Pick the new time first');return}editing=null;t.expected=v;saveTrips();render();toast('Time updated')}
+  else if(act==='edclear'){editing=null;t.expected=null;saveTrips();render();toast('Back to scheduled time')}
+  else if(act==='open'){open[id]=open[id]===b.dataset.p?'':b.dataset.p;if(editing===id)editing=null;render()}
+  else if(act==='sharemsg'){const c=calc(t);shareText(messages(t,c)[+b.dataset.i],'Trip update')}
+  else if(act==='arrive'){t.arrivedAt=new Date().toISOString();saveTrips();render();toast('Waiting time started')}
+  else if(act==='done'){t.done=true;t.doneAt=new Date().toISOString();delete open[id];saveTrips();render();toast('Moved to history')}
+  else if(act==='undo'){t.done=false;t.doneAt=null;saveTrips();render();toast('Back in trips')}
+  else if(act==='del'){if(arm(id)){armed=null;trips=trips.filter(x=>x.id!==id);saveTrips();render();toast('Trip deleted')}}
+  else if(act==='ics'){const c=calc(t);if(!c.leave){toast('Trip time missing');return}download(t.flight.replace(/\s/g,'')+'-alarm.ics',makeIcs(t),'text/calendar');toast('Tap “Add to Calendar”. If the time changes later, add the alarm again.')}
+  else if(act==='focus'){expanded=id;render();window.scrollTo(0,0)}
+  else if(act==='again'){fillForm(t,true);setTab('add');toast('Check the date and time, then save')}
+  else if(act==='pick'){const x=searchRes[+b.dataset.i];if(!x)return;$('#fFlight').value=x.flight;$('#fDate').value=x.time.slice(0,10);$('#fTime').value=x.time.slice(11,16);if(x.terminal){form.term=x.terminal;renderApSeg()}$('#finder').hidden=true;updatePreview();$('#fFlight').scrollIntoView({block:'center'});toast(x.flight+' filled in')}
+  else if(act==='mon'){reportMonth=shiftMonth(reportMonth,+b.dataset.n);render()}
+  else if(act==='repshare'){shareText(reportText(reportMonth),'Airport trips '+monthName(reportMonth))}
+  else if(act==='repcsv'){download('airport-trips-'+reportMonth+'.csv',reportCsv(reportMonth),'text/csv');toast('CSV saved to Files')}
+  else if(act==='cdel'){if(arm('c'+id)){armed=null;contacts=contacts.filter(c=>c.id!==id);lsSet('ar.contacts',contacts);renderPassSelect();render();toast('Contact removed')}}
+  else if(act==='pdel'){if(arm('p'+id)){armed=null;places=places.filter(p=>p.id!==id);lsSet('ar.places',places);renderFromSelect();render();toast('Place removed')}}
+  else if(act==='restore'){const d=pendingRestore;if(!d)return;trips=d.trips;contacts=d.contacts||[];places=d.places||[];notes=d.notes||{};settings=Object.assign(settings,d.settings||{});
+    saveTrips();lsSet('ar.contacts',contacts);lsSet('ar.places',places);lsSet('ar.notes',notes);pendingRestore=null;$('#bkConfirm').hidden=true;
+    renderFromSelect();renderPassSelect();initNotes();saveSettings();toast('Backup restored')}
+  else if(act==='restorecancel'){pendingRestore=null;$('#bkConfirm').hidden=true}
 });
 document.addEventListener('input',e=>{if(e.target.id&&e.target.id.startsWith('ed-'))editVal=e.target.value});
 
 function render(){
   $('#clock').firstChild.nodeValue=hm(new Date());
-  if(tab==='trips')renderTrips();else{const up=trips.filter(t=>!t.done).length;const cnt=$('#tcount');cnt.hidden=!up;cnt.textContent=up}
+  const n=trips.filter(t=>!t.done).length;const cnt=$('#tcount');cnt.hidden=!n;cnt.textContent=n;
+  if(tab==='trips')renderTrips();
   if(tab==='his')renderHistory();
   if(tab==='set')renderSettings();
-  if(tab==='add')updatePreview();
+  if(tab==='add'){renderRecent();updatePreview()}
 }
-initForm();initStore();setTab(tab);checkAll();
+document.body.classList.toggle('big',!!settings.big);
+initForm();initNotes();setTab(['trips','add','his','set'].includes(tab)?tab:'trips');checkAll();
+setInterval(()=>{if(!editing)render();else $('#clock').firstChild.nodeValue=hm(new Date())},30000);
 setInterval(checkAll,10*60000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden){render();checkAll()}});
 window.addEventListener('online',checkAll);
-setInterval(()=>{if(!editing)render();else $('#clock').firstChild.nodeValue=hm(new Date())},30000);
 })();
 </script>
-
 </body></html>
