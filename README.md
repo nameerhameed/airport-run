@@ -2,13 +2,13 @@
 Airport pickup & drop planner for UAE airports (DXB, SHJ, AUH, DWC)
 
 ## What it does
-- Add a pickup or drop for any passenger, with flight number, date, time, airport and terminal
-- Drops can include collecting the passenger on the way (start → passenger → airport)
-- Pick places on a free map; drive times are worked out automatically
-- Shows a big **Leave by** time with a countdown, based on drive time and traffic
-- Live flight status (delay, landing time, terminal, gate, belt) via AeroDataBox
-- One-tap Flightradar24, Google flight status and Google Maps traffic
-- Trip history with monthly pickup/drop counts
+- Type the flight number: airport, terminal, time and pickup/drop fill in by themselves
+- Big **Leave by** time for the next trip, with a clear timeline: Leave → Collect → At airport → Flight
+- Drops collect the passenger from their saved place on the way
+- Drive times from a free map (plus 15%, and 20 min more in weekday rush hour)
+- Live flight status, delays and baggage belt via AeroDataBox; trips move to History by themselves
+- Track any flight or browse an airport board, without making a trip
+- History with monthly report (share or CSV), backup and restore
 - Everything is saved on the phone only. Nothing is stored in this repo.
 
 ## Publish (GitHub Pages)
@@ -30,7 +30,7 @@ Drive times come from the free OSRM router plus 15%, with 20 min extra in weekda
 1. Sign up at **rapidapi.com**
 2. Search **AeroDataBox** → **Pricing** → subscribe to the free **Basic** plan
 3. Open **Endpoints**, copy the value of **X-RapidAPI-Key**
-4. In the app: **Setup → Live flight updates** → paste → **Save key**
+4. In the app: **Settings → Flight data** → paste → **Save key** (or paste it in the first-run setup)
 
 The key stays on the phone. Never put it in this repo, it's public.
 The app checks flights only within 12 hours of the flight, every 10 minutes while open, to stay inside the free monthly limit.
